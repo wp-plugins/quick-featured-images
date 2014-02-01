@@ -1,0 +1,220 @@
+/* This stylesheet is used to style the admin option form of the plugin. */
+
+/*
+ * Layout
+ *
+ */
+#wpbody {
+    background-image: url("../images/background.gif");
+    background-repeat: repeat-y;
+    background-position: bottom right;
+}  
+#th_wrapper {
+	overflow: hidden;
+}
+#th_main {
+	float: left;
+	width: 66%;
+}
+#th_footer {
+	float: right;
+	width: 33%;
+}
+#th_main .th_content {
+	margin: 2em 1em 1em 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding-bottom: 2em;
+}
+#th_footer .th_content {
+	margin: 2em 0 1em 1em;
+	background-color: #F5FBFD;
+	border-radius: 1em;
+	border: 1px solid #796D95;
+	margin-top: 2em;
+}
+
+/*
+ * Elements
+ *
+ */
+ 
+/* Links and form elements */
+#th_wrapper .th_content a ,
+.wp-core-ui #th_wrapper .button {
+        color: #BF194F;
+}
+#th_wrapper .th_content a:hover,
+#th_wrapper .th_content a:focus,
+.wp-core-ui #th_wrapper .button:hover,
+.wp-core-ui #th_wrapper .button:focus {
+    background: none repeat scroll 0 0 #FAFAFA;
+    border-color: #999999;
+    color: #222222;
+}
+
+/* Footer */
+#th_footer .th_content h3 {
+	background: none;
+	color: #796D95;
+	margin: 1em 0 0 0;
+}
+#th_footer .th_content dl {
+	padding: 8px;
+}
+#th_footer .th_content li, 
+#th_footer .th_content dd {
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+/* Filter 'Replace' */
+#th_replace {
+	overflow: hidden;
+}
+#th_replace label {
+	display: block;
+	float: left;
+	overflow: hidden;
+	padding: 0 3em 3em 0;
+}
+#th_replace input[type="radio"]:checked:before,
+#th_replace input[type="radio"]:checked,
+#th_replace input[type="radio"] {
+    position: relative;
+    top: 2.5em;
+    left: 1.5em;
+    display: inline-block;
+    float: none;
+    margin: 0;
+    padding: 3em !important;
+    min-width: 0;
+    width: 16px;
+    height: 16px;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    text-indent: 0;
+    vertical-align: middle;
+}
+
+/* Progress Bar */
+#progress {
+}
+#progress em {
+	font-weight: bold;
+	font-style: normal;
+}
+#progress #bar {
+	display: block;
+	overflow: hidden;
+	line-height: 1;
+	padding: 1em;
+	/*background-color: lime;*/
+}
+#progress #bar .wp-ui-highlight {
+    background-color: #A6CB3E;
+    color: #222;
+}
+#progress #bar .wp-ui-notification {
+    background-color: #796D95;
+} /*NEW */
+#progress #bar span {
+	line-height: 1;
+	padding: 1em;
+	/*background-color: white;*/
+}
+#progress #bar strong {
+	line-height: 1;
+	padding: 1em;
+	/*background-color: red;*/
+}
+
+/* Other content elements */
+#th_main .th_content legend,
+#th_main .th_content h4,
+#th_main .th_content p {
+	margin-left: 8px;
+    margin-right: 8px;
+}
+#th_main .th_content legend {
+	font-weight: bold;
+}
+#th_main .th_content ol {
+	margin-left: 3em;
+	margin-right: 8px;
+}
+#th_year {
+    width: 4em;
+}
+.wrap h2 {
+    color: #000;
+    line-height: 1.44em;
+    border: 1px solid #796D95;
+    padding: 8px;
+    background-color: #F5FBFD;
+}
+.wrap h3 {
+    background: none repeat scroll 0 0 #DDD;
+    color: #222222;
+    padding: 8px;
+}
+.th_content_inside {
+	background-color: #A6CB3E;
+	border-radius: 1em;
+	border: 1px solid #BF194F;
+	margin: 10px;
+}
+.th_content_inside h4 {
+	/* color: #FFF; */
+	font-size: 1.2em;
+	margin: 0;
+	padding: 15px 0 10px 15px;
+	text-shadow: 0 1px 0 #796D95,
+		0 -1px 0 #796D95,
+		1px 0 0 #796D95,
+		-1px 0 0 #796D95;
+	color:#fff;
+}
+.th_content_inside .failure {
+	color: #000;
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-top: 0.5em;
+    padding: 0 15px;
+}
+.th_content_inside .success {
+	color: #555;
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-top: 0.5em;
+    padding: 0 15px;
+}
+
+#th_main .th_content .failure {
+	font-weight: bold;
+}
+
+.attachment-thumbnail {
+	border: 2px solid #444;
+	border-radius: 3px;
+	box-shadow: 3px 3px 3px 1px #999;
+	-webkit-box-shadow: 3px 3px 3px 1px #999;
+	margin-bottom: .5em;
+}
+
+/* If auto-folding of the admin menu */
+@media only screen and (max-width: 900px) {
+	/* dissolve floating */
+	#th_main,
+	#th_footer,
+	#th_main .th_content,
+	#th_footer .th_content {
+		float: none;
+		width: auto;
+		margin: 0;
+	}
+	#progress #bar span {
+		line-height: 5;
+	}
+}

@@ -1,0 +1,122 @@
+=== Quick Featured Images ===
+Contributors: Hinjiriyo
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SBF76TCGTRNX2
+Tags: featured, image, images, featured image, featured images, thumb, thumbs, thumbnail, thumbnails, media, bulk, batch, mass, add, assign, attach, associate, change, exchange, define, delete, detach, remove, replace, set, unset, update, control, quick, rapid
+Requires at least: 3.7
+Tested up to: 3.8.1
+Stable tag: 1.0.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Bulk set, replace and remove featured images for posts, pages and custom post types in one go and save your time
+
+== Description ==
+
+Quick Featured Images sets, replaces and removes featured images for posts, pages and custom post types in one go and saves your time. You can run it over all posts or narrow down to posts by using flexible filters.
+
+= Main actions =
+
+Quick Featured Images enables you three main tasks with featured images: add, exchange and delete them.
+
+1. **Adding featured images:** You can set an image as the featured image to hundreds of posts in one go.
+2. **Exchanging featured images:** You can replace or update an existing featured image with another image for all posts which are attributed to the old featured image.
+3. **Deleting featured images:** You can remove an existing featured image from its attributed posts in one go.
+
+= Filters =
+
+If there would be no filters Quick Featured Images would affect all posts and pages without exception! In most cases this is not desired. 
+
+The implemented filters allows you to narrow down the action to only the posts and pages you want to modify. The built-in filters are:
+
+* Filter by **post type**: Search by post types. It includes posts, pages and custom post types. By default only posts will be affected
+* Filter by **status**: Search by several statuses (published, draft, private etc.). By default all statuses will be affected
+* Filter by **search**: Search by search term
+* Filter by **author**: Search by author
+* Filter by **category**: Search posts by category
+* Filter by **tag**: Search posts by tag
+* Filter by **parent page**: Search child pages by parent page
+
+New filters will come.
+
+If you have any new idea for Quick Featured Images write me an email.
+
+= Support =
+
+Support for this plugin will be provided in the form of Product Support. This means that I intend to fix any confirmed bugs, listen to ideas for this plugin and improve the user experience when enhancements are identified and can reasonably be accomodated. There is no User Support provided for this plugin. If you are having trouble with this plugin in your particular installation of WordPress, I will not be able to help you troubleshoot the problem.
+
+= No warranty and liability! = 
+
+This plugin is provided under the terms of the GPL, including the following:
+
+BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+== Installation ==
+
+= Using The WordPress Dashboard =
+
+1. Navigate to the 'Add New' in the plugins dashboard
+2. Search for 'Quick Featured Images'
+3. Click 'Install Now'
+4. Activate the plugin on the Plugin dashboard
+5. Go to 'Media' => 'Quick Featured Images'
+
+= Uploading in WordPress Dashboard =
+
+1. Navigate to the 'Add New' in the plugins dashboard
+2. Navigate to the 'Upload' area
+3. Select `quick-featured-images.zip` from your computer
+4. Click 'Install Now'
+5. Activate the plugin in the Plugin dashboard
+6. Go to 'Media' => 'Quick Featured Images'
+
+= Using FTP =
+
+1. Download `quick-featured-images.zip`
+2. Extract the `quick-featured-images` directory to your computer
+3. Upload the `quick-featured-images` directory to the `/wp-content/plugins/` directory
+4. Activate the plugin in the Plugin dashboard
+5. Go to 'Media' => 'Quick Featured Images'
+
+
+== Frequently Asked Questions ==
+
+= Who can see Quick Featured Images in the WordPress backend? =
+
+All users who have the right to **edit others posts** have the access to Quick Featured Images. As long as the user roles are untouched after a fresh standard WordPress installation both Administrators and Editors can use this plugin.
+
+For these users the link 'Quick Featured Images' under 'Media' in the WordPress backend appears. All other users will not see the 'Quick Featured Images' link or will get an error message while requesting a Quick Featured Images page via a direct link.
+
+= Does the plugin work in a WordPress Multisite installation? =
+
+Yes. It works either activated for all sites (network wide) or activated in each single site. It changes only the posts of the site where you use it.
+
+= Which languages does the plugin support? =
+
+Actually these languages are supported:
+
+* English
+* German
+
+Further translations are welcome. If you want to give in your translation please send me an email.
+
+= Where is the *.pot file for translating the plugin in any language? =
+
+If you want to contribute a translation of the plugin in your language it would be great! You would find the *.pot file in the 'languages' directory of this plugin. If you would send the *.po file to me I would include it in the next release of the plugin.
+
+== Screenshots ==
+
+1. The first screen of Quick Featured Images: select an image and an action.
+2. The second screen: select a filter to narrow down to posts and pages you want to modify with the image. Alternatively you can drop filtering and jump to Screen 4 directly.
+3. The third screen: refine the filters.
+4. The fourth screen: take a preview. If the filtering does not correspond to your expectations you can refine the filters again under the list on this page.
+5. The fifth and last screen: take an overview of the success of the action.
+
+== Changelog ==
+
+= 1.0 =
+* The plugin was released.
+
+== Upgrade Notice ==
+
+= 1.0 =
+No upgrades, just the first release.
