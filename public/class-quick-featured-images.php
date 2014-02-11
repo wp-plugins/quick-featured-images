@@ -6,15 +6,11 @@
  * @author    Martin Stehle <m.stehle@gmx.de>
  * @license   GPL-2.0+
  * @link      http://stehle-internet.de
- * @copyright 2013 Martin Stehle
+ * @copyright 2014 Martin Stehle
+ * @todo:     add reqirement check: theme must support thumbnails
  */
 
  class Quick_Featured_Images {
-
-/**
-in future: check reqirement
-- theme must support thumbnails
-*/
 
 
 	/**

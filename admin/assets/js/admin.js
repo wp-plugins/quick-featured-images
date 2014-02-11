@@ -13,7 +13,7 @@ jQuery(document).ready(function($){
  
     var custom_uploader;
  
-    $('#upload_image_button').click(function(e) {
+    $('.th_select_image').click(function(e) {
  
         e.preventDefault();
  

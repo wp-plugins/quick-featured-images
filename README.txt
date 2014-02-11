@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: featured, image, images, featured image, featured images, thumb, thumbs, thumbnail, thumbnails, media, bulk, batch, mass, add, assign, attach, associate, change, exchange, define, delete, detach, remove, replace, set, unset, update, control, quick, rapid
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 1.0.0
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,9 +18,9 @@ Quick Featured Images sets, replaces and removes featured images for posts, page
 
 Quick Featured Images enables you three main tasks with featured images: add, exchange and delete them.
 
-1. **Adding featured images:** You can set an image as the featured image to hundreds of posts in one go.
-2. **Exchanging featured images:** You can replace or update an existing featured image with another image for all posts which are attributed to the old featured image.
-3. **Deleting featured images:** You can remove an existing featured image from its attributed posts in one go.
+1. **Adding featured images:** You can set and replace an image as the new featured image to hundreds of posts in one go.
+2. **Exchanging featured images:** You can replace or update an existing featured image with another image in one go.
+3. **Deleting featured images:** You can remove any existing featured image from its attributed posts in one go.
 
 = Filters =
 
@@ -32,13 +32,14 @@ The implemented filters allows you to narrow down the action to only the posts a
 * Filter by **status**: Search by several statuses (published, draft, private etc.). By default all statuses will be affected
 * Filter by **search**: Search by search term
 * Filter by **author**: Search by author
+* Filter by **featured image size**: Search for too small featured images
 * Filter by **category**: Search posts by category
 * Filter by **tag**: Search posts by tag
 * Filter by **parent page**: Search child pages by parent page
 
 New filters will come.
 
-If you have any new idea for Quick Featured Images write me an email.
+If you have any new idea for Quick Featured Images post your questions and ideas in the [support forum at wordpress.org](http://wordpress.org/support/plugin/quick-featured-images).
 
 = Support =
 
@@ -97,7 +98,7 @@ Actually these languages are supported:
 * English
 * German
 
-Further translations are welcome. If you want to give in your translation please send me an email.
+Further translations are welcome. If you want to give in your translation please leave a notice in the [plugin's support forum](http://wordpress.org/support/plugin/quick-featured-images).
 
 = Where is the *.pot file for translating the plugin in any language? =
 
@@ -113,10 +114,22 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 2.0 =
+* Added new action "Remove any image"
+* Added new filter "Filter by Featured Image Size"
+* Added error notice if no image of the image replacement list was selected
+* Changed design of the plugin's start page. I hope you find it more useful
+* Improved processing speed of found posts
+* Improved performance
+* Improved security for input data and URLs
+
 = 1.0 =
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 2.0 =
+Many improvements and additions
 
 = 1.0 =
 No upgrades, just the first release.
