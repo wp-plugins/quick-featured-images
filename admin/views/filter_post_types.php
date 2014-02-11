@@ -1,5 +1,5 @@
 <h4><?php echo $this->valid_filters[ 'filter_post_types' ]; ?></h4>
-<p><?php _e( 'Select post types', $this->plugin_slug ); ?>. <?php _e( 'You can choose posts, pages and available custom posts types.', $this->plugin_slug ); ?></p>
+<p><?php _e( 'Select post types', $this->plugin_slug ); ?>. <?php _e( 'You can select posts, pages and available custom posts types.', $this->plugin_slug ); ?></p>
 <p>
 <?php
 foreach ( $this->valid_post_types as $key => $label ) {

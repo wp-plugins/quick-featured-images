@@ -19,4 +19,4 @@ if ( $results ) {
 <?php 
 }
 ?>
-<p><a class="button" href="<?php echo admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
+<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>

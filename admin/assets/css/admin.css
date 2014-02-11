@@ -83,19 +83,7 @@
     position: relative;
     top: 2.5em;
     left: 1.5em;
-    display: inline-block;
-    float: none;
-    margin: 0;
-    padding: 3em !important;
-    min-width: 0;
-    width: 16px;
-    height: 16px;
-    font-size: 1em;
-    font-weight: normal;
-    line-height: 1;
-    text-align: center;
-    text-indent: 0;
-    vertical-align: middle;
+	padding: 9px !important;
 }
 
 /* Progress Bar */
@@ -138,6 +126,7 @@
     margin-right: 8px;
 }
 #th_main .th_content legend {
+	margin-bottom: .5em;
 	font-weight: bold;
 }
 #th_main .th_content ol {
@@ -170,10 +159,7 @@
 	font-size: 1.2em;
 	margin: 0;
 	padding: 15px 0 10px 15px;
-	text-shadow: 0 1px 0 #796D95,
-		0 -1px 0 #796D95,
-		1px 0 0 #796D95,
-		-1px 0 0 #796D95;
+	/* text-shadow: 0 1px 0 #796D95, 0 -1px 0 #796D95, 1px 0 0 #796D95, -1px 0 0 #796D95; */
 	color:#fff;
 }
 .th_content_inside .failure {
@@ -201,6 +187,10 @@
 	box-shadow: 3px 3px 3px 1px #999;
 	-webkit-box-shadow: 3px 3px 3px 1px #999;
 	margin-bottom: .5em;
+}
+#th_max_width,
+#th_max_height {
+	width: 4em;
 }
 
 /* If auto-folding of the admin menu */

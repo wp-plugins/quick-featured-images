@@ -28,7 +28,7 @@ if ( $results ) {
 </ol>
 <h3><?php _e( 'Confirm the change', $this->plugin_slug ); ?></h3>
 <p><?php echo $question; ?> <?php _e( 'You can not undo the operation!', $this->plugin_slug ); ?></p>
-<form method="post" action="<?php echo admin_url( sprintf( 'upload.php?page=%s&amp;step=perform', $this->plugin_slug ) ); ?>">
+<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=perform', $this->plugin_slug ) ) ); ?>">
 	<p>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
@@ -96,12 +96,12 @@ if ( $this->selected_old_image_id ) {
 }
 ?>
 		<?php wp_nonce_field( 'quickfi_confirm', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php _e( 'Yes. Apply now', $this->plugin_slug ); ?>" /> <a class="button" href='<?php echo admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) );?>'><?php _e( 'No. Start again', $this->plugin_slug );?></a>
+		<input type="submit" class="button" value="<?php _e( 'Yes. Apply now', $this->plugin_slug ); ?>" /> <a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'No. Start again', $this->plugin_slug );?></a>
 	</p>
 </form>
 <?php
 } else { 
 ?>
-<p><a class="button" href='<?php echo admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) );?>'><?php _e( 'Start again', $this->plugin_slug );?></a> <?php _e( 'or refine your selection with the following form fields.', $this->plugin_slug );?></p>
+<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'Start again', $this->plugin_slug );?></a> <?php _e( 'or refine your selection with the following form fields.', $this->plugin_slug );?></p>
 <?php
 }

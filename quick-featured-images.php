@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
  * @package   Quick_Featured_Images
  * @author    Martin Stehle <m.stehle@gmx.de>
@@ -10,13 +10,13 @@
  * Plugin Name:       Quick Featured Images
  * Plugin URI:        http://wordpress.org/plugins/quick-featured-images
  * Description:       Bulk set, replace and remove featured images
- * Version:           1.0.0
+ * Version:           2.0
  * Author:            Martin Stehle
  * Author URI:        http://stehle-internet.de
  * Text Domain:       quick-featured-images
+ * Domain Path:       /languages
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Domain Path:       /languages
  */
 
 // If this file is called directly, abort.

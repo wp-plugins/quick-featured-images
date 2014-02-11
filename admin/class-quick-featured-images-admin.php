@@ -1,18 +1,12 @@
 <?php
 /**
- * Quick Featured Images
- *
  * @package   Quick_Featured_Images_Admin
  * @author    Martin Stehle <m.stehle@gmx.de>
  * @license   GPL-2.0+
  * @link      http://stehle-internet.de
- * @copyright 2013 Martin Stehle
+ * @copyright 2014 Martin Stehle
  */
 
-/**
- * @package Quick Featured Images_Admin
- * @author  Martin Stehle <m.stehle@gmx.de>
- */
 class Quick_Featured_Images_Admin {
 	/**
 	 * Required user capatibility to use this plugin
@@ -60,6 +54,15 @@ class Quick_Featured_Images_Admin {
 	protected $selected_step = null;
 
 	/**
+	 * Whether an image id is required or not (dependets on the selected action)
+	 *
+	 * @since    2.0
+	 *
+	 * @var      bool
+	 */
+	protected $is_image_required = null;
+
+	/**
 	 * User selected ID of the new featured image
 	 *
 	 * @since    1.0.0
@@ -77,6 +80,51 @@ class Quick_Featured_Images_Admin {
 	 */
 	protected $selected_old_image_id = null;
 
+	/**
+	 * Whether the id of a to be replaced image is set or not
+	 *
+	 * @since    2.0
+	 *
+	 * @var      bool
+	 */
+	protected $is_error_no_old_image = null;
+	
+	/**
+	 * Width of thumbnail images in the current WordPress settings
+	 *
+	 * @since    2.0
+	 *
+	 * @var      integer
+	 */
+	protected $used_thumbnail_width = null;
+	
+	/**
+	 * Height of thumbnail images in the current WordPress settings
+	 *
+	 * @since    2.0
+	 *
+	 * @var      integer
+	 */
+	protected $used_thumbnail_height = null;
+	
+	/**
+	 * Minimum length of image dimensions to search for
+	 *
+	 * @since    2.0
+	 *
+	 * @var      integer
+	 */
+	protected $min_image_length = null;
+	
+	/**
+	 * Maximum length of image dimensions to search for
+	 *
+	 * @since    2.0
+	 *
+	 * @var      integer
+	 */
+	protected $max_image_length = null;
+	
 	/**
 	 * User selected action the plugin should perform
 	 *
@@ -248,10 +296,29 @@ class Quick_Featured_Images_Admin {
 	 */
 	protected $selected_post_ids = null;
 	
+	/**
+	 * Valid names and descriptions of image sizes
+	 *
+	 * @since    2.0
+	 *
+	 * @var      array
+	 */
+	protected $valid_image_dimensions = null;
+
+	/**
+	 * User given image sizes
+	 *
+	 * @since    2.0
+	 *
+	 * @var      array
+	 */
+	protected $selected_image_dimensions = null;
+	
 	 /**
 	 * Initialize the plugin by loading admin scripts & styles and adding a
 	 * settings page and menu.
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 */
 	private function __construct() {
@@ -273,6 +340,7 @@ class Quick_Featured_Images_Admin {
 	 * Do the admin main function 
 	 *
 	 * @since     1.0.0
+     * @updated   2.0
 	 *
 	 */
 	public function main() {
@@ -280,40 +348,64 @@ class Quick_Featured_Images_Admin {
 		$this->set_default_values();
 		// get current step
 		$this->selected_step = $this->get_sanitized_step();
+		// get user selected action
+		$this->selected_action = $this->get_sanitized_action();
+		// check whether thumb id is not required at required circumstances: all except start page oder action 'remove_any_img'
+		if ( 'remove_any_img' == $this->selected_action ) {
+			$this->is_image_required = false;
+		}
+		// get selected image id, else 0
+		$this->selected_image_id = $this->get_sanitized_image_id();
 		// print header
 		$this->display_header();
 		#Quick_Featured_Images::dump($_REQUEST);
-		// print content
+		/*
+		 * print content
+		 */
+		// no action and image required, just the start page
 		if ( 'start' == $this->selected_step ) {
-			// print start form
 			include_once( 'views/form_start.php' );
 		} else {
-			// check thumb id
-			$this->selected_image_id = $this->get_sanitized_image_id();
-			if ( ! $this->selected_image_id ) {
-				$this->display_error( 'no_image', false );
-			// check if attachment is an image
-			} elseif ( ! wp_get_attachment_image_src( $this->selected_image_id ) ) {
-				$this->display_error( 'no_result', sprintf( __( 'Wrong image ID %d' ), $this->selected_image_id ) );
+			// check if action is defined, else print error page
+			if ( ! $this->selected_action ) {
+				$this->display_error( 'wrong_action', false );
 			} else {
-				$this->selected_action = $this->get_sanitized_action();
-				// check if action is defined, else print error page
-				if ( ! $this->selected_action ) {
-					$this->display_error( 'wrong_action', false );
+				// check whether an image id is avaiable if required
+				if ( $this->is_image_required && ! $this->selected_image_id ) {
+					$this->display_error( 'no_image', false );
+				// check whether assigned attachment is an image if required
+				} elseif ( $this->is_image_required && ! wp_get_attachment_image_src( $this->selected_image_id ) ) {
+					$this->display_error( 'no_result', sprintf( __( 'Wrong image ID %d' ), $this->selected_image_id ) );
 				} else {
 					$this->selected_filters = $this->get_sanitized_filter_names();
+					// after the old image selection page (filter_replace.php) and if no old image was selected
+					if ( "replace" == $this->selected_action 
+						&& "confirm" == $this->selected_step 
+						&& ! isset( $_REQUEST[ 'replacement_image_id' ] ) ) {
+						// stay on the selection page with a warning
+						$this->selected_step = 'select';
+						$this->is_error_no_old_image = true;
+					}
 					switch ( $this->selected_step ) {
 						case 'select':
-							check_admin_referer( 'quickfi_start', $this->plugin_slug . '_nonce' );
-							// print selected thumbnail
-							include_once( 'views/section_image.php' );	
+							if ( $this->is_error_no_old_image ) {
+								check_admin_referer( 'quickfi_refine', $this->plugin_slug . '_nonce' );
+							} else {
+								check_admin_referer( 'quickfi_start', $this->plugin_slug . '_nonce' );
+							}
+							// print selected thumbnail if required
+							if ( $this->is_image_required ) {
+								include_once( 'views/section_image.php' );	
+							}
 							// print form to select the posts to apply the action to
 							include_once( 'views/form_select.php' );	
 							break;
 						case 'refine':
 							check_admin_referer( 'quickfi_select', $this->plugin_slug . '_nonce' );
-							// print selected thumbnail
-							include_once( 'views/section_image.php' );	
+							// print selected thumbnail if required
+							if ( $this->is_image_required ) {
+								include_once( 'views/section_image.php' );	
+							}
 							// print form to refine choice
 							include_once( 'views/form_refine.php' );	
 							break;
@@ -321,8 +413,10 @@ class Quick_Featured_Images_Admin {
 							check_admin_referer( 'quickfi_refine', $this->plugin_slug . '_nonce' );
 							// filter posts
 							$results = $this->find_posts();
-							// print selected thumbnail
-							include_once( 'views/section_image.php' );	
+							// print selected thumbnail if required
+							if ( $this->is_image_required ) {
+								include_once( 'views/section_image.php' );	
+							}
 							// print refine form again if there are no results
 							include_once( 'views/form_confirm.php' );	
 							// print form to refine choice if filters were selected
@@ -347,7 +441,9 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Set variables
 	 *
+	 * @access   private
 	 * @since    1.0.0
+	 * @updated  2.0: added: filter filter_img_size, action remove_any_img, $valid_image_dimensions, $selected_image_dimensions
 	 */
 	private function set_default_values() {
 		/*
@@ -362,9 +458,10 @@ class Quick_Featured_Images_Admin {
 			'perform'	=> __( 'Perform', $this->plugin_slug ),
 		);
 		$this->valid_actions = array(
-			'assign'	=> __( 'Set the selected image as featured image', $this->plugin_slug ),
-			'replace'	=> __( 'Replace a featured image by the selected image', $this->plugin_slug ),
-			'remove'	=> __( 'Remove the selected image as featured image', $this->plugin_slug )
+			'assign'			=> __( 'Set the selected image as new featured image', $this->plugin_slug ),
+			'replace'			=> __( 'Replace a featured image by the selected image', $this->plugin_slug ),
+			'remove'			=> __( 'Remove the selected image as featured image', $this->plugin_slug ),
+			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug )
 		);
 		$this->valid_filters = array(
 			'filter_post_types' 		=> __( '<strong>Post Type Filter:</strong> Search by post type. By default only posts will be affected.', $this->plugin_slug ),
@@ -373,6 +470,7 @@ class Quick_Featured_Images_Admin {
 			'filter_author' 			=> __( '<strong>Author Filter:</strong> Search by author', $this->plugin_slug ),
 			//'filter_custom_field' 		=> __( '<strong>Custom Field Filter:</strong> Search by custom field', $this->plugin_slug ),
 			//'filter_time' 				=> __( '<strong>Time Filter:</strong> Search by time point or date period', $this->plugin_slug ),
+			'filter_image_size' 		=> __( '<strong>Featured Image Size Filter:</strong> Search by original dimensions of added featured image', $this->plugin_slug ),
 			'filter_category' 			=> __( '<strong>Category Filter:</strong> Search posts by category', $this->plugin_slug ),
 			'filter_tag' 				=> __( '<strong>Tag Filter:</strong> Search posts by tag', $this->plugin_slug ),
 			'filter_parent_page' 		=> __( '<strong>Parent Page Filter:</strong> Search child pages by parent page', $this->plugin_slug ),
@@ -428,11 +526,22 @@ class Quick_Featured_Images_Admin {
 			'value' 	=> __( 'Custom field value to compare with', $this->plugin_slug ),
 			'type' 		=> __( 'Custom field type', $this->plugin_slug )
 		);
+		// image dimensions
+		$this->valid_image_dimensions = array(
+			'max_width' 	=> __( 'Image width in pixels lower than', $this->plugin_slug ),
+			'max_height' 	=> __( 'Image height in pixels lower than', $this->plugin_slug ),
+		);
 		// default: start form
 		$this->selected_step = 'start';
+		// default: user selected image is required
+		$this->is_image_required = true;
 		// default: no images
 		$this->selected_old_image_id = 0;
 		$this->selected_image_id = 0;
+		$this->is_error_no_old_image = false;
+		// get user defined dimensions for thumbnails, else take 150 px
+		$this->used_thumbnail_width  = get_option( 'thumbnail_size_w', 150 );
+		$this->used_thumbnail_height = get_option( 'thumbnail_size_h', 150 );
 		// default: no category
 		$this->selected_category_id = 0;
 		// default: no parent page
@@ -453,12 +562,21 @@ class Quick_Featured_Images_Admin {
 		$this->selected_custom_field = array();
 		// default: no selected posts
 		$this->selected_post_ids = array();
+		 // default:  stored sizes for thumbnails
+		$this->selected_image_dimensions = array(
+			'max_width' 	=> $this->used_thumbnail_width,
+			'max_height' 	=> $this->used_thumbnail_height,
+		);
+		// default: min 1 x 1 px, max 9999 x 9999 px images
+		$this->min_image_length = 1;
+		$this->max_image_length = 9999;
 	}
 	
 	/**
 	 *
 	 * Render the header of the admin page
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_header() {
@@ -469,6 +587,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render the footer of the admin page
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_footer() {
@@ -479,8 +598,9 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render the error page
 	 *
+	 * @access   private
 	 * @since    1.0.0
-	 */
+}	 */
 	private function display_error( $reason, $value_name ) {	
 		switch ( $reason ) {
 			case 'missing_input_value':
@@ -516,6 +636,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of a HTML selection list of months
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_months( $key = 'month' ) {
@@ -551,6 +672,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of a HTML selection list of day numbers of a month
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_days( $key = 'day' ) {
@@ -561,6 +683,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of a HTML selection list of week numbers of a year
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_weeks( $key = 'week' ) {
@@ -571,6 +694,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of a HTML selection list of hour numbers of a day
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_hours( $key = 'hour' ) {
@@ -581,6 +705,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of a HTML selection list of minutes numbers of an hour
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_minutes( $key = 'minute' ) {
@@ -591,6 +716,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of a HTML selection list of seconds numbers of an hour
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_seconds( $key = 'second' ) {
@@ -601,6 +727,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of HTML selection lists with integers as values
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_integers( $arr, $key, $start, $end ) {
@@ -619,6 +746,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * Render options of HTML selection lists with strings as values
 	 *
+	 * @access   private
 	 * @since    1.0.0
 	 */
 	private function display_options_strings( $arr, $key, $options ) {
@@ -634,55 +762,11 @@ class Quick_Featured_Images_Admin {
 	}
 	
 	/**
-	 * Get user selected data and prepare safe query parameters
-	 *
-	 * @since    1.0.0
-	 */
-	private function prepare_query_args() {
-		foreach ( $this->selected_filters as $filter ) {
-			switch ( $filter ) {
-				case 'filter_post_types':
-					$this->selected_post_types = $this->get_sanitized_post_types();
-					$this->selected_custom_post_types = $this->get_sanitized_custom_post_types();
-					break;
-				case 'filter_author':
-					$this->selected_author_id = $this->get_sanitized_author_id();
-					break;
-				case 'filter_category':
-					$this->selected_category_id = $this->get_sanitized_category_id();
-					break;
-				case 'filter_custom_field':
-					$this->selected_custom_field = $this->get_sanitized_custom_field();
-					break;
-				case 'filter_parent_page':
-					$this->selected_page_id = $this->get_sanitized_page_id();
-					break;
-				case 'filter_search':
-					$this->selected_search_term = $this->get_search_term();
-					break;
-				case 'filter_status':
-					$this->selected_statuses = $this->get_sanitized_post_statuses();
-					break;
-				case 'filter_tag':
-					$this->selected_tag_id = $this->get_sanitized_tag_id();
-					break;
-				case 'filter_time':
-					$this->selected_date_queries = $this->get_sanitized_date_queries();
-			} // switch()
-		} // foreach()
-		switch ( $this->selected_action ) {
-			case 'replace':
-				$this->selected_post_ids = $this->get_post_ids_of_old_thumbnail();
-				break;
-			case 'remove':
-				$this->selected_post_ids = $this->get_post_ids_of_thumbnail();
-		}
-	}
-	
-	/**
 	 * Check the arguments for WP_Query depended on users selection
 	 *
+	 * @access   private
 	 * @since     1.0.0
+	 * @updated  2.0: new filter_image_size, new action remove_any_img, merged with former prepare_query_args()
 	 *
 	 * @return    array    the args
 	 */
@@ -693,40 +777,67 @@ class Quick_Featured_Images_Admin {
 		$args[ 'order' ] = 'ASC';
 		$args[ 'ignore_sticky_posts' ] = true;
 		$args[ 'post_type' ] = $this->selected_post_types;
-		// define other query params
 		switch ( $this->selected_action ) {
 			case 'replace':
+				$this->selected_post_ids = $this->get_post_ids_of_old_thumbnail();
+				$args[ 'post__in' ] = $this->get_posts_in_query_arg( $this->selected_post_ids );
+				break;
 			case 'remove':
-				$args[ 'post__in' ] = $this->selected_post_ids;
+				$this->selected_post_ids = $this->get_post_ids_of_thumbnail();
+				$args[ 'post__in' ] = $this->get_posts_in_query_arg( $this->selected_post_ids );
 		} // switch()
 		if ( $this->selected_filters ) {
+			#in_array ( 'filter_post_types', $this->selected_filters ) ?
 			foreach ( $this->selected_filters as $filter ) {
 				switch ( $filter ) {
 					case 'filter_post_types':
+						$this->selected_post_types = $this->get_sanitized_post_types();
+						$this->selected_custom_post_types = $this->get_sanitized_custom_post_types();
 						$args[ 'post_type' ] = array_merge ( $this->selected_post_types, $this->selected_custom_post_types );
 						break;
 					case 'filter_author':
+						$this->selected_author_id = $this->get_sanitized_author_id();
 						$args[ 'author' ] = $this->selected_author_id;
 						break;
 					case 'filter_category':
+						$this->selected_category_id = $this->get_sanitized_category_id();
 						$args[ 'cat' ] = $this->selected_category_id; // in future: user selects more than 1 category, 'category__in'
 						break;
 					case 'filter_custom_field':
+						$this->selected_custom_field = $this->get_sanitized_custom_field();
 						$args[ 'meta_query' ] = array( $this->selected_custom_field );
 						break;
 					case 'filter_parent_page':
+						$this->selected_page_id = $this->get_sanitized_page_id();
 						$args[ 'post_parent' ] =  $this->selected_page_id;
 						break;
 					case 'filter_search':
+						$this->selected_search_term = $this->get_search_term();
 						$args[ 's' ] = $this->selected_search_term;
 						break;
 					case 'filter_status':
+						$this->selected_statuses = $this->get_sanitized_post_statuses();
 						$args[ 'post_status' ] = implode( ',', $this->selected_statuses );
 						break;
 					case 'filter_tag':
+						$this->selected_tag_id = $this->get_sanitized_tag_id();
 						$args[ 'tag_id' ] = $this->selected_tag_id; // in future: user selects more than 1 tag, 'tag__in'
 						break;
+					case 'filter_image_size':
+						$this->selected_image_dimensions = $this->get_sanitized_image_dimensions();
+						$post_ids = $this->get_post_ids_of_to_small_thumbnails();
+						// if there are post ids get the intersection with posts ids of to small images, else zero results
+						if ( $post_ids && $this->selected_post_ids ) {
+							$this->selected_post_ids = $this->get_array_intersect( $this->selected_post_ids, $post_ids );
+						} elseif ( $post_ids ) {
+							$this->selected_post_ids = $post_ids;
+						} else {
+							$this->selected_post_ids = array();
+						}
+						$args[ 'post__in' ] = $this->get_posts_in_query_arg( $this->selected_post_ids );
+						break;
 					case 'filter_time':
+						$this->selected_date_queries = $this->get_sanitized_date_queries();
 						$args[ 'date_query' ] = $this->selected_date_queries;
 				} // switch()
 			} // foreach()
@@ -740,6 +851,7 @@ class Quick_Featured_Images_Admin {
 	 * 
 	 * Is an alias to 'find_posts( true )' for more readability
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 */
@@ -750,45 +862,58 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Do the loop to find posts, change the thumbnail if param is true
 	 *
+	 * @access   private
 	 * @since     1.0.0
+	 * @updated   2.0: moving loop into ifs and switch to gain more performance
 	 *
 	 * @return    array    affected posts
 	 */
 	private function find_posts( $perform = false ) {
-		// define the query parameters
-		$this->prepare_query_args();
 		// initialise result array
 		$results = array();
 		// The Query
 		$the_query = new WP_Query( $this->get_query_args() );
-		// The Loop
+		// The Loop, dependent of some circumstances
 		if ( $the_query->have_posts() ) {
-			while ( $the_query->have_posts() ) {
-				$the_query->the_post();
-				if ( $perform ) {
-					switch ( $this->selected_action ) {
-						case 'assign':
-						case 'replace':
+			if ( $perform ) {
+				switch ( $this->selected_action ) {
+					case 'assign':
+					case 'replace':
+						while ( $the_query->have_posts() ) {
+							$the_query->the_post();
 							$success = set_post_thumbnail( get_the_ID(), $this->selected_image_id );
-							break;
-						case 'remove':
+							$results[] = array( 
+								get_edit_post_link(), 
+								get_the_title(), 
+								$success 
+							); // store edit link, title, success of action (true or false)
+						} // while()
+						break;
+					case 'remove':
+					case 'remove_any_img':
+						while ( $the_query->have_posts() ) {
+
+							$the_query->the_post();
 							$success = delete_post_thumbnail( get_the_ID() );
-					}
-					$results[] = array( 
-						get_edit_post_link(), 
-						get_the_title(), 
-						$success 
-					); // store id, title, success of action (true or false)
-				} else {
+							$results[] = array( 
+								get_edit_post_link(), 
+								get_the_title(), 
+								$success
+							); // store edit link, title, success of action (true or false)
+						} // while()
+				} // switch()
+			} else {
+				while ( $the_query->have_posts() ) {
+					$the_query->the_post();
 					$results[] = array( 
 						get_edit_post_link(), 
 						get_the_title(), 
 						sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
-						sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ) 
-					);
-				} // if()
-			} // while()
-		} // if()
+						sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+					); // store edit link, title, date, author
+				} // while()
+			} // if( $perform )
+		} // if( have_posts )
 		// Restore original Post Data
 		wp_reset_postdata();
 		// return results
@@ -796,8 +921,46 @@ class Quick_Featured_Images_Admin {
 	}
 
 	/**
+	 * Returns the post ids which are assigned with featured images smaller than user given dimensions
+	 *
+	 * @access   private
+	 * @since     2.0
+	 *
+	 * @return    array    the post ids assigned with the to small thumbnail
+	 */
+	private function get_post_ids_of_to_small_thumbnails() {
+		$post_ids = array();
+		$relevant_featured_image_ids = array();
+		$max_width = $this->selected_image_dimensions[ 'max_width' ];
+		$max_height = $this->selected_image_dimensions[ 'max_height' ];
+		// get all images used as featured images
+		$featured_image_ids = $this->get_featured_image_ids();
+		// only use featured images smaller than user given dimensions
+		foreach ( $featured_image_ids as $post_thumbnail_id ) {
+			// get image of given size
+			$arr_image = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
+			if ( $arr_image )  {
+				$below_max_width   = $arr_image[1] < $max_width ? true : false;
+				$below_max_height  = $arr_image[2] < $max_height ? true : false;
+				$is_original = $arr_image[3] ? false : true;
+				// set as revelant image if it is not resized (= original) and within user given dimensions
+				if  ( $is_original && ( $below_max_width || $below_max_height ) ) {
+					$relevant_featured_image_ids[] = $post_thumbnail_id;
+				}
+			} // if( image )
+		} // foreach()
+		// get post ids assigned with the relevant featured image ids
+		if ( $relevant_featured_image_ids ) {
+			$post_ids = $this->get_post_ids_of_featured_image_ids( $relevant_featured_image_ids );
+		}
+		// return result
+		return $post_ids;
+	}
+
+	/**
 	 * Returns the post ids which are assigned with the featured image which should be replaced
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the post ids assigned with the thumbnail
@@ -806,8 +969,8 @@ class Quick_Featured_Images_Admin {
 		$post_ids = array();
 		$this->selected_old_image_id = $this->get_sanitized_value( 'replacement_image_id', $this->get_featured_image_ids(), 0 );
 		global $wpdb;
-		// get as an normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id`  FROM $wpdb->postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $this->selected_old_image_id ), ARRAY_N );
+		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id` FROM $wpdb->postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $this->selected_old_image_id ), ARRAY_N );
 		// flatten results
 		if ( $results ) {
 			foreach ( $results as $r ) {
@@ -820,6 +983,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Returns the post ids which are assigned with the featured image which should be removed
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the post ids assigned with the thumbnail
@@ -827,8 +991,8 @@ class Quick_Featured_Images_Admin {
 	private function get_post_ids_of_thumbnail() {
 		$post_ids = array();
 		global $wpdb;
-		// get as an normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id`  FROM $wpdb->postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $this->selected_image_id ), ARRAY_N );
+		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id` FROM $wpdb->postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $this->selected_image_id ), ARRAY_N );
 		// flatten results
 		if ( $results ) {
 			foreach ( $results as $r ) {
@@ -844,6 +1008,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Returns the post ids of pages which have child pages
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the post ids of parent pages
@@ -851,7 +1016,7 @@ class Quick_Featured_Images_Admin {
 	private function get_post_ids_of_parent_pages() {
 		$post_ids = array();
 		global $wpdb;
-		// get as an normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
+		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `post_parent` FROM $wpdb->posts WHERE `post_parent` != 0 AND `post_type` = %s", 'page' ), ARRAY_N );
 		// flatten results
 		if ( $results ) {
@@ -862,24 +1027,48 @@ class Quick_Featured_Images_Admin {
 		return $post_ids;
 	}
 	
-	
+	/**
+	 * Returns the posts ids which are assigned to given featured image ids
+	 *
+	 * @access   private
+	 * @since     2.0
+	 *
+	 * @return    array    the post ids assigned to given featured images
+	 */
+	private function get_post_ids_of_featured_image_ids( $image_ids = array() ) {
+		$post_ids = array();
+		global $wpdb;
+		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
+		foreach ( $image_ids as $id ) {
+			$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id` FROM wp_postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $id ), ARRAY_N );
+			// flatten results
+			if ( $results ) {
+				foreach ( $results as $r ) {
+					$post_ids[] = intval( $r[ 0 ] );
+				}
+			}
+		} // foreach()
+		return $post_ids;
+	}
 
 	/**
-	 * Returns the thumbnail ids which are assigned with a post
+	 * Returns the thumbnails ids which are assigned with a post
 	 *
+	 * @access   private
 	 * @since     1.0.0
+	 * @updated   2.0: added intval()
 	 *
 	 * @return    array    the image ids assigned to posts as featured images
 	 */
 	private function get_featured_image_ids() {
 		$image_ids = array();
 		global $wpdb;
-		// get as an normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
+		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `meta_value` FROM $wpdb->postmeta WHERE `meta_key` LIKE '_thumbnail_id'", $this->selected_image_id ), ARRAY_N );
 		// flatten results
 		if ( $results ) {
 			foreach ( $results as $r ) {
-				$image_ids[] = $r[ 0 ];
+				$image_ids[] = intval( $r[ 0 ] );
 			}
 		}
 		return $image_ids;
@@ -888,6 +1077,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Check the step parameter and return safe values
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    string    the name of the step the plugin should take
@@ -903,6 +1093,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Check the action parameter and return safe values 
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    string    the name of the action the plugin should perform, else empty string
@@ -917,6 +1108,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Check the requested statuses and return safe values 
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the names of the statuses of posts and pages
@@ -931,6 +1123,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Check the requested filters and return safe values 
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the names of the filters
@@ -945,6 +1138,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Check the requested post types and return safe values 
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the names of the selected post types
@@ -959,6 +1153,7 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Check the requested custom post types and return safe values 
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the names of the selected custom post types
@@ -973,7 +1168,9 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * Check the requested time or date period and return safe values 
 	 *
+	 * @access   private
 	 * @since     1.0.0
+	 * @updated   2.0: added abs()
 	 *
 	 * @return    array    the names of the user selected date queries
 	 */
@@ -1018,7 +1215,7 @@ $query = array (
 		// sanitize: cast values to integers
 		if ( $arr ) {
 			foreach ( $arr as $k => $v ) {
-				$arr[ $k ] = intval( $v );
+				$arr[ $k ] = abs( intval( $v ) );
 			}
 		}
 		// rearrange the array for WP Query
@@ -1072,6 +1269,7 @@ $query = array (
 	/**
 	 * Check the requested custom field operation and return safe values 
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the name of the user selected custom field, the operation and the comparison value
@@ -1081,8 +1279,37 @@ $query = array (
 	}
 
 	/**
+	 * Check the requested custom field operation and return safe values 
+	 *
+	 * @access   private
+	 * @since     2.0
+	 *
+	 * @return    array    the the user given dimensions of an image
+	 */
+	private function get_sanitized_image_dimensions() {
+		$img_dims = $this->get_sanitized_associated_array( 'image_dimensions', $this->valid_image_dimensions, $this->selected_image_dimensions );
+		// cast to positive integers
+		foreach ( array_keys( $this->valid_image_dimensions ) as $key ) {
+			if ( array_key_exists( $key, $img_dims ) ) {
+				$img_dims[ $key ] = abs( intval( $img_dims[ $key ] ) );
+			/* } else {	$img_dims[ $key ] = 0; not necessary because of default values setting */
+			}
+		}
+		// correct too high or too low values
+		foreach ( $img_dims as $key => $value ) {
+			if ( $img_dims[ $key ] > $this->max_image_length ) {
+				$img_dims[ $key ] = $this->max_image_length;
+			} elseif ( $img_dims[ $key ] < $this->min_image_length ) {
+				$img_dims[ $key ] = $this->min_image_length;
+			}
+		}
+		return $img_dims;
+	}
+
+	/**
 	 * Define parameters and return registered custom post types
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the names of the registered custom post types
@@ -1098,12 +1325,14 @@ $query = array (
 	 * Check the parameter defined by key and return safe value
 	 * Written to return a single value, e.g. for radio buttons
 	 *
+	 * @access   private
 	 * @since     1.0.0
+     * @updated   2.0: faster with isset()
 	 *
 	 * @return    mixed    the user selected valid value or the default value
 	 */
 	private function get_sanitized_value( $key, $valid_values, $default_value = null ) {
-		$value = array_key_exists( $key, $_REQUEST ) ? $_REQUEST[ $key ] : $default_value;
+		$value = isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default_value;
 		if ( in_array( $value, $valid_values ) ) {
 			return $value;            
 		} else {                       
@@ -1115,12 +1344,14 @@ $query = array (
 	 * Check the parameter and return safe values 
 	 * Written to return multiple values, e.g. for checkboxes
 	 *
+	 * @access   private
 	 * @since     1.0.0
+     * @updated   2.0: faster with isset()
 	 *
 	 * @return    array    the user selected valid values or the default values
 	 */
 	private function get_sanitized_array( $key, $valid_array, $default_array = array() ) {
-		if ( array_key_exists( $key, $_REQUEST ) and is_array( $_REQUEST[ $key ] ) ) {
+		if ( isset( $_REQUEST[ $key ] ) and is_array( $_REQUEST[ $key ] ) ) {
 			return $this->get_array_intersect( $_REQUEST[ $key ], $valid_array );
 		} else {
 			return $default_array;
@@ -1132,16 +1363,18 @@ $query = array (
 	 * Written to return multiple values associated with key names, e.g. for WP Query
 	 * The function filters out empty strings
 	 *
+	 * @access   private
 	 * @since     1.0.0
+	 * @updated   2.0: added check whether array is empty, added isset() to catch empty values (0, "" etc.)
 	 *
 	 * @return    array    the user selected valid values or the default values
 	 */
 	private function get_sanitized_associated_array( $key, $valid_array, $default_array = array() ) {
 		$queries = array();
-		$arr = array_key_exists( $key, $_REQUEST ) ? $_REQUEST[ $key ] : $default_array;
-		if ( is_array( $arr ) ) {
+		$arr = isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default_array;
+		if ( ! empty( $arr ) && is_array( $arr ) ) {
 			foreach ( array_keys( $valid_array ) as $key ) {
-				if ( array_key_exists( $key, $arr ) and $arr[ $key ] !== '' ) {
+				if ( array_key_exists( $key, $arr ) and isset( $arr[ $key ] ) ) {
 					$queries[ $key ] = $arr[ $key ];
 				}
 			}
@@ -1153,6 +1386,7 @@ $query = array (
 	 * Return the intersection of two given arrays
 	 * Runs 5 times faster than PHP's array_intersect()
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the intersection of two arrays
@@ -1184,21 +1418,24 @@ $query = array (
 	/**
 	 * Check the integer value of a user selected value else default value
 	 *
+	 * @access   private
 	 * @since     1.0.0
+	 * @updated   2.0: added abs(), added sanitize_text_field(), faster with isset()
 	 *
 	 * @return    integer    the id or 0
 	 */
 	private function get_sanitized_id( $key, $default = 0 ) {
-		if ( ! array_key_exists( $key, $_REQUEST ) or empty( $_REQUEST[ $key ] ) ) {
+		if ( ! isset( $_REQUEST[ $key ] ) or empty( $_REQUEST[ $key ] ) ) {
 			return $default;
 		} else {
-			return intval( $_REQUEST[ $key ] );
+			return abs( intval( sanitize_text_field( $_REQUEST[ $key ] ) ) );
 		}
 	}
 	
 	/**
 	 * Check the id of selected featured image and return safe value
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    integer    the id or 0
@@ -1210,6 +1447,7 @@ $query = array (
 	/**
 	 * Check the id of selected page and return safe value
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    integer    the id or 0
@@ -1221,6 +1459,7 @@ $query = array (
 	/**
 	 * Check the id of selected author and return safe value
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    integer    the id or 0
@@ -1232,6 +1471,7 @@ $query = array (
 	/**
 	 * Check the id of selected tag and return safe value
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    integer    the id or 0
@@ -1243,6 +1483,7 @@ $query = array (
 	/**
 	 * Check the id of selected category and return safe value
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    integer    the id or 0
@@ -1254,21 +1495,40 @@ $query = array (
 	/**
 	 * Check the user selected search term and return safe value
 	 *
+	 * @access   private
 	 * @since     1.0.0
+	 * @updated   2.0: added sanitize_text_field(), faster with isset()
 	 *
 	 * @return    string    the search term
 	 */
 	private function get_search_term() {
-		if ( ! array_key_exists( 'search_term', $_REQUEST ) or empty( $_REQUEST[ 'search_term' ] ) ) {
+		if ( ! isset( $_REQUEST[ 'search_term' ] ) or empty( $_REQUEST[ 'search_term' ] ) ) {
 			return '';
 		} else {
-			return $_REQUEST[ 'search_term' ];
+			return sanitize_text_field( $_REQUEST[ 'search_term' ] );
+		}
+	}
+	
+	/**
+	 * If results in array, return them, else say query something like "no results in array"
+	 *
+	 * @access   private
+	 * @since     2.0
+	 *
+	 * @return    array    Array with content or 0
+	 */
+	private function get_posts_in_query_arg( $arr ) {
+		if ( empty( $arr ) ) {
+			return array( 0 );
+		} else {
+			return $arr;
 		}
 	}
 	
 	/**
 	 * Look in the DB for custom field names and return them
 	 *
+	 * @access   private
 	 * @since     1.0.0
 	 *
 	 * @return    array    the custom field names
@@ -1277,7 +1537,7 @@ $query = array (
 		global $wpdb;
 		$key = 'meta_key';
 		$custom_fields = array();
-		// get as an normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
+		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT %s FROM $wpdb->postmeta WHERE %s NOT REGEXP '^_' ORDER BY %s", $key, $key, $key ), ARRAY_N );
 		// flatten results
 		if ( $results ) {
