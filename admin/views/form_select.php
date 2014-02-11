@@ -63,4 +63,3 @@ if ( 'replace' == $this->selected_action ) {
 </form>
 <?php
 } // if()
-?>

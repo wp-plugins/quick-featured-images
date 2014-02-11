@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: featured, image, images, featured image, featured images, thumb, thumbs, thumbnail, thumbnails, media, bulk, batch, mass, add, assign, attach, associate, change, exchange, define, delete, detach, remove, replace, set, unset, update, control, quick, rapid
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,6 +113,10 @@ If you want to contribute a translation of the plugin in your language it would 
 5. The fifth and last screen: take an overview of the success of the action.
 
 == Changelog ==
+
+= 2.0.1 =
+* Fixed missing headline on confirmation page if action "remove any image" was selected
+* Updated german translation
 
 = 2.0 =
 * Added new action "Remove any image"

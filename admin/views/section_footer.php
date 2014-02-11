@@ -21,7 +21,7 @@
 					<dt><?php _e( 'Do you need support or have an idea for the plugin?', $this->plugin_slug ); ?></dt><dd><a href="http://wordpress.org/support/plugin/quick-featured-images"><?php _e( 'Post your questions and ideas about Quick Featured Images in the forum at wordpress.org!', $this->plugin_slug ); ?></a></dd>
 					<dt><?php _e( 'To get more fun with the plugin and to have an easy overview of your featured images I highly recommend this plugin', $this->plugin_slug ); ?></dt><dd><a href="http://wordpress.org/plugins/post-list-featured-image/"><?php printf( __( 'Download plugin %s at %s!', $this->plugin_slug ), '<strong>Post List Featured Image</strong>', 'wordpress.org' ); ?></a></dd>
 					<dt><?php _e( 'You will find more WordPress plugins for featured images with a click on this link', $this->plugin_slug ); ?></dt><dd><a href="http://wordpress.org/plugins/search.php?q=featured+image+column"><?php _e( 'Search for plugins for managing featured images at wordpress.org!', $this->plugin_slug ); ?></a></dd>
-					<dt><?php _e( 'Slim down you navigation menus and make them faster to load', $this->plugin_slug ); ?></dt><dd><a href="http://wordpress.org/plugins/purify-wp-menues/"><?php printf( __( 'Download plugin %s at %s!', $this->plugin_slug ), '<strong>Purify WP Menus</strong>', 'wordpress.org' ); ?></a></dd>
+					<dt><?php _e( 'Slim down your navigation menus and make them faster to load', $this->plugin_slug ); ?></dt><dd><a href="http://wordpress.org/plugins/purify-wp-menues/"><?php printf( __( 'Download plugin %s at %s!', $this->plugin_slug ), '<strong>Purify WP Menus</strong>', 'wordpress.org' ); ?></a></dd>
 				</dl>
 			</div><!-- .th_content -->
 		</div><!-- #th_footer -->

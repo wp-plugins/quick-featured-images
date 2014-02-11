@@ -2,15 +2,18 @@
 	switch ( $this->selected_action ) {
 		case 'assign':
 			$headline = __( 'Set the image as featured image to found posts and pages', $this->plugin_slug );
-			$question = __( 'Should the selected image be set as featured image to all the listed posts?', $this->plugin_slug );
+			$question = __( 'Should the selected image be set as featured image to all listed posts?', $this->plugin_slug );
 			break;
 		case 'replace':
 			$headline = __( 'Replace the image of found posts and pages', $this->plugin_slug );
-			$question = __( 'Should the current set featured image be replaced by the selected image at all the listed posts?', $this->plugin_slug );
+			$question = __( 'Should the current set featured image be replaced by the selected image at all listed posts?', $this->plugin_slug );
 			break;
 		case 'remove':
 			$headline = __( 'Remove the image as featured image from found posts and pages', $this->plugin_slug );
-			$question = __( 'Should the selected image be removed from all the listed posts?', $this->plugin_slug );
+			$question = __( 'Should the selected image be removed from all listed posts?', $this->plugin_slug );
+		case 'remove_any_img':
+			$headline = __( 'Remove any featured image from found posts and pages', $this->plugin_slug );
+			$question = __( 'Should the added featured images be removed from all listed posts?', $this->plugin_slug );
 	}
 ?>
 <h3><?php echo $headline; ?></h3>

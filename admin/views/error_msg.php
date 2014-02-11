@@ -1,8 +1,3 @@
-<?php
-/**
- * @since    1.0.0
- */
-?>
 <h3><?php _e( 'Error' );?></h3>
 <div class="th_content_inside">
 	<h4><?php _e( 'Reason', $this->plugin_slug );?></h4>
