@@ -873,6 +873,7 @@ class Quick_Featured_Images_Admin {
 		$results = array();
 		// The Query
 		$the_query = new WP_Query( $this->get_query_args() );
+		#printf( '<p>%s</p>', $the_query->request ); // just for debugging
 		// The Loop, dependent of some circumstances
 		if ( $the_query->have_posts() ) {
 			if ( $perform ) {
@@ -892,7 +893,6 @@ class Quick_Featured_Images_Admin {
 					case 'remove':
 					case 'remove_any_img':
 						while ( $the_query->have_posts() ) {
-
 							$the_query->the_post();
 							$success = delete_post_thumbnail( get_the_ID() );
 							$results[] = array( 
@@ -925,6 +925,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since     2.0
+	 * @updated   2.0.2: changed variable name below_max_* to is_below_max_*
 	 *
 	 * @return    array    the post ids assigned with the to small thumbnail
 	 */
@@ -940,11 +941,11 @@ class Quick_Featured_Images_Admin {
 			// get image of given size
 			$arr_image = wp_get_attachment_image_src( $post_thumbnail_id, 'full' );
 			if ( $arr_image )  {
-				$below_max_width   = $arr_image[1] < $max_width ? true : false;
-				$below_max_height  = $arr_image[2] < $max_height ? true : false;
+				$is_below_max_width   = $arr_image[1] < $max_width ? true : false;
+				$is_below_max_height  = $arr_image[2] < $max_height ? true : false;
 				$is_original = $arr_image[3] ? false : true;
 				// set as revelant image if it is not resized (= original) and within user given dimensions
-				if  ( $is_original && ( $below_max_width || $below_max_height ) ) {
+				if  ( $is_original && ( $is_below_max_width || $is_below_max_height ) ) {
 					$relevant_featured_image_ids[] = $post_thumbnail_id;
 				}
 			} // if( image )
@@ -1032,6 +1033,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since     2.0
+	 * @updated   2.0.2: revised SQL statement to more general expression with $wpdb
 	 *
 	 * @return    array    the post ids assigned to given featured images
 	 */
@@ -1040,7 +1042,7 @@ class Quick_Featured_Images_Admin {
 		global $wpdb;
 		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
 		foreach ( $image_ids as $id ) {
-			$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id` FROM wp_postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $id ), ARRAY_N );
+			$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id` FROM $wpdb->postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $id ), ARRAY_N );
 			// flatten results
 			if ( $results ) {
 				foreach ( $results as $r ) {
