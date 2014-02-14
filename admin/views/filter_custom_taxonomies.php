@@ -1,0 +1,47 @@
+<h4><?php echo $this->valid_filters[ 'filter_custom_taxonomies' ]; ?></h4>
+<?php
+if ( $this->valid_custom_taxonomies ) {
+	$args = array(
+		'orderby'       => 'name', 
+		'order'         => 'ASC',
+		'hide_empty'    => false, 
+		'hierarchical'  => true, 
+	);
+	foreach ( $this->valid_custom_taxonomies as $custom_tax ) {
+		$terms = get_terms( $custom_tax, $args );
+		#Quick_Featured_Images::dump($terms);
+		if ( is_wp_error( $terms ) ) {
+			printf( '<p>%s<p>', $terms->get_error_message() );
+			continue;
+		}
+		if ( 0 < count( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$options[ $term->term_id ] = $term->name;
+			}
+?>
+<p>
+	<label for="<?php printf( 'th_%s', $custom_tax ); ?>"><?php printf( __( 'Registered terms of the taxonomy <strong>%s</strong>', $this->plugin_slug ), $custom_tax ); ?></label><br />
+	<select id="<?php printf( 'th_%s', $custom_tax ); ?>" name="custom_taxonomies[<?php echo $custom_tax; ?>]">
+<?php
+			print $this->get_html_empty_option();
+			foreach ( $options as $key => $label ) {
+				printf( '<option value="%s" %s>%s</option>', $key, selected( $this->selected_custom_taxonomies[ $custom_tax ] == $key, true, false ), $label );
+			}
+
+?>
+	</select>
+<?php
+		} else {
+			printf( __( 'There are no terms of the taxonomy <strong>%s</strong>.', $this->plugin_slug ), $custom_tax );
+		} // if( count(terms) )
+?>
+</p>
+<h5><?php _e( 'Strange search result with custom taxonomies?', $this->plugin_slug ); ?></h5>
+<p><?php _e( 'The search for custom taxonomy terms could lead to surprising results. The reason is custom taxonomies can be used in many different ways. It is not possible to catch them all in one single code expression. If you should be unsatisfied with the result try other filters to get the result you want.', $this->plugin_slug ); ?></p>
+<?php
+	}
+} else {
+?>
+<p><?php _e( 'There are no custom taxonomies.', $this->plugin_slug ); ?></p>
+<?php
+} // if( valid_custom_taxonomies )
