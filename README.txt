@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: featured, image, images, featured image, featured images, thumb, thumbs, thumbnail, thumbnails, media, bulk, batch, mass, add, assign, attach, associate, change, exchange, define, delete, detach, remove, replace, set, unset, update, control, quick, rapid
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 2.0.2
+Stable tag: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,10 +28,11 @@ If there would be no filters Quick Featured Images would affect all posts and pa
 
 The implemented filters allows you to narrow down the action to only the posts and pages you want to modify. The built-in filters are:
 
-* Filter by **post type**: Search by post types. It includes posts, pages and custom post types. By default only posts will be affected
+* Filter by **post type**: Search by post types. By default all posts, pages and custom post types will be affected
 * Filter by **status**: Search by several statuses (published, draft, private etc.). By default all statuses will be affected
 * Filter by **search**: Search by search term
 * Filter by **author**: Search by author
+* Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
 * Filter by **featured image size**: Search for too small featured images
 * Filter by **category**: Search posts by category
 * Filter by **tag**: Search posts by tag
@@ -91,6 +92,10 @@ For these users the link 'Quick Featured Images' under 'Media' in the WordPress 
 
 Yes. It works either activated for all sites (network wide) or activated in each single site. It changes only the posts of the site where you use it.
 
+= Why are there sometimes strange search results with custom taxonomies? =
+
+The search for custom taxonomy terms could lead to surprising results. The reason is custom taxonomies can be used in many different ways. It is not possible to catch them all in one single code expression. If you should be unsatisfied with the result try other filters to get the result you want.
+
 = Which languages does the plugin support? =
 
 Actually these languages are supported:
@@ -114,6 +119,15 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 3.0 =
+* Added new filter "Filter by Custom Taxonomies"
+* Changed default post types: ALL posts, pages and custom post types are included in the search by default 
+* Changed default selection in drop down selection lists into "nothing selected"
+* Updated german translation
+* Improved performance
+* Improved design of confirmation page
+* Revised functions
+
 = 2.0.2 =
 * Revised SQL statement for featured image size filter
 
@@ -134,6 +148,9 @@ If you want to contribute a translation of the plugin in your language it would 
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 3.0 =
+The former default to only consider posts (and no page oder cutom post type) in the search lead to confusions. Users were asking why the search result does not list all expected posts. This behaviour is changed in v3.0: all posts, pages and custom post types are now considered in the search by default. You can deselect the post types you do not want to find.
 
 = 2.0 =
 Many improvements and additions

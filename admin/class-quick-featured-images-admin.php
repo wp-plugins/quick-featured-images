@@ -204,7 +204,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @var      integer
 	 */
-	protected $selected_page_id = null;
+	protected $selected_parent_page_id = null;
 	
 	/**
 	 * User selected author
@@ -250,6 +250,33 @@ class Quick_Featured_Images_Admin {
 	 * @var      array
 	 */
 	protected $selected_custom_post_types = null;
+	
+	/**
+	 * Valid names and descriptions of the custom post types
+	 *
+	 * @since    3.0
+	 *
+	 * @var      array
+	 */
+	protected $valid_custom_post_types = null;
+	
+	/**
+	 * User selected names and descriptions of custom taxonomies
+	 *
+	 * @since    3.0
+	 *
+	 * @var      array
+	 */
+	protected $selected_custom_taxonomies = null;
+	
+	/**
+	 * Valid names and descriptions of the custom taxonomies
+	 *
+	 * @since    3.0
+	 *
+	 * @var      array
+	 */
+	protected $valid_custom_taxonomies = null;
 	
 	/**
 	 * User selected date queries the plugin should perform
@@ -340,7 +367,8 @@ class Quick_Featured_Images_Admin {
 	 * Do the admin main function 
 	 *
 	 * @since     1.0.0
-     * @updated   2.0
+     * @updated   2.0: added check for required image
+     * @updated   3.0: some performance improvements
 	 *
 	 */
 	public function main() {
@@ -348,14 +376,6 @@ class Quick_Featured_Images_Admin {
 		$this->set_default_values();
 		// get current step
 		$this->selected_step = $this->get_sanitized_step();
-		// get user selected action
-		$this->selected_action = $this->get_sanitized_action();
-		// check whether thumb id is not required at required circumstances: all except start page oder action 'remove_any_img'
-		if ( 'remove_any_img' == $this->selected_action ) {
-			$this->is_image_required = false;
-		}
-		// get selected image id, else 0
-		$this->selected_image_id = $this->get_sanitized_image_id();
 		// print header
 		$this->display_header();
 		#Quick_Featured_Images::dump($_REQUEST);
@@ -366,10 +386,18 @@ class Quick_Featured_Images_Admin {
 		if ( 'start' == $this->selected_step ) {
 			include_once( 'views/form_start.php' );
 		} else {
+			// get user selected action
+			$this->selected_action = $this->get_sanitized_action();
 			// check if action is defined, else print error page
 			if ( ! $this->selected_action ) {
 				$this->display_error( 'wrong_action', false );
 			} else {
+				// check whether thumb id is not required at required circumstances: all except start page oder action 'remove_any_img'
+				if ( 'remove_any_img' == $this->selected_action ) {
+					$this->is_image_required = false;
+				}
+				// get selected image id, else 0
+				$this->selected_image_id = $this->get_sanitized_image_id();
 				// check whether an image id is avaiable if required
 				if ( $this->is_image_required && ! $this->selected_image_id ) {
 					$this->display_error( 'no_image', false );
@@ -377,6 +405,7 @@ class Quick_Featured_Images_Admin {
 				} elseif ( $this->is_image_required && ! wp_get_attachment_image_src( $this->selected_image_id ) ) {
 					$this->display_error( 'no_result', sprintf( __( 'Wrong image ID %d' ), $this->selected_image_id ) );
 				} else {
+					// get user selected filters
 					$this->selected_filters = $this->get_sanitized_filter_names();
 					// after the old image selection page (filter_replace.php) and if no old image was selected
 					if ( "replace" == $this->selected_action 
@@ -430,10 +459,10 @@ class Quick_Featured_Images_Admin {
 							$results = $this->perform_action();
 							// print results
 							include_once( 'views/results.php' );	
-					} // switch()
-				} // if()
-			} // if()
-		} // if()
+					} // switch( selected step )
+				} // if( image available )
+			} // if( action available )
+		} // if( is start )
 		// print footer
 		$this->display_footer();
 	}
@@ -444,6 +473,7 @@ class Quick_Featured_Images_Admin {
 	 * @access   private
 	 * @since    1.0.0
 	 * @updated  2.0: added: filter filter_img_size, action remove_any_img, $valid_image_dimensions, $selected_image_dimensions
+	 * @updated  3.0: added: filter filter_custom_taxonomies, valid_custom_post_types, valid_custom_taxonomies, selected_custom_taxonomies, all post types by default
 	 */
 	private function set_default_values() {
 		/*
@@ -464,12 +494,13 @@ class Quick_Featured_Images_Admin {
 			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug )
 		);
 		$this->valid_filters = array(
-			'filter_post_types' 		=> __( '<strong>Post Type Filter:</strong> Search by post type. By default only posts will be affected.', $this->plugin_slug ),
+			'filter_post_types' 		=> __( '<strong>Post Type Filter:</strong> Search by post type. By default all posts, pages and custom post types will be affected.', $this->plugin_slug ),
 			'filter_status' 			=> __( '<strong>Status Filter:</strong> Search by several statuses (published, draft, private etc.). By default all statuses will be affected.', $this->plugin_slug ),
 			'filter_search' 			=> __( '<strong>Search Filter:</strong> Search by search term', $this->plugin_slug ),
 			'filter_author' 			=> __( '<strong>Author Filter:</strong> Search by author', $this->plugin_slug ),
 			//'filter_custom_field' 		=> __( '<strong>Custom Field Filter:</strong> Search by custom field', $this->plugin_slug ),
 			//'filter_time' 				=> __( '<strong>Time Filter:</strong> Search by time point or date period', $this->plugin_slug ),
+			'filter_custom_taxonomies'	=> __( '<strong>Custom Taxonomy Filter:</strong> Search by other taxonomies like plugin categories etc.', $this->plugin_slug ),
 			'filter_image_size' 		=> __( '<strong>Featured Image Size Filter:</strong> Search by original dimensions of added featured image', $this->plugin_slug ),
 			'filter_category' 			=> __( '<strong>Category Filter:</strong> Search posts by category', $this->plugin_slug ),
 			'filter_tag' 				=> __( '<strong>Tag Filter:</strong> Search posts by tag', $this->plugin_slug ),
@@ -479,6 +510,8 @@ class Quick_Featured_Images_Admin {
 			'post' 		=> __( 'Posts' ),
 			'page' 		=> __( 'Pages' ),
 		);
+		$this->valid_custom_post_types = $this->get_registered_custom_post_types();
+		$this->valid_custom_taxonomies = $this->get_registered_custom_taxonomies();
 		$this->valid_statuses = array(
 			'publish' => __( 'Published: already published', $this->plugin_slug ),
 			'pending' => __( 'Pending review: waiting for reviews', $this->plugin_slug ),
@@ -494,7 +527,7 @@ class Quick_Featured_Images_Admin {
 			'hour' 		=> __( 'Hour (from 0 to 23)', $this->plugin_slug ),
 			'minute' 	=> __( 'Minute (from 0 to 59)', $this->plugin_slug ),
 			'second' 	=> __( 'Second (0 to 59)', $this->plugin_slug ),
-			/* for future:
+			/* todo:
 			'before_year' 	=> __( '4 digit start year', $this->plugin_slug ),
 			'before_month' 	=> __( 'Start month', $this->plugin_slug ),
 			'before_day' 	=> __( 'Start day', $this->plugin_slug ),
@@ -503,7 +536,7 @@ class Quick_Featured_Images_Admin {
 			'after_day' 	=> __( 'End day', $this->plugin_slug ),
 			*/
 		);
-		/* for future
+		/* todo
 		operators for time comparisons
 		$this->valid_date_operators = array(
 			'='		=> __( 'is equal' ),
@@ -531,21 +564,18 @@ class Quick_Featured_Images_Admin {
 			'max_width' 	=> __( 'Image width in pixels lower than', $this->plugin_slug ),
 			'max_height' 	=> __( 'Image height in pixels lower than', $this->plugin_slug ),
 		);
-		// default: start form
-		$this->selected_step = 'start';
 		// default: user selected image is required
 		$this->is_image_required = true;
+		// default: start form
+		$this->selected_step = 'start';
 		// default: no images
 		$this->selected_old_image_id = 0;
 		$this->selected_image_id = 0;
 		$this->is_error_no_old_image = false;
-		// get user defined dimensions for thumbnails, else take 150 px
-		$this->used_thumbnail_width  = get_option( 'thumbnail_size_w', 150 );
-		$this->used_thumbnail_height = get_option( 'thumbnail_size_h', 150 );
 		// default: no category
 		$this->selected_category_id = 0;
 		// default: no parent page
-		$this->selected_page_id = 0;
+		$this->selected_parent_page_id = 0;
 		// default: no author
 		$this->selected_author_id = 0;
 		// default: no tag
@@ -555,13 +585,18 @@ class Quick_Featured_Images_Admin {
 		// default: all post statuses
 		$this->selected_statuses = array_keys( $this->valid_statuses ); // default: all statuses
 		// default: all post types
-		$this->selected_post_types = array( 'post' ); // default: posts only. No pages, no custom post types. old string: array_keys( $this->valid_post_types );
-		// default: no custom post types
-		$this->selected_custom_post_types = array();
+		$this->selected_post_types = array_keys( $this->valid_post_types ); // default: all posts, pages and custom post types. old: posts only. No pages, no custom post types. old string: array_keys( $this->valid_post_types );
+		// default: all custom post types
+		$this->selected_custom_post_types = $this->valid_custom_post_types;
+		// default: no custom taxonomies
+		$this->selected_custom_taxonomies = array();
 		// default: no custom field
 		$this->selected_custom_field = array();
 		// default: no selected posts
 		$this->selected_post_ids = array();
+		// get user defined dimensions for thumbnails, else take 150 px
+		$this->used_thumbnail_width  = get_option( 'thumbnail_size_w', 150 );
+		$this->used_thumbnail_height = get_option( 'thumbnail_size_h', 150 );
 		 // default:  stored sizes for thumbnails
 		$this->selected_image_dimensions = array(
 			'max_width' 	=> $this->used_thumbnail_width,
@@ -638,8 +673,9 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return, added parameter first_empty
 	 */
-	private function display_options_months( $key = 'month' ) {
+	private function get_html_options_months( $key = 'month', $first_empty = true ) {
 		$months = array(
 			__( 'January' ),
 			__( 'February' ),
@@ -657,15 +693,17 @@ class Quick_Featured_Images_Admin {
 
 		$start = 1;
 		$end = sizeof( $months ) + 1;
+		$output = $first_empty ? $this->get_html_empty_option() : '';
 		if ( array_key_exists( $key, $this->selected_date_queries[ 0 ] ) ) { 
 			for ( $i = $start; $i < $end; $i++ ) {
-				printf( '<option value="%d" %s>%s</option>', $i, selected( $this->selected_date_queries[ 0 ][ $key ] == $i, true, false ), $months[ $i - 1 ] );
+				$output .= sprintf( '<option value="%d" %s>%s</option>', $i, selected( $this->selected_date_queries[ 0 ][ $key ] == $i, true, false ), $months[ $i - 1 ] );
 			}
 		} else {
 			for ( $i = $start; $i < $end; $i++ ) {
-				printf( '<option value="%d">%s</option>', $i, $months[ $i - 1 ] );
+				$output .= sprintf( '<option value="%d">%s</option>', $i, $months[ $i - 1 ] );
 			}
 		}
+		return $output;
 	}
 	
 	/**
@@ -674,9 +712,10 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return
 	 */
-	private function display_options_days( $key = 'day' ) {
-		$this->display_options_integers( $this->selected_date_queries[ 0 ], $key, 1, 32 );
+	private function get_html_options_days( $key = 'day' ) {
+		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 1, 32 );
 	}
 	
 	/**
@@ -685,9 +724,10 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return
 	 */
-	private function display_options_weeks( $key = 'week' ) {
-		$this->display_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 54 );
+	private function get_html_options_weeks( $key = 'week' ) {
+		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 54 );
 	}
 	
 	/**
@@ -696,9 +736,10 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return
 	 */
-	private function display_options_hours( $key = 'hour' ) {
-		$this->display_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 24 );
+	private function get_html_options_hours( $key = 'hour' ) {
+		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 24 );
 	}
 	
 	/**
@@ -707,9 +748,10 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return
 	 */
-	private function display_options_minutes( $key = 'minute' ) {
-		$this->display_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 60 );
+	private function get_html_options_minutes( $key = 'minute' ) {
+		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 60 );
 	}
 	
 	/**
@@ -718,9 +760,10 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return
 	 */
-	private function display_options_seconds( $key = 'second' ) {
-		$this->display_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 60 );
+	private function get_html_options_seconds( $key = 'second' ) {
+		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 60 );
 	}
 	
 	/**
@@ -729,17 +772,20 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return, added parameter first_empty
 	 */
-	private function display_options_integers( $arr, $key, $start, $end ) {
+	private function get_html_options_integers( $arr, $key, $start, $end, $first_empty = true ) {
+		$output = $first_empty ? $this->get_html_empty_option() : '';
 		if ( array_key_exists( $key, $arr ) ) { 
 			for ( $i = $start; $i < $end; $i++ ) {
-				printf( '<option value="%d" %s>%d</option>', $i, selected( $arr[ $key ] == $i, true, false ), $i );
+				$output .= sprintf( '<option value="%d" %s>%d</option>', $i, selected( $arr[ $key ] == $i, true, false ), $i );
 			}
 		} else {
 			for ( $i = $start; $i < $end; $i++ ) {
-				printf( '<option value="%d">%d</option>', $i, $i );
+				$output .= sprintf( '<option value="%d">%d</option>', $i, $i );
 			}
 		}
+		return $output;
 	}
 	
 	/**
@@ -748,25 +794,39 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since    1.0.0
+	 * @updated  3.0: changed printf into return, added parameter first_empty
 	 */
-	private function display_options_strings( $arr, $key, $options ) {
+	private function get_html_options_strings( $arr, $key, $options, $first_empty = true ) {
+		$output = $first_empty ? $this->get_html_empty_option() : '';
 		if ( array_key_exists( $key, $arr ) ) { 
 			foreach ( $options as $key => $label ) {
-				printf( '<option value="%s" %s>%s</option>', $key, selected( array_key_exists( $key, $arr ), true, false ), $label );
+				$output .= sprintf( '<option value="%s" %s>%s</option>', $key, selected( array_key_exists( $key, $arr ), true, false ), $label );
 			}
 		} else {
 			foreach ( $options as $key => $label ) {
-				printf( '<option value="%s">%s</option>', $key, $label );
+				$output .= sprintf( '<option value="%s">%s</option>', $key, $label );
 			}
 		}
+		return $output;
 	}
 	
+	/**
+	 *
+	 * Return empty option for selection field
+	 *
+	 * @access   private
+	 * @since    3.0
+	 */
+	private function get_html_empty_option() {
+			return sprintf( '<option value="">%s</option>', __( '&mdash; Select &mdash;' ) );
+		}
 	/**
 	 * Check the arguments for WP_Query depended on users selection
 	 *
 	 * @access   private
-	 * @since     1.0.0
+	 * @since    1.0.0
 	 * @updated  2.0: new filter_image_size, new action remove_any_img, merged with former prepare_query_args()
+	 * @updated  3.0: new filter_custom_taxonomies, changed order of cases
 	 *
 	 * @return    array    the args
 	 */
@@ -780,11 +840,11 @@ class Quick_Featured_Images_Admin {
 		switch ( $this->selected_action ) {
 			case 'replace':
 				$this->selected_post_ids = $this->get_post_ids_of_old_thumbnail();
-				$args[ 'post__in' ] = $this->get_posts_in_query_arg( $this->selected_post_ids );
+				$args[ 'post__in' ] = $this->get_id_array_for_query( $this->selected_post_ids );
 				break;
 			case 'remove':
 				$this->selected_post_ids = $this->get_post_ids_of_thumbnail();
-				$args[ 'post__in' ] = $this->get_posts_in_query_arg( $this->selected_post_ids );
+				$args[ 'post__in' ] = $this->get_id_array_for_query( $this->selected_post_ids );
 		} // switch()
 		if ( $this->selected_filters ) {
 			#in_array ( 'filter_post_types', $this->selected_filters ) ?
@@ -795,33 +855,31 @@ class Quick_Featured_Images_Admin {
 						$this->selected_custom_post_types = $this->get_sanitized_custom_post_types();
 						$args[ 'post_type' ] = array_merge ( $this->selected_post_types, $this->selected_custom_post_types );
 						break;
+					case 'filter_status':
+						$this->selected_statuses = $this->get_sanitized_post_statuses();
+						$args[ 'post_status' ] = implode( ',', $this->selected_statuses );
+						break;
+					case 'filter_search':
+						$this->selected_search_term = $this->get_search_term();
+						// if there is a search term assign him/her to the query
+						if ( '' != $this->selected_author_id ) {
+							$args[ 's' ] = $this->selected_search_term;
+						}
+						break;
 					case 'filter_author':
 						$this->selected_author_id = $this->get_sanitized_author_id();
-						$args[ 'author' ] = $this->selected_author_id;
-						break;
-					case 'filter_category':
-						$this->selected_category_id = $this->get_sanitized_category_id();
-						$args[ 'cat' ] = $this->selected_category_id; // in future: user selects more than 1 category, 'category__in'
+						// if there is a selected author assign him/her to the query
+						if ( 0 < $this->selected_author_id ) {
+							$args[ 'author' ] = $this->selected_author_id;
+						}
 						break;
 					case 'filter_custom_field':
 						$this->selected_custom_field = $this->get_sanitized_custom_field();
 						$args[ 'meta_query' ] = array( $this->selected_custom_field );
 						break;
-					case 'filter_parent_page':
-						$this->selected_page_id = $this->get_sanitized_page_id();
-						$args[ 'post_parent' ] =  $this->selected_page_id;
-						break;
-					case 'filter_search':
-						$this->selected_search_term = $this->get_search_term();
-						$args[ 's' ] = $this->selected_search_term;
-						break;
-					case 'filter_status':
-						$this->selected_statuses = $this->get_sanitized_post_statuses();
-						$args[ 'post_status' ] = implode( ',', $this->selected_statuses );
-						break;
-					case 'filter_tag':
-						$this->selected_tag_id = $this->get_sanitized_tag_id();
-						$args[ 'tag_id' ] = $this->selected_tag_id; // in future: user selects more than 1 tag, 'tag__in'
+					case 'filter_time':
+						$this->selected_date_queries = $this->get_sanitized_date_queries();
+						$args[ 'date_query' ] = $this->selected_date_queries;
 						break;
 					case 'filter_image_size':
 						$this->selected_image_dimensions = $this->get_sanitized_image_dimensions();
@@ -834,11 +892,49 @@ class Quick_Featured_Images_Admin {
 						} else {
 							$this->selected_post_ids = array();
 						}
-						$args[ 'post__in' ] = $this->get_posts_in_query_arg( $this->selected_post_ids );
+						$args[ 'post__in' ] = $this->get_id_array_for_query( $this->selected_post_ids );
 						break;
-					case 'filter_time':
-						$this->selected_date_queries = $this->get_sanitized_date_queries();
-						$args[ 'date_query' ] = $this->selected_date_queries;
+					case 'filter_category':
+						$this->selected_category_id = $this->get_sanitized_category_id();
+						// if there is a selected category assign it to the query
+						if ( 0 < $this->selected_category_id ) {
+							$args[ 'cat' ] = $this->selected_category_id; // todo: user selects more than 1 category, 'category__in'
+						}
+						break;
+					case 'filter_tag':
+						$this->selected_tag_id = $this->get_sanitized_tag_id();
+						// if there is a selected tag assign it to the query
+						if ( 0 < $this->selected_tag_id ) {
+							$args[ 'tag_id' ] = $this->selected_tag_id; // todo: user selects more than 1 tag, 'tag__in'
+						}
+						break;
+					case 'filter_custom_taxonomies':
+						$this->selected_custom_taxonomies = $this->get_sanitized_custom_taxonomies();
+						$tax_query = array();
+						// format the input for the query
+						foreach ( $this->selected_custom_taxonomies as $sel_cus_tax => $id ) {
+							if ( "" == $id ) continue; // next loop cycle if not selected
+							$tax_query[] = array(
+								'field' => 'id',
+								'taxonomy' => $sel_cus_tax,
+								'terms' => $id
+							);
+						}
+						// logical relationship between each inner taxonomy array is intersection when there is more than 1 array
+						if ( 1 < sizeof( $tax_query ) ) {
+							$tax_query[ 'relation' ] = 'AND';
+						}
+						// if there are selected terms finally assign them to the query
+						if ( ! empty ( $tax_query ) ) {
+							$args[ 'tax_query' ] = $tax_query;
+						}
+						break;
+					case 'filter_parent_page':
+						$this->selected_parent_page_id = $this->get_sanitized_page_id();
+						// if there is a selected parent page assign it to the query
+						if ( 0 < $this->selected_parent_page_id ) {
+							$args[ 'post_parent' ] =  $this->selected_parent_page_id;
+						}
 				} // switch()
 			} // foreach()
 		} // if()
@@ -1157,13 +1253,29 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since     1.0.0
+	 * @updated  3.0: changed get_registered_custom_post_types() to $valid_custom_post_types
 	 *
 	 * @return    array    the names of the selected custom post types
 	 */
 	private function get_sanitized_custom_post_types() {
 		return $this->get_sanitized_array(
 			'custom_post_types',
-			$this->get_registered_custom_post_types()
+			$this->valid_custom_post_types
+		);
+	}
+
+	/**
+	 * Check the requested custom taxonomies and return safe values 
+	 *
+	 * @access   private
+	 * @since    3.0
+	 *
+	 * @return    array    the names of the selected custom taxonomies
+	 */
+	private function get_sanitized_custom_taxonomies() {
+		return $this->get_sanitized_associated_array(
+			'custom_taxonomies',
+			$this->valid_custom_taxonomies
 		);
 	}
 
@@ -1222,7 +1334,7 @@ $query = array (
 		}
 		// rearrange the array for WP Query
 		$time_point = array();
-		/* for future:
+		/* todo:
 		$period_start_point = array();
 		$period_end_point = array();
 		// filter out period start point values in an array
@@ -1321,6 +1433,21 @@ $query = array (
 			   '_builtin' => false # only custon post types
 		);
 		return array_keys( get_post_types( $args, 'names' ) );
+	}
+
+	/**
+	 * Define parameters and return registered custom taxonomies
+	 *
+	 * @access   private
+	 * @since    3.0
+	 *
+	 * @return    array    the names of the registered custom taxonomies
+	 */
+	private function get_registered_custom_taxonomies() {
+		$args = array(
+			   '_builtin' => false # only custon post types
+		);
+		return get_taxonomies( $args, 'names' );
 	}
 
 	/**
@@ -1423,11 +1550,12 @@ $query = array (
 	 * @access   private
 	 * @since     1.0.0
 	 * @updated   2.0: added abs(), added sanitize_text_field(), faster with isset()
+	 * @updated   3.0: added check for values less than 0
 	 *
 	 * @return    integer    the id or 0
 	 */
 	private function get_sanitized_id( $key, $default = 0 ) {
-		if ( ! isset( $_REQUEST[ $key ] ) or empty( $_REQUEST[ $key ] ) ) {
+		if ( ( ! isset( $_REQUEST[ $key ] ) ) or empty( $_REQUEST[ $key ] ) or 0 > intval( $_REQUEST[ $key ] ) ) {
 			return $default;
 		} else {
 			return abs( intval( sanitize_text_field( $_REQUEST[ $key ] ) ) );
@@ -1519,7 +1647,7 @@ $query = array (
 	 *
 	 * @return    array    Array with content or 0
 	 */
-	private function get_posts_in_query_arg( $arr ) {
+	private function get_id_array_for_query( $arr ) {
 		if ( empty( $arr ) ) {
 			return array( 0 );
 		} else {

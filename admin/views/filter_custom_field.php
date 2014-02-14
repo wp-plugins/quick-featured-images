@@ -37,10 +37,10 @@ if ( $custom_field_keys ) {
 ?>
 <p>
 	<?php _e( 'Select the custom field to find the associated posts/pages.', $this->plugin_slug ); ?><br />
-	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
+	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label><br />
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="custom_field[<?php echo $key; ?>]">
 <?php
-				$this->display_options_strings( $this->selected_custom_field, $key, $custom_field_keys );
+				print $this->get_html_options_strings( $this->selected_custom_field, $key, $custom_field_keys );
 ?>
 	</select>
 </p>
@@ -61,10 +61,10 @@ if ( $custom_field_keys ) {
 ?>
 <p>
 	<?php _e( 'Optional: Change the operator of the comparison. The default is to compare equality with the value you type in the \'value\' field.', $this->plugin_slug ); ?><br />
-	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
+	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label><br />
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="custom_field[<?php echo $key; ?>]">
 <?php
-				$this->display_options_strings( $this->selected_custom_field, $key, $cf_operators );
+				print $this->get_html_options_strings( $this->selected_custom_field, $key, $cf_operators );
 ?>
 	</select>
 </p>

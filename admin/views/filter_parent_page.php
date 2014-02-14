@@ -5,11 +5,13 @@ $parent_pages = $this->get_post_ids_of_parent_pages();
 
 if ( $parent_pages ) {
 ?>
-	<label for="page_id"><?php _e( 'Select a parent page', $this->plugin_slug ); ?></label>
+	<label for="page_id"><?php _e( 'Select a parent page', $this->plugin_slug ); ?></label><br />
 <?php 
 	$args = array(
 		'include' => $parent_pages,
-		'selected' => $this->selected_page_id,
+		'selected' => $this->selected_parent_page_id,
+		'show_option_none' => __( '&mdash; Select &mdash;' ), #__('None'),
+		'option_none_value' => '',
 	);
 	wp_dropdown_pages( $args ); 
 } else {

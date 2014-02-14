@@ -8,8 +8,8 @@ foreach ( $this->valid_post_types as $key => $label ) {
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label><br />
 <?php
 }
-if ( $this->get_registered_custom_post_types() ) {
-	foreach ( $this->get_registered_custom_post_types() as $type ) {
+if ( $this->valid_custom_post_types ) {
+	foreach ( $this->valid_custom_post_types as $type ) {
 ?>
 	<input type="checkbox" id="<?php printf( 'th_%s', $type ); ?>" name="custom_post_types[]" value="<?php echo $type; ?>" <?php checked( in_array( $type, $this->selected_custom_post_types ) ); ?> />
 	<label for="<?php printf( 'th_%s', $type ); ?>"><?php echo $type; ?></label><br />

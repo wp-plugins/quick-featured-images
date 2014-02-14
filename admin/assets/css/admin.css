@@ -120,10 +120,19 @@
 
 /* Other content elements */
 #th_main .th_content legend,
+#th_main .th_content h5,
 #th_main .th_content h4,
 #th_main .th_content p {
 	margin-left: 8px;
     margin-right: 8px;
+}
+#th_main .th_content h4 {
+	font-size: 1.12em;
+	line-height: 1.44;
+}
+#th_main .th_content h5 {
+	margin-bottom: 0;
+	font-size: 1em;
 }
 #th_main .th_content legend {
 	margin-bottom: .5em;

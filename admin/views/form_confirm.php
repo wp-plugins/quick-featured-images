@@ -36,6 +36,13 @@ if ( $results ) {
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 <?php 
+if ( $this->selected_filters ) {
+	foreach ( $this->selected_filters as $v ) {
+?>
+		<input type="hidden" name="filters[]" value="<?php echo $v; ?>" />
+<?php
+	}
+}
 foreach ( $this->selected_statuses as $v ) {
 ?>
 		<input type="hidden" name="statuses[]" value="<?php echo $v; ?>" />
@@ -46,26 +53,26 @@ foreach ( $this->selected_post_types as $v ) {
 		<input type="hidden" name="post_types[]" value="<?php echo $v; ?>" />
 <?php 
 }
+if ( $this->selected_custom_post_types ) {
+	foreach ( $this->selected_custom_post_types as $v ) {
+?>
+		<input type="hidden" name="custom_post_types[]" value="<?php echo $v; ?>" />
+<?php
+	}
+}
 if ( $this->selected_search_term ) {
 ?>
 		<input type="hidden" name="search_term" value="<?php echo $this->selected_search_term; ?>" />
 <?php 
-}
-if ( $this->selected_filters ) {
-	foreach ( $this->selected_filters as $v ) {
-?>
-		<input type="hidden" name="filters[]" value="<?php echo $v; ?>" />
-<?php
-	}
 }
 if ( $this->selected_category_id ) {
 ?>
 		<input type="hidden" name="category_id" value="<?php echo $this->selected_category_id; ?>" />
 <?php 
 }
-if ( $this->selected_page_id ) {
+if ( $this->selected_parent_page_id ) {
 ?>
-		<input type="hidden" name="page_id" value="<?php echo $this->selected_page_id; ?>" />
+		<input type="hidden" name="page_id" value="<?php echo $this->selected_parent_page_id; ?>" />
 <?php 
 }
 if ( $this->selected_author_id ) {
@@ -78,24 +85,32 @@ if ( $this->selected_tag_id ) {
 		<input type="hidden" name="tag_id" value="<?php echo $this->selected_tag_id; ?>" />
 <?php 
 }
-if ( $this->selected_custom_post_types ) {
-	foreach ( $this->selected_custom_post_types as $v ) {
-?>
-		<input type="hidden" name="custom_post_types[]" value="<?php echo $v; ?>" />
-<?php
-	}
-}
-if ( $this->selected_custom_field ) {
+/*if ( $this->selected_custom_field ) {
 	foreach ( $this->selected_custom_field as $k => $v ) {
-?>
+? >
 		<input type="hidden" name="custom_field[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
-<?php
+< ? php
 	}
-}
+}*/
 if ( $this->selected_old_image_id ) {
 ?>
 		<input type="hidden" name="replacement_image_id" value="<?php echo $this->selected_old_image_id; ?>" />
 <?php 
+}
+if ( in_array( 'filter_image_size', $this->selected_filters ) ) {
+	// $this->selected_image_dimensions is never empty because of default values, so loop without check
+	foreach ( $this->selected_image_dimensions as $k => $v ) {
+?>
+		<input type="hidden" name="image_dimensions[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
+<?php
+	}
+}
+if ( $this->selected_custom_taxonomies ) {
+	foreach ( $this->selected_custom_taxonomies as $k => $v ) {
+?>
+		<input type="hidden" name="custom_taxonomies[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
+<?php
+	}
 }
 ?>
 		<?php wp_nonce_field( 'quickfi_confirm', $this->plugin_slug . '_nonce' ); ?>

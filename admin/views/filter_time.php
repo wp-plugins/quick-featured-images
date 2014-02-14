@@ -16,9 +16,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_months();
+			print $this->get_html_options_months();
 ?>
 	</select>
 <?php 
@@ -27,9 +26,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_days();
+			print $this->get_html_options_days();
 ?>
 	</select>
 </p>
@@ -40,9 +38,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 <p>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_weeks();
+			print $this->get_html_options_weeks();
 ?>
 	</select>
 </p>
@@ -53,9 +50,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 <p>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_hours();
+			print $this->get_html_options_hours();
 ?>
 	</select>
 <?php 
@@ -64,9 +60,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_minutes();
+			print $this->get_html_options_minutes();
 ?>
 	</select>
 <?php 
@@ -75,9 +70,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_seconds();
+			print $this->get_html_options_seconds();
 ?>
 	</select>
 </p>
@@ -105,9 +99,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_months( $key );
+			print $this->get_html_options_months( $key );
 ?>
 	</select>
 <?php 
@@ -116,9 +109,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_days( $key );
+			print $this->get_html_options_days( $key );
 ?>
 	</select>
 </p>
@@ -143,9 +135,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_months( $key );
+			print $this->get_html_options_months( $key );
 ?>
 	</select>
 <?php 
@@ -154,9 +145,8 @@ foreach ( $this->valid_date_queries as $key => $label ) {
 ?>
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 	<select id="<?php printf( 'th_%s', $key ); ?>" name="date_queries[<?php echo $key; ?>]">
-		<option value=""></option>
 <?php 
-			$this->display_options_days( $key );
+			print $this->get_html_options_days( $key );
 ?>
 	</select>
 </p>
