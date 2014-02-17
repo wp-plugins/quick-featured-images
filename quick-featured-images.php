@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
  * @package   Quick_Featured_Images
  * @author    Martin Stehle <m.stehle@gmx.de>
@@ -10,7 +10,7 @@
  * Plugin Name:       Quick Featured Images
  * Plugin URI:        http://wordpress.org/plugins/quick-featured-images
  * Description:       Bulk set, replace and remove featured images
- * Version:           3.0
+ * Version:           3.0.1
  * Author:            Martin Stehle
  * Author URI:        http://stehle-internet.de
  * Text Domain:       quick-featured-images

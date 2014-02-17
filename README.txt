@@ -1,10 +1,10 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SBF76TCGTRNX2
-Tags: featured, image, images, featured image, featured images, thumb, thumbs, thumbnail, thumbnails, media, bulk, batch, mass, add, assign, attach, associate, change, exchange, define, delete, detach, remove, replace, set, unset, update, control, quick, rapid
+Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 3.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,7 +99,6 @@ The search for custom taxonomy terms could lead to surprising results. The reaso
 = Which languages does the plugin support? =
 
 Actually these languages are supported:
-
 * English
 * German
 
@@ -118,6 +117,12 @@ If you want to contribute a translation of the plugin in your language it would 
 5. The fifth and last screen: take an overview of the success of the action.
 
 == Changelog ==
+
+= 3.0.1 =
+* Fixed: error message after plugin activation
+* Fixed: no images in the image library
+* Fixed: PHP error searching for posts in the backend
+* Deleted uninstall.php to avoid a confusing uninstall message
 
 = 3.0 =
 * Added new filter "Filter by Custom Taxonomies"
@@ -148,6 +153,9 @@ If you want to contribute a translation of the plugin in your language it would 
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 3.0.1 =
+Fixed error message after plugin activation
 
 = 3.0 =
 The former default to only consider posts (and no page oder cutom post type) in the search lead to confusions. Users were asking why the search result does not list all expected posts. This behaviour is changed in v3.0: all posts, pages and custom post types are now considered in the search by default. You can deselect the post types you do not want to find.
