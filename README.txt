@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 3.0.2 =
+* Fixed error in v3.0 of not recognized search term
+
 = 3.0.1 =
 * Fixed: error message after plugin activation
 * Fixed: no images in the image library
@@ -154,8 +157,11 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Upgrade Notice ==
 
+= 3.0.2 =
+Now the filter by search term works properly again.
+
 = 3.0.1 =
-Fixed error message after plugin activation
+Fixed error message after plugin activation and missed images in the library
 
 = 3.0 =
 The former default to only consider posts (and no page oder cutom post type) in the search lead to confusions. Users were asking why the search result does not list all expected posts. This behaviour is changed in v3.0: all posts, pages and custom post types are now considered in the search by default. You can deselect the post types you do not want to find.
