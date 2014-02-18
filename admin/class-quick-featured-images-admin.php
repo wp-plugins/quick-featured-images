@@ -827,6 +827,7 @@ class Quick_Featured_Images_Admin {
 	 * @since    1.0.0
 	 * @updated  2.0: new filter_image_size, new action remove_any_img, merged with former prepare_query_args()
 	 * @updated  3.0: new filter_custom_taxonomies, changed order of cases
+	 * @updated  3.0.2: corrected case filter_search
 	 *
 	 * @return    array    the args
 	 */
@@ -861,8 +862,8 @@ class Quick_Featured_Images_Admin {
 						break;
 					case 'filter_search':
 						$this->selected_search_term = $this->get_search_term();
-						// if there is a search term assign him/her to the query
-						if ( '' != $this->selected_author_id ) {
+						// if there is a search term assign it to the query
+						if ( '' != $this->selected_search_term ) {
 							$args[ 's' ] = $this->selected_search_term;
 						}
 						break;
