@@ -92,10 +92,12 @@ if ( $this->selected_tag_id ) {
 < ? php
 	}
 }*/
-if ( $this->selected_old_image_id ) {
+if ( $this->selected_old_image_ids ) {
+	foreach ( $this->selected_old_image_ids as $k => $v ) {
 ?>
-		<input type="hidden" name="replacement_image_id" value="<?php echo $this->selected_old_image_id; ?>" />
-<?php 
+		<input type="hidden" name="replacement_image_ids[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
+<?php
+	}
 }
 if ( in_array( 'filter_image_size', $this->selected_filters ) ) {
 	// $this->selected_image_dimensions is never empty because of default values, so loop without check
@@ -114,7 +116,7 @@ if ( $this->selected_custom_taxonomies ) {
 }
 ?>
 		<?php wp_nonce_field( 'quickfi_confirm', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php _e( 'Yes. Apply now', $this->plugin_slug ); ?>" /> <a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'No. Start again', $this->plugin_slug );?></a>
+		<input type="submit" class="button-primary" value="<?php _e( 'Yes. Apply now', $this->plugin_slug ); ?>" /> <a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'No. Start again', $this->plugin_slug );?></a>
 	</p>
 </form>
 <?php

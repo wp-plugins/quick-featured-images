@@ -1,6 +1,7 @@
 <h4><?php echo $this->valid_filters[ 'filter_custom_taxonomies' ]; ?></h4>
 <?php
 if ( $this->valid_custom_taxonomies ) {
+	$custom_tax_labels = $this->get_custom_taxonomies_labels();
 	$args = array(
 		'orderby'       => 'name', 
 		'order'         => 'ASC',
@@ -9,7 +10,6 @@ if ( $this->valid_custom_taxonomies ) {
 	);
 	foreach ( $this->valid_custom_taxonomies as $custom_tax ) {
 		$terms = get_terms( $custom_tax, $args );
-		#Quick_Featured_Images::dump($terms);
 		if ( is_wp_error( $terms ) ) {
 			printf( '<p>%s<p>', $terms->get_error_message() );
 			continue;
@@ -20,7 +20,7 @@ if ( $this->valid_custom_taxonomies ) {
 			}
 ?>
 <p>
-	<label for="<?php printf( 'th_%s', $custom_tax ); ?>"><?php printf( __( 'Registered terms of the taxonomy <strong>%s</strong>', $this->plugin_slug ), $custom_tax ); ?></label><br />
+	<label for="<?php printf( 'th_%s', $custom_tax ); ?>"><?php printf( __( 'Registered terms of the taxonomy <strong>%s</strong>', $this->plugin_slug ), $custom_tax_labels[ $custom_tax ] ); ?></label><br />
 	<select id="<?php printf( 'th_%s', $custom_tax ); ?>" name="custom_taxonomies[<?php echo $custom_tax; ?>]">
 <?php
 			print $this->get_html_empty_option();
@@ -32,7 +32,7 @@ if ( $this->valid_custom_taxonomies ) {
 	</select>
 <?php
 		} else {
-			printf( __( 'There are no terms of the taxonomy <strong>%s</strong>.', $this->plugin_slug ), $custom_tax );
+			printf( __( 'There are no terms of the taxonomy <strong>%s</strong>.', $this->plugin_slug ), $custom_tax_labels[ $custom_tax ] );
 		} // if( count(terms) )
 ?>
 </p>

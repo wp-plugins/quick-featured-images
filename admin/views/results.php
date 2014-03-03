@@ -7,7 +7,7 @@ if ( $results ) {
 <?php 
 	foreach ( $results as $result ) {
 		$classname = $result[ 2 ] ? 'success' : 'failure';
-		$msg = $result[ 2 ] ? __( 'successful', $this->plugin_slug ) : __( 'failed', $this->plugin_slug );
+		$msg = $result[ 2 ] ? __( 'successful', $this->plugin_slug ) : __( 'unconsidered', $this->plugin_slug );
 		printf( '<li><a href="%s" target="_blank">%s</a> =&gt; <span class="%s">%s</span></li>', $result[ 0 ], $result[ 1 ], $classname, $msg );
 	}
 ?>

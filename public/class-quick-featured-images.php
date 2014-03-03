@@ -17,12 +17,11 @@
 	 * Plugin version, used for cache-busting of style and script file references.
 	 *
 	 * @since   1.0.0
-	 * @updated 2.0
-	 * @updated 2.0.1
+	 * @updated with every version
 	 *
 	 * @var     string
 	 */
-	const VERSION = '2.0.1';
+	const VERSION = '3.1';
 
 	/**
 	 * Lowest Wordpress version to run with this plugin

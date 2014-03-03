@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 3.0.2
+Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,8 +118,18 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 3.1 =
+* Fixed missing merge of post types and custom post types as default if post type filter was not selected
+* Changed the style to be based more on WP standard style
+* Changed selection modus for images to be replaced from single to multiple
+* Changed names of custom post types into their more readable labels
+* Changed names of custom taxonomies into their more readable labels
+* Changed notice for untouched posts from "failed" to "unconsidered"
+* Moved notice of selected action to the right of the selected image
+* Updated *.pot file and german translation
+
 = 3.0.2 =
-* Fixed error in v3.0 of not recognized search term
+* Fixed broken search filter
 
 = 3.0.1 =
 * Fixed: error message after plugin activation
@@ -131,7 +141,7 @@ If you want to contribute a translation of the plugin in your language it would 
 * Added new filter "Filter by Custom Taxonomies"
 * Changed default post types: ALL posts, pages and custom post types are included in the search by default 
 * Changed default selection in drop down selection lists into "nothing selected"
-* Updated german translation
+* Updated *.pot file and german translation
 * Improved performance
 * Improved design of confirmation page
 * Revised functions
@@ -141,7 +151,7 @@ If you want to contribute a translation of the plugin in your language it would 
 
 = 2.0.1 =
 * Fixed missing headline on confirmation page if action "remove any image" was selected
-* Updated german translation
+* Updated *.pot file and german translation
 
 = 2.0 =
 * Added new action "Remove any image"
@@ -157,6 +167,11 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Upgrade Notice ==
 
+= 3.1 =
+* Many improvements of the user interface in style and labeling
+* Now you can select multiple images to be replaced instead of only a single one
+* Fixed some minor errors
+
 = 3.0.2 =
 Now the filter by search term works properly again.
 
@@ -164,7 +179,11 @@ Now the filter by search term works properly again.
 Fixed error message after plugin activation and missed images in the library
 
 = 3.0 =
-The former default to only consider posts (and no page oder cutom post type) in the search lead to confusions. Users were asking why the search result does not list all expected posts. This behaviour is changed in v3.0: all posts, pages and custom post types are now considered in the search by default. You can deselect the post types you do not want to find.
+* Added new filter "Filter by Custom Taxonomies"
+* Be aware of the changed default behaviour: ALL posts, pages and custom post types are included in the search by default 
+* Improved performance
+* Improved design of confirmation page
+
 
 = 2.0 =
 Many improvements and additions
