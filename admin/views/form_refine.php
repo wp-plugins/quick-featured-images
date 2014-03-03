@@ -1,5 +1,4 @@
 <h3><?php _e( 'Refine your selection', $this->plugin_slug ); ?></h3>
-<p><?php _e( 'Your choice', $this->plugin_slug ); ?>: <?php echo $this->valid_actions[ $this->selected_action ]; ?></p>
 <?php
 // display selected filters
 if ( $this->selected_filters ) {

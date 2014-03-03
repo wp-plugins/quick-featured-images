@@ -25,5 +25,5 @@
 				</dl>
 			</div><!-- .th_content -->
 		</div><!-- #th_footer -->
-	</div><!-- #th_wrapper -->
+	</div><!-- .th_wrapper -->
 </div><!-- .wrap -->

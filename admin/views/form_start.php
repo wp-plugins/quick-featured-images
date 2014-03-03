@@ -8,8 +8,8 @@ if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 <?php 
 }
 
-$label_required_image 		= __( 'Choose Image' );
-$label_not_required_image 	= __( 'No need to choose any image', $this->plugin_slug );
+$label_required_image 		= __( 'Choose an image with the next button.', $this->plugin_slug );
+$label_not_required_image 	= __( 'No need to choose any image.', $this->plugin_slug );
 $label_no_available_filters = __( 'Without filters.', $this->plugin_slug );
 $label_available_filters 	= __( 'You will able to use filters on the next page.', $this->plugin_slug );
 ?>
@@ -29,9 +29,9 @@ foreach ( $this->valid_actions as $name => $label ) {
 		_e( 'This will also replace already added featured images.', $this->plugin_slug );
 	}
 	$text = 'replace' == $name ? $label_no_available_filters : $label_available_filters;
-	printf( ' %s ', $text );
-	$text = 'remove_any_img' == $name ? $label_not_required_image : sprintf( '<a href="#th_img_sel_h">%s</a>', $label_required_image );
-	printf( '%s.', $text );
+	printf( ' %s', $text );
+	$text = 'remove_any_img' == $name ? $label_not_required_image : $label_required_image;
+	printf( ' %s', $text );
 ?></label>
 		</p>
 <?php
@@ -66,8 +66,8 @@ if ( $this->selected_image_id ) {
 		</p>
 	</fieldset>
 	<h3><?php _e( 'Go on', $this->plugin_slug ); ?></h3>
-	<p>
-		<?php wp_nonce_field( 'quickfi_start', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php _e( 'Next' ); ?>" />
-	</p>
+<?php 
+wp_nonce_field( 'quickfi_start', $this->plugin_slug . '_nonce' ); 
+submit_button( __( 'Next' ), 'secondary' );
+?>
 </form>

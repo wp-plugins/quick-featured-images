@@ -78,7 +78,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @var      integer
 	 */
-	protected $selected_old_image_id = null;
+	protected $selected_old_image_ids = null;
 
 	/**
 	 * Whether the id of a to be replaced image is set or not
@@ -410,7 +410,7 @@ class Quick_Featured_Images_Admin {
 					// after the old image selection page (filter_replace.php) and if no old image was selected
 					if ( "replace" == $this->selected_action 
 						&& "confirm" == $this->selected_step 
-						&& ! isset( $_REQUEST[ 'replacement_image_id' ] ) ) {
+						&& ! isset( $_REQUEST[ 'replacement_image_ids' ] ) ) {
 						// stay on the selection page with a warning
 						$this->selected_step = 'select';
 						$this->is_error_no_old_image = true;
@@ -423,18 +423,14 @@ class Quick_Featured_Images_Admin {
 								check_admin_referer( 'quickfi_start', $this->plugin_slug . '_nonce' );
 							}
 							// print selected thumbnail if required
-							if ( $this->is_image_required ) {
-								include_once( 'views/section_image.php' );	
-							}
+							include_once( 'views/section_image.php' );	
 							// print form to select the posts to apply the action to
 							include_once( 'views/form_select.php' );	
 							break;
 						case 'refine':
 							check_admin_referer( 'quickfi_select', $this->plugin_slug . '_nonce' );
 							// print selected thumbnail if required
-							if ( $this->is_image_required ) {
-								include_once( 'views/section_image.php' );	
-							}
+							include_once( 'views/section_image.php' );	
 							// print form to refine choice
 							include_once( 'views/form_refine.php' );	
 							break;
@@ -443,9 +439,7 @@ class Quick_Featured_Images_Admin {
 							// filter posts
 							$results = $this->find_posts();
 							// print selected thumbnail if required
-							if ( $this->is_image_required ) {
-								include_once( 'views/section_image.php' );	
-							}
+							include_once( 'views/section_image.php' );	
 							// print refine form again if there are no results
 							include_once( 'views/form_confirm.php' );	
 							// print form to refine choice if filters were selected
@@ -489,7 +483,7 @@ class Quick_Featured_Images_Admin {
 		);
 		$this->valid_actions = array(
 			'assign'			=> __( 'Set the selected image as new featured image', $this->plugin_slug ),
-			'replace'			=> __( 'Replace a featured image by the selected image', $this->plugin_slug ),
+			'replace'			=> __( 'Replace featured images by the selected image', $this->plugin_slug ),
 			'remove'			=> __( 'Remove the selected image as featured image', $this->plugin_slug ),
 			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug )
 		);
@@ -569,7 +563,7 @@ class Quick_Featured_Images_Admin {
 		// default: start form
 		$this->selected_step = 'start';
 		// default: no images
-		$this->selected_old_image_id = 0;
+		$this->selected_old_image_ids = array();
 		$this->selected_image_id = 0;
 		$this->is_error_no_old_image = false;
 		// default: no category
@@ -826,8 +820,9 @@ class Quick_Featured_Images_Admin {
 	 * @access   private
 	 * @since    1.0.0
 	 * @updated  2.0: new filter_image_size, new action remove_any_img, merged with former prepare_query_args()
-	 * @updated  3.0: new filter_custom_taxonomies, changed order of cases
+	 * @updated  3.0: new filter_custom_taxonomies, changed order of cases, merge of post types and custom post types
 	 * @updated  3.0.2: corrected case filter_search
+	 * @updated  3.1: changed replace case, set merge of post types and custom post types as default
 	 *
 	 * @return    array    the args
 	 */
@@ -837,10 +832,10 @@ class Quick_Featured_Images_Admin {
 		$args[ 'orderby' ] = 'title';
 		$args[ 'order' ] = 'ASC';
 		$args[ 'ignore_sticky_posts' ] = true;
-		$args[ 'post_type' ] = $this->selected_post_types;
+		$args[ 'post_type' ] = array_merge ( $this->selected_post_types, $this->selected_custom_post_types );
 		switch ( $this->selected_action ) {
 			case 'replace':
-				$this->selected_post_ids = $this->get_post_ids_of_old_thumbnail();
+				$this->selected_post_ids = $this->get_post_ids_of_old_thumbnails();
 				$args[ 'post__in' ] = $this->get_id_array_for_query( $this->selected_post_ids );
 				break;
 			case 'remove':
@@ -982,7 +977,7 @@ class Quick_Featured_Images_Admin {
 							$success = set_post_thumbnail( get_the_ID(), $this->selected_image_id );
 							$results[] = array( 
 								get_edit_post_link(), 
-								get_the_title(), 
+								get_the_title(),
 								$success 
 							); // store edit link, title, success of action (true or false)
 						} // while()
@@ -1056,26 +1051,17 @@ class Quick_Featured_Images_Admin {
 	}
 
 	/**
-	 * Returns the post ids which are assigned with the featured image which should be replaced
+	 * Returns the post ids which are assigned with the featured images which should be replaced
 	 *
 	 * @access   private
 	 * @since     1.0.0
+	 * @updated   3.1: renamed and rewritten for more than one image
 	 *
-	 * @return    array    the post ids assigned with the thumbnail
+	 * @return    array    the post ids assigned with the thumbnails
 	 */
-	private function get_post_ids_of_old_thumbnail() {
-		$post_ids = array();
-		$this->selected_old_image_id = $this->get_sanitized_value( 'replacement_image_id', $this->get_featured_image_ids(), 0 );
-		global $wpdb;
-		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id` FROM $wpdb->postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $this->selected_old_image_id ), ARRAY_N );
-		// flatten results
-		if ( $results ) {
-			foreach ( $results as $r ) {
-				$post_ids[] = intval( $r[ 0 ] );
-			}
-		}
-		return $post_ids;
+	private function get_post_ids_of_old_thumbnails() {
+		$this->selected_old_image_ids = $this->get_sanitized_array( 'replacement_image_ids', $this->get_featured_image_ids() );
+		return $this->get_post_ids_of_featured_image_ids( $this->selected_old_image_ids );
 	}
 
 	/**
@@ -1137,7 +1123,7 @@ class Quick_Featured_Images_Admin {
 	private function get_post_ids_of_featured_image_ids( $image_ids = array() ) {
 		$post_ids = array();
 		global $wpdb;
-		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
+		// get a normal array with all IDs of posts assigned with the image ids
 		foreach ( $image_ids as $id ) {
 			$results = $wpdb->get_results( $wpdb->prepare( "SELECT `post_id` FROM $wpdb->postmeta WHERE `meta_key` = '_thumbnail_id' AND `meta_value` = %d", $id ), ARRAY_N );
 			// flatten results
@@ -1163,7 +1149,8 @@ class Quick_Featured_Images_Admin {
 		$image_ids = array();
 		global $wpdb;
 		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
-		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `meta_value` FROM $wpdb->postmeta WHERE `meta_key` LIKE '_thumbnail_id'", $this->selected_image_id ), ARRAY_N );
+		#$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `meta_value` FROM $wpdb->postmeta WHERE `meta_key` LIKE '_thumbnail_id' AND `meta_value` != %d", $this->selected_image_id ), ARRAY_N );
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `meta_value` FROM $wpdb->postmeta WHERE `meta_key` LIKE '_thumbnail_id' AND `meta_value` != %d", $this->selected_image_id ), ARRAY_N );
 		// flatten results
 		if ( $results ) {
 			foreach ( $results as $r ) {
@@ -1426,18 +1413,54 @@ $query = array (
 	 *
 	 * @access   private
 	 * @since     1.0.0
+	 * @updated     3.1: only return thumbnail supporting types
 	 *
-	 * @return    array    the names of the registered custom post types
+	 * @return    array    the names of the registered and thumbnail supporting custom post types
 	 */
 	private function get_registered_custom_post_types() {
 		$args = array(
 			   '_builtin' => false # only custon post types
 		);
-		return array_keys( get_post_types( $args, 'names' ) );
+        $thumbnail_supporting_custom_post_types = array();
+		// get the registered custom post types as objects
+        $cpts = get_post_types( $args, 'names' );
+		// consider only thumbnail supporting types
+        foreach ( $cpts as $name => $cpt ) {
+            #if ( post_type_supports( $name, 'thumbnail' ) ) {
+                $thumbnail_supporting_custom_post_types[] = $name;
+            #}
+        }
+		// return the result
+		return $thumbnail_supporting_custom_post_types;
 	}
 
 	/**
-	 * Define parameters and return registered custom taxonomies
+	 * Define parameters and return thumbnail supporting custom post types
+	 *
+	 * @access   private
+	 * @since     3.1
+	 *
+	 * @return    array    the names and labels of the registered and thumbnail supporting custom post types
+	 */
+	private function get_custom_post_types_labels() {
+		$args = array(
+			   '_builtin' => false # only custon post types
+		);
+        $name_labels = array();
+		// get the registered custom post types as objects
+        $objects = get_post_types( $args, 'objects' );
+		// store their names and labels
+        foreach ( $objects as $name => $object ) {
+            #if ( post_type_supports( $name, 'thumbnail' ) ) {
+                $name_labels[ $name ] = $object->label;
+            #}
+        }
+		// return the result
+		return $name_labels;
+	}
+
+	/**
+	 * Return registered custom taxonomies
 	 *
 	 * @access   private
 	 * @since    3.0
@@ -1449,6 +1472,29 @@ $query = array (
 			   '_builtin' => false # only custon post types
 		);
 		return get_taxonomies( $args, 'names' );
+	}
+
+	/**
+	 * Return registered custom taxonomies with their labels
+	 *
+	 * @access   private
+	 * @since    3.0
+	 *
+	 * @return    array    the names of the registered custom taxonomies
+	 */
+	private function get_custom_taxonomies_labels() {
+		$args = array(
+			   '_builtin' => false # only custon post types
+		);
+        $name_labels = array();
+		// get the registered custom post types as objects
+        $objects = get_taxonomies( $args, 'objects' );
+		// store their names and labels
+        foreach ( $objects as $name => $object ) {
+            $name_labels[ $name ] = $object->label;
+        }
+		// return the result
+		return $name_labels;
 	}
 
 	/**
