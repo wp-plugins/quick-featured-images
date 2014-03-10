@@ -1142,6 +1142,7 @@ class Quick_Featured_Images_Admin {
 	 * @access   private
 	 * @since     1.0.0
 	 * @updated   2.0: added intval()
+	 * @updated   3.1: do not return selected image if it is a featured image
 	 *
 	 * @return    array    the image ids assigned to posts as featured images
 	 */
@@ -1149,7 +1150,6 @@ class Quick_Featured_Images_Admin {
 		$image_ids = array();
 		global $wpdb;
 		// get a normal array all names of meta keys except the WP builtins meta keys beginning with an underscore '_'
-		#$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `meta_value` FROM $wpdb->postmeta WHERE `meta_key` LIKE '_thumbnail_id' AND `meta_value` != %d", $this->selected_image_id ), ARRAY_N );
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT `meta_value` FROM $wpdb->postmeta WHERE `meta_key` LIKE '_thumbnail_id' AND `meta_value` != %d", $this->selected_image_id ), ARRAY_N );
 		// flatten results
 		if ( $results ) {
@@ -1413,7 +1413,7 @@ $query = array (
 	 *
 	 * @access   private
 	 * @since     1.0.0
-	 * @updated     3.1: only return thumbnail supporting types
+	 * @updated   3.1.1: only returns thumbnail supporting types
 	 *
 	 * @return    array    the names of the registered and thumbnail supporting custom post types
 	 */
@@ -1426,9 +1426,9 @@ $query = array (
         $cpts = get_post_types( $args, 'names' );
 		// consider only thumbnail supporting types
         foreach ( $cpts as $name => $cpt ) {
-            #if ( post_type_supports( $name, 'thumbnail' ) ) {
+            if ( post_type_supports( $name, 'thumbnail' ) ) {
                 $thumbnail_supporting_custom_post_types[] = $name;
-            #}
+            }
         }
 		// return the result
 		return $thumbnail_supporting_custom_post_types;
@@ -1439,6 +1439,7 @@ $query = array (
 	 *
 	 * @access   private
 	 * @since     3.1
+	 * @updated   3.1.1: only returns thumbnail supporting types
 	 *
 	 * @return    array    the names and labels of the registered and thumbnail supporting custom post types
 	 */
@@ -1451,9 +1452,9 @@ $query = array (
         $objects = get_post_types( $args, 'objects' );
 		// store their names and labels
         foreach ( $objects as $name => $object ) {
-            #if ( post_type_supports( $name, 'thumbnail' ) ) {
+            if ( post_type_supports( $name, 'thumbnail' ) ) {
                 $name_labels[ $name ] = $object->label;
-            #}
+            }
         }
 		// return the result
 		return $name_labels;

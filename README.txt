@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 3.1
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,8 +19,8 @@ Quick Featured Images sets, replaces and removes featured images for posts, page
 Quick Featured Images enables you three main tasks with featured images: add, exchange and delete them.
 
 1. **Adding featured images:** You can set and replace an image as the new featured image to hundreds of posts in one go.
-2. **Exchanging featured images:** You can replace or update an existing featured image with another image in one go.
-3. **Deleting featured images:** You can remove any existing featured image from its attributed posts in one go.
+2. **Exchanging featured images:** You can replace or update several existing featured images with one new image in one go.
+3. **Deleting featured images:** You can remove a particular or any existing featured image in one go.
 
 = Filters =
 
@@ -118,6 +118,9 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 3.1.1 =
+* Fixed useless listing of custom post types which do not support thumbnails
+
 = 3.1 =
 * Fixed missing merge of post types and custom post types as default if post type filter was not selected
 * Changed the style to be based more on WP standard style
@@ -166,6 +169,9 @@ If you want to contribute a translation of the plugin in your language it would 
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 3.1.1 =
+Fixed useless listing of custom post types which do not support thumbnails
 
 = 3.1 =
 * Many improvements of the user interface in style and labeling
