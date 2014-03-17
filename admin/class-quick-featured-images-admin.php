@@ -957,29 +957,38 @@ class Quick_Featured_Images_Admin {
 	 * @access   private
 	 * @since     1.0.0
 	 * @updated   2.0: moving loop into ifs and switch to gain more performance
+	 * @updated   3.2: added current attached featured image html
 	 *
 	 * @return    array    affected posts
 	 */
 	private function find_posts( $perform = false ) {
-		// initialise result array
+		// initialise result array 
 		$results = array();
+		// initialise thumbnail properties
+		$size = array( 
+			absint( $this->used_thumbnail_width / 2 ), 
+			absint( $this->used_thumbnail_height / 2 ) 
+		);
+		$attr = array( 'class' => 'attachment-thumbnail' );
 		// The Query
 		$the_query = new WP_Query( $this->get_query_args() );
 		#printf( '<p>%s</p>', $the_query->request ); // just for debugging
-		// The Loop, dependent of some circumstances
+		// The Loop
 		if ( $the_query->have_posts() ) {
-			if ( $perform ) {
+			if ( $perform ) { // really make changes
 				switch ( $this->selected_action ) {
 					case 'assign':
 					case 'replace':
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
 							$success = set_post_thumbnail( get_the_ID(), $this->selected_image_id );
+							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
 								get_the_title(),
+								wp_get_attachment_image( get_post_thumbnail_id( get_the_ID() ), $size, false, $attr ),
 								$success 
-							); // store edit link, title, success of action (true or false)
+							);
 						} // while()
 						break;
 					case 'remove':
@@ -987,22 +996,26 @@ class Quick_Featured_Images_Admin {
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
 							$success = delete_post_thumbnail( get_the_ID() );
+							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
 								get_the_title(), 
+								wp_get_attachment_image( get_post_thumbnail_id( get_the_ID() ), $size, false, $attr ),
 								$success
-							); // store edit link, title, success of action (true or false)
+							);
 						} // while()
 				} // switch()
-			} else {
+			} else { // preview only, no changes
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
+					// store edit link, post title, post date, post author, image html
 					$results[] = array( 
 						get_edit_post_link(), 
 						get_the_title(), 
 						sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
 						sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
-					); // store edit link, title, date, author
+						wp_get_attachment_image( get_post_thumbnail_id( get_the_ID() ), $size, false, $attr ),
+					);
 				} // while()
 			} // if( $perform )
 		} // if( have_posts )

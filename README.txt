@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 3.1.1
+Stable tag: 3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,12 @@ For these users the link 'Quick Featured Images' under 'Media' in the WordPress 
 
 Yes. It works either activated for all sites (network wide) or activated in each single site. It changes only the posts of the site where you use it.
 
+= Why does the plugin say "No matches found" after confirmation? =
+
+This could be the case if the images were not uploaded via WordPress' own media uploader. If you have uploaded images via FTP or other ways the plugin can not find images.
+
+It does not matter where the images are stored on your server. They can be in any folder. But they have to be uploaded via WordPress' own media uploader to be found by this plugin. IF this is the case the plugin will work fine.
+
 = Why are there sometimes strange search results with custom taxonomies? =
 
 The search for custom taxonomy terms could lead to surprising results. The reason is custom taxonomies can be used in many different ways. It is not possible to catch them all in one single code expression. If you should be unsatisfied with the result try other filters to get the result you want.
@@ -117,6 +123,12 @@ If you want to contribute a translation of the plugin in your language it would 
 5. The fifth and last screen: take an overview of the success of the action.
 
 == Changelog ==
+
+= 3.2 =
+* Added thumbnails of current assigned featured images both in the preview and the result lists
+* Design adjustment for links
+* Updated *.pot file and german translation
+
 
 = 3.1.1 =
 * Fixed useless listing of custom post types which do not support thumbnails
@@ -169,6 +181,9 @@ If you want to contribute a translation of the plugin in your language it would 
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 3.2 =
+Better overview: Now you can see both in the preview and the result lists the current assigned featured image of each post.
 
 = 3.1.1 =
 Fixed useless listing of custom post types which do not support thumbnails
