@@ -22,13 +22,39 @@
 if ( $results ) { 
 ?>
 <p><?php _e( 'You can take a view to the post in a new window by clicking on its link in the list.', $this->plugin_slug ); ?></p>
-<ol>
+<table class="widefat">
+	<thead>
+		<tr>
+			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
+			<th><?php _e( 'Details' ); ?></th>
+			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
+		</tr>
+	</thead>
+	<tbody>
 <?php
+	$c = 1;
 	foreach ( $results as $result ) {
-		vprintf( '<li><a href="%s" target="_blank">%s</a>, %s %s</li>', $result );
+		// check if no featured image for the post, else add default
+		$img = $result[ 4 ] ? $result[ 4 ] : $img = __( 'No Image' ); #$img = sprintf( '<img src="%s" alt="" width="%d" height="%d">', plugins_url( 'admin/assets/images/no-thumb.gif' , dirname ( dirname( __FILE__ ) ) ), $this->assigned_thumbnail_dimensions[0], $this->assigned_thumbnail_dimensions[1] );
+		// alternating row colors
+		$class_attrib = 0 == $c % 2 ? ' class="alt"' : '';
+		// print the table row
+		printf( '<tr%s>', $class_attrib );
+		printf( '<td class="num">%d</td>', $c );
+		printf( '<td><a href="%s" target="_blank">%s</a><br>%s<br>%s</td>', $result[ 0 ], $result[ 1 ], $result[ 2 ], $result[ 3 ] );
+		printf( '<td class="num">%s</td>', $img );
+		print "</tr>\n";
+		$c++;
 	}
 ?>
-</ol>
+	<tfoot>
+		<tr>
+			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
+			<th><?php _e( 'Details' ); ?></th>
+			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
+		</tr>
+	</tfoot>
+</table>
 <h3><?php _e( 'Confirm the change', $this->plugin_slug ); ?></h3>
 <p><?php echo $question; ?> <?php _e( 'You can not undo the operation!', $this->plugin_slug ); ?></p>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=perform', $this->plugin_slug ) ) ); ?>">

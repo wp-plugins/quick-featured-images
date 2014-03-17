@@ -4,8 +4,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-02-26 01:18+0100\n"
-"PO-Revision-Date: 2014-02-26 01:25+0100\n"
+"POT-Creation-Date: 2014-03-10 22:53+0100\n"
+"PO-Revision-Date: 2014-03-10 22:57+0100\n"
+"Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
+"Language-Team:  <m.stehle@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -212,15 +214,15 @@ msgstr ""
 msgid "Type in values stored by WordPress."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:1003
+#: admin/class-quick-featured-images-admin.php:1007
 msgid "written on"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:1004
+#: admin/class-quick-featured-images-admin.php:1008
 msgid "by"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:1840
+#: admin/class-quick-featured-images-admin.php:1847
 msgid "Bulk set, replace and remove featured images"
 msgstr ""
 
@@ -232,8 +234,8 @@ msgstr ""
 msgid "Solution"
 msgstr ""
 
-#: admin/views/error_msg.php:8 admin/views/form_confirm.php:125
-#: admin/views/form_select.php:24 admin/views/results.php:22
+#: admin/views/error_msg.php:8 admin/views/form_confirm.php:151
+#: admin/views/form_select.php:47 admin/views/results.php:51
 msgid "Start again"
 msgstr ""
 
@@ -340,22 +342,6 @@ msgstr ""
 msgid "There are no custom post types."
 msgstr ""
 
-#: admin/views/filter_replace.php:4 admin/views/form_start.php:4
-msgid "Notice"
-msgstr ""
-
-#: admin/views/filter_replace.php:6
-msgid "You did not have selected an image from the list below. To go on select at least one image you want to replace by the selected image."
-msgstr ""
-
-#: admin/views/filter_replace.php:11
-msgid "Select the featured images you want to replace by the selected image."
-msgstr ""
-
-#: admin/views/filter_replace.php:12
-msgid "You can select multiple images. Select at least one image."
-msgstr ""
-
 #: admin/views/filter_search.php:3
 msgid "Type in a search term"
 msgstr ""
@@ -425,23 +411,33 @@ msgstr ""
 msgid "You can take a view to the post in a new window by clicking on its link in the list."
 msgstr ""
 
-#: admin/views/form_confirm.php:32
+#: admin/views/form_confirm.php:28 admin/views/form_confirm.php:52
+#: admin/views/results.php:9 admin/views/results.php:38
+msgid "No."
+msgstr ""
+
+#: admin/views/form_confirm.php:30 admin/views/form_confirm.php:54
+#: admin/views/results.php:11 admin/views/results.php:40
+msgid "Current Featured Image"
+msgstr ""
+
+#: admin/views/form_confirm.php:58
 msgid "Confirm the change"
 msgstr ""
 
-#: admin/views/form_confirm.php:33
+#: admin/views/form_confirm.php:59
 msgid "You can not undo the operation!"
 msgstr ""
 
-#: admin/views/form_confirm.php:119
+#: admin/views/form_confirm.php:145
 msgid "Yes. Apply now"
 msgstr ""
 
-#: admin/views/form_confirm.php:119
+#: admin/views/form_confirm.php:145
 msgid "No. Start again"
 msgstr ""
 
-#: admin/views/form_confirm.php:125
+#: admin/views/form_confirm.php:151
 msgid "or refine your selection with the following form fields."
 msgstr ""
 
@@ -461,7 +457,7 @@ msgstr ""
 msgid "Whatever you do: You can confirm your choice on the next page."
 msgstr ""
 
-#: admin/views/form_refine.php:24 admin/views/form_select.php:17
+#: admin/views/form_refine.php:24 admin/views/form_select.php:40
 msgid "Preview filtering"
 msgstr ""
 
@@ -473,35 +469,51 @@ msgstr ""
 msgid "Modify filter selection"
 msgstr ""
 
-#: admin/views/form_select.php:23
+#: admin/views/form_select.php:13 admin/views/form_start.php:4
+msgid "Notice"
+msgstr ""
+
+#: admin/views/form_select.php:15
+msgid "You did not have selected an image from the list below. To go on select at least one image you want to replace by the selected image."
+msgstr ""
+
+#: admin/views/form_select.php:20
+msgid "Select the featured images you want to replace by the selected image."
+msgstr ""
+
+#: admin/views/form_select.php:21
+msgid "You can select multiple images. Select at least one image."
+msgstr ""
+
+#: admin/views/form_select.php:46
 msgid "There are no featured images in use."
 msgstr ""
 
-#: admin/views/form_select.php:31
+#: admin/views/form_select.php:55
 msgid "Optional: Add a filter"
 msgstr ""
 
-#: admin/views/form_select.php:32
+#: admin/views/form_select.php:56
 msgid "If you want select one of the following filters to narrow down the set of concerned posts and pages."
 msgstr ""
 
-#: admin/views/form_select.php:35
+#: admin/views/form_select.php:59
 msgid "Select filters"
 msgstr ""
 
-#: admin/views/form_select.php:36
+#: admin/views/form_select.php:60
 msgid "You can select multiple filters. They will return an intersection of their results."
 msgstr ""
 
-#: admin/views/form_select.php:48
+#: admin/views/form_select.php:72
 msgid "On the next page you can refine the filters."
 msgstr ""
 
-#: admin/views/form_select.php:53
+#: admin/views/form_select.php:77
 msgid "Go on to refine selected filters"
 msgstr ""
 
-#: admin/views/form_select.php:61
+#: admin/views/form_select.php:85
 msgid "No filters. Jump to confirmation"
 msgstr ""
 
@@ -557,15 +569,15 @@ msgstr ""
 msgid "Results of the action"
 msgstr ""
 
-#: admin/views/results.php:10
-msgid "successful"
+#: admin/views/results.php:21
+msgid "Changed successfully"
 msgstr ""
 
-#: admin/views/results.php:10
-msgid "unconsidered"
+#: admin/views/results.php:21
+msgid "Unchanged"
 msgstr ""
 
-#: admin/views/results.php:18
+#: admin/views/results.php:47
 msgid "No matches found."
 msgstr ""
 
@@ -650,7 +662,7 @@ msgstr ""
 msgid "If wrong action start again"
 msgstr ""
 
-#: public/class-quick-featured-images.php:235
+#: public/class-quick-featured-images.php:234
 #, php-format
 msgid "The plugin requires WordPress version %s or higher. Therefore, WordPress did not activate it. If you want to use this plugin update the Wordpress files to the latest version."
 msgstr ""

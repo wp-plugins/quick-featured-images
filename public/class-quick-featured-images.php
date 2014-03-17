@@ -21,7 +21,7 @@
 	 *
 	 * @var     string
 	 */
-	const VERSION = '3.1.1';
+	const VERSION = '3.2';
 
 	/**
 	 * Lowest Wordpress version to run with this plugin
@@ -69,6 +69,11 @@
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 
+		// show notice about the location of the link in the backend after plugin activation
+		/*if ( isset( $_GET[ 'activate' ] ) ) {
+			#add_action( 'admin_notices', array( $this, 'display_activation_message' ) );
+			add_action( 'pre_current_active_plugins', array( $this, 'display_activation_message' ) );
+		}*/
 	}
 
 	/**
@@ -245,6 +250,7 @@
 				)
 			);
 		}
+		
 	}
 
 	/**
@@ -304,6 +310,22 @@
 	 */
 	public function get_plugin_public_url () {
 		return plugin_dir_url( __FILE__ );
+	}
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 */
+	public function display_activation_message () {
+		$label = sprintf( 
+			'<a href="%s">%s</a> =&gt; <a href="%s">Quick Featured Images</a>', 
+			esc_url( admin_url( 'upload.php' ) ), 
+			__( 'Media' ), 
+			esc_url( admin_url( sprintf( 'upload.php?page=%s', self::PLUGIN_SLUG ) ) ) 
+		);
+		$msg = sprintf( __( 'Now you will find the plugin under %s.', self::PLUGIN_SLUG ), $label );
+		printf( '<div class="updated"><p>%s</p></div>', $msg );
 	}
 
 	/**
