@@ -666,3 +666,7 @@ msgstr ""
 #, php-format
 msgid "The plugin requires WordPress version %s or higher. Therefore, WordPress did not activate it. If you want to use this plugin update the Wordpress files to the latest version."
 msgstr ""
+
+#: public/class-quick-featured-images.php:330
+msgid "Welcome to Quick Featured Images! You can find the plugin at %s."
+msgstr ""

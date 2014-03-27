@@ -21,7 +21,7 @@
 	 *
 	 * @var     string
 	 */
-	const VERSION = '3.2';
+	const VERSION = '3.2.1';
 
 	/**
 	 * Lowest Wordpress version to run with this plugin
@@ -60,6 +60,7 @@
 	 * and styles.
 	 *
 	 * @since     1.0.0
+	 * @updated   3.2.1: hook on displaying a message after plugin activation
 	 */
 	private function __construct() {
 
@@ -69,11 +70,15 @@
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 
-		// show notice about the location of the link in the backend after plugin activation
-		/*if ( isset( $_GET[ 'activate' ] ) ) {
-			#add_action( 'admin_notices', array( $this, 'display_activation_message' ) );
-			add_action( 'pre_current_active_plugins', array( $this, 'display_activation_message' ) );
-		}*/
+		// hook on displaying a message after plugin activation
+		// if single activation via link or bulk activation
+		if ( isset( $_GET[ 'activate' ] ) or isset( $_GET[ 'activate-multi' ] ) ) {
+			$plugin_was_activated = get_transient( self::PLUGIN_SLUG );
+			if ( false !== $plugin_was_activated ) {
+				add_action( 'pre_current_active_plugins', array( $this, 'display_activation_message' ) );
+				delete_transient( self::PLUGIN_SLUG );
+			}
+		}
 	}
 
 	/**
@@ -222,6 +227,7 @@
 	 * Fired for each blog when the plugin is activated.
 	 *
 	 * @since    1.0.0
+	 * @updated   3.2.1: added setting of transient
 	 */
 	private static function single_activate() {
 		// check minimum version
@@ -250,7 +256,8 @@
 				)
 			);
 		}
-		
+		// store the flag into the db to trigger the display of a message after activation
+		set_transient( self::PLUGIN_SLUG, '1', 60 );
 	}
 
 	/**
@@ -313,19 +320,16 @@
 	}
 	
 	/**
+	 * Print a message about the location of the plugin in the WP backend
 	 * 
-	 * 
-	 * 
+	 * @since    3.2.1
 	 */
 	public function display_activation_message () {
-		$label = sprintf( 
-			'<a href="%s">%s</a> =&gt; <a href="%s">Quick Featured Images</a>', 
-			esc_url( admin_url( 'upload.php' ) ), 
-			__( 'Media' ), 
-			esc_url( admin_url( sprintf( 'upload.php?page=%s', self::PLUGIN_SLUG ) ) ) 
-		);
-		$msg = sprintf( __( 'Now you will find the plugin under %s.', self::PLUGIN_SLUG ), $label );
-		printf( '<div class="updated"><p>%s</p></div>', $msg );
+		$url  = esc_url( admin_url( sprintf( 'upload.php?page=%s', self::PLUGIN_SLUG ) ) );
+		$link = sprintf( '<a href="%s">%s =&gt; Quick Featured Images</a>', $url, __( 'Media' ) );
+		$msg  = sprintf( __( 'Welcome to Quick Featured Images! You can find the plugin at %s.', self::PLUGIN_SLUG ), $link );
+		$html = sprintf( '<div class="updated"><p>%s</p></div>', $msg );
+		print $html;
 	}
 
 	/**
