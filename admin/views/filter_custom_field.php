@@ -53,7 +53,7 @@ if ( $custom_field_keys ) {
 	<?php _e( 'Leave it empty if you just want to test the existence of the custom field per post/page.', $this->plugin_slug); ?>
 	<br />
 	<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
-	<input type="text" id="<?php printf( 'th_%s', $key ); ?>" name="custom_field[<?php echo $key; ?>]" value="<?php if ( array_key_exists( $key, $this->selected_custom_field ) ) { echo $this->selected_custom_field[ $key ]; } ?>" />
+	<input type="text" id="<?php printf( 'th_%s', $key ); ?>" name="custom_field[<?php echo $key; ?>]" value="<?php if ( isset( $this->selected_custom_field[ $key ] ) ) { echo $this->selected_custom_field[ $key ]; } ?>" />
 </p>
 <?php 
 				break;

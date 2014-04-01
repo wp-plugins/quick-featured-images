@@ -1,5 +1,7 @@
 <h4><?php echo $this->valid_filters[ 'filter_custom_taxonomies' ]; ?></h4>
 <?php
+$this->valid_custom_taxonomies = $this->get_registered_custom_taxonomies();
+
 if ( $this->valid_custom_taxonomies ) {
 	$custom_tax_labels = $this->get_custom_taxonomies_labels();
 	$args = array(

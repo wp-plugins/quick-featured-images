@@ -4,9 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-03-10 22:53+0100\n"
-"PO-Revision-Date: 2014-03-10 22:57+0100\n"
-"Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
+"POT-Creation-Date: 2014-03-29 23:58+0100\n"
+"PO-Revision-Date: 2014-03-30 00:08+0100\n"
 "Language-Team:  <m.stehle@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,211 +17,191 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-quick-featured-images-admin.php:406
+#: admin/class-quick-featured-images-admin.php:415
 #, php-format
 msgid "Wrong image ID %d"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:478
+#: admin/class-quick-featured-images-admin.php:488
 msgid "Select"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:479
+#: admin/class-quick-featured-images-admin.php:489
 msgid "Add filter"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:480
+#: admin/class-quick-featured-images-admin.php:490
 msgid "Refine"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:481
+#: admin/class-quick-featured-images-admin.php:491
 msgid "Confirm"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:482
+#: admin/class-quick-featured-images-admin.php:492
 msgid "Perform"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:485
+#: admin/class-quick-featured-images-admin.php:495
 msgid "Set the selected image as new featured image"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:486
+#: admin/class-quick-featured-images-admin.php:496
 msgid "Replace featured images by the selected image"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:487
+#: admin/class-quick-featured-images-admin.php:497
 msgid "Remove the selected image as featured image"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:488
+#: admin/class-quick-featured-images-admin.php:498
 msgid "Remove any image as featured image"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:491
+#: admin/class-quick-featured-images-admin.php:501
 msgid "<strong>Post Type Filter:</strong> Search by post type. By default all posts, pages and custom post types will be affected."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:492
+#: admin/class-quick-featured-images-admin.php:502
 msgid "<strong>Status Filter:</strong> Search by several statuses (published, draft, private etc.). By default all statuses will be affected."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:493
+#: admin/class-quick-featured-images-admin.php:503
 msgid "<strong>Search Filter:</strong> Search by search term"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:494
+#: admin/class-quick-featured-images-admin.php:504
 msgid "<strong>Author Filter:</strong> Search by author"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:497
+#: admin/class-quick-featured-images-admin.php:506
+msgid "<strong>Time Filter:</strong> Search by time specifications"
+msgstr ""
+
+#: admin/class-quick-featured-images-admin.php:507
 msgid "<strong>Custom Taxonomy Filter:</strong> Search by other taxonomies like plugin categories etc."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:498
+#: admin/class-quick-featured-images-admin.php:508
 msgid "<strong>Featured Image Size Filter:</strong> Search by original dimensions of added featured image"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:499
+#: admin/class-quick-featured-images-admin.php:509
 msgid "<strong>Category Filter:</strong> Search posts by category"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:500
+#: admin/class-quick-featured-images-admin.php:510
 msgid "<strong>Tag Filter:</strong> Search posts by tag"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:501
+#: admin/class-quick-featured-images-admin.php:511
 msgid "<strong>Parent Page Filter:</strong> Search child pages by parent page"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:510
+#: admin/class-quick-featured-images-admin.php:520
 msgid "Published: already published"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:511
+#: admin/class-quick-featured-images-admin.php:521
 msgid "Pending review: waiting for reviews"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:512
+#: admin/class-quick-featured-images-admin.php:522
 msgid "Draft: saved as draft"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:513
+#: admin/class-quick-featured-images-admin.php:523
 msgid "Scheduled: will be published in the future"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:514
+#: admin/class-quick-featured-images-admin.php:524
 msgid "Private: visible only to users who are logged in"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:517
-msgid "Year (4 digits, e.g. 2011)"
+#: admin/class-quick-featured-images-admin.php:530
+msgid "Include the posts of the selected dates"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:518
-msgid "Month"
-msgstr ""
-
-#: admin/class-quick-featured-images-admin.php:519
-msgid "Day of the month (from 1 to 31)"
-msgstr ""
-
-#: admin/class-quick-featured-images-admin.php:520
-msgid "Week of the year (from 0 to 53)"
-msgstr ""
-
-#: admin/class-quick-featured-images-admin.php:521
-msgid "Hour (from 0 to 23)"
-msgstr ""
-
-#: admin/class-quick-featured-images-admin.php:522
-msgid "Minute (from 0 to 59)"
-msgstr ""
-
-#: admin/class-quick-featured-images-admin.php:523
-msgid "Second (0 to 59)"
-msgstr ""
-
-#: admin/class-quick-featured-images-admin.php:551
+#: admin/class-quick-featured-images-admin.php:535
 msgid "Custom field name"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:552
+#: admin/class-quick-featured-images-admin.php:536
 msgid "Operator to test with the value in the custom field"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:553
+#: admin/class-quick-featured-images-admin.php:537
 msgid "Custom field value to compare with"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:554
+#: admin/class-quick-featured-images-admin.php:538
 msgid "Custom field type"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:558
+#: admin/class-quick-featured-images-admin.php:542
 msgid "Image width in pixels lower than"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:559
+#: admin/class-quick-featured-images-admin.php:543
 msgid "Image height in pixels lower than"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:636
+#: admin/class-quick-featured-images-admin.php:620
 #, php-format
 msgid "The input field %s is empty."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:637
+#: admin/class-quick-featured-images-admin.php:621
 msgid "Type in the input field a value."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:640
+#: admin/class-quick-featured-images-admin.php:624
 #, php-format
 msgid "%s is not defined."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:641
+#: admin/class-quick-featured-images-admin.php:625
 msgid "Check how to define the value."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:644
+#: admin/class-quick-featured-images-admin.php:628
 msgid "There is no selected image."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:645
+#: admin/class-quick-featured-images-admin.php:629
 msgid "Select an image from the media library."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:648
+#: admin/class-quick-featured-images-admin.php:632
 msgid "You have not selected an action."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:649
+#: admin/class-quick-featured-images-admin.php:633
 msgid "Start again and select which action you want to apply."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:652
+#: admin/class-quick-featured-images-admin.php:636
 #, php-format
 msgid "The input field %s has an invalid value."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:653
+#: admin/class-quick-featured-images-admin.php:637
 msgid "Type in valid values in the input field."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:657
+#: admin/class-quick-featured-images-admin.php:641
 msgid "Type in values stored by WordPress."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:1007
+#: admin/class-quick-featured-images-admin.php:984
 msgid "written on"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:1008
+#: admin/class-quick-featured-images-admin.php:985
 msgid "by"
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:1847
+#: admin/class-quick-featured-images-admin.php:1755
 msgid "Bulk set, replace and remove featured images"
 msgstr ""
 
@@ -358,16 +337,16 @@ msgstr ""
 msgid "There are no tags in use."
 msgstr ""
 
-#: admin/views/filter_time.php:2
-msgid "Select the publication time and date of the posts/pages. All inputs will combine together with AND. This means: The more you set the finer the selection."
-msgstr ""
-
 #: admin/views/filter_time.php:3
-msgid "With the following seven fields you can define parts of a publication time point the posts must match to."
+msgid "To define a time segment select both the start date and the end date."
 msgstr ""
 
 #: admin/views/filter_time.php:4
-msgid "Examples: Selecting the month April will return all posts/pages written in Aprils of every year. Setting the year 2014 additionally will return all posts/pages written in the April of 2014"
+msgid "You can also define a time period by selecting only one date as the limiting value of the period."
+msgstr ""
+
+#: admin/views/filter_time.php:5
+msgid "The listed dates are the date of the publication of stored posts."
 msgstr ""
 
 #: admin/views/form_confirm.php:4
@@ -586,44 +565,44 @@ msgid "Credits and informations"
 msgstr ""
 
 #: admin/views/section_footer.php:18
-msgid "Special thanks for the great and time-saving boilerplate go to"
-msgstr ""
-
-#: admin/views/section_footer.php:19
-msgid "Special thanks for the fine frontend style of the plugin go to"
-msgstr ""
-
-#: admin/views/section_footer.php:20
 msgid "Do you like the plugin?"
 msgstr ""
 
-#: admin/views/section_footer.php:20
+#: admin/views/section_footer.php:18
 msgid "Rate it at wordpress.org!"
 msgstr ""
 
-#: admin/views/section_footer.php:21
+#: admin/views/section_footer.php:19
 msgid "Do you need support or have an idea for the plugin?"
 msgstr ""
 
-#: admin/views/section_footer.php:21
+#: admin/views/section_footer.php:19
 msgid "Post your questions and ideas about Quick Featured Images in the forum at wordpress.org!"
 msgstr ""
 
-#: admin/views/section_footer.php:22
+#: admin/views/section_footer.php:20
 msgid "To get more fun with the plugin and to have an easy overview of your featured images I highly recommend this plugin"
 msgstr ""
 
-#: admin/views/section_footer.php:22 admin/views/section_footer.php:24
+#: admin/views/section_footer.php:20 admin/views/section_footer.php:24
 #, php-format
 msgid "Download plugin %s at %s!"
 msgstr ""
 
-#: admin/views/section_footer.php:23
+#: admin/views/section_footer.php:21
 msgid "You will find more WordPress plugins for featured images with a click on this link"
 msgstr ""
 
-#: admin/views/section_footer.php:23
+#: admin/views/section_footer.php:21
 msgid "Search for plugins for managing featured images at wordpress.org!"
+msgstr ""
+
+#: admin/views/section_footer.php:22
+msgid "Special thanks for the great and time-saving boilerplate go to"
+msgstr ""
+
+#: admin/views/section_footer.php:23
+msgid "Special thanks for the fine frontend style of the plugin go to"
 msgstr ""
 
 #: admin/views/section_footer.php:24
@@ -662,11 +641,12 @@ msgstr ""
 msgid "If wrong action start again"
 msgstr ""
 
-#: public/class-quick-featured-images.php:234
+#: public/class-quick-featured-images.php:245
 #, php-format
 msgid "The plugin requires WordPress version %s or higher. Therefore, WordPress did not activate it. If you want to use this plugin update the Wordpress files to the latest version."
 msgstr ""
 
 #: public/class-quick-featured-images.php:330
+#, php-format
 msgid "Welcome to Quick Featured Images! You can find the plugin at %s."
 msgstr ""

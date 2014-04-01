@@ -26,8 +26,8 @@
 	border-radius: 8px;
 	border: 1px solid #ccc;
 }
-.th_50_left,
-.th_50_right {
+/* floating halfs */
+.th_w50percent {
 	width: 50%;
 	float: left;
 	display: block;
@@ -180,5 +180,23 @@
 	}
 	#progress #bar span {
 		line-height: 4;
+	}
+}
+/* Smartphone */
+@media screen and (max-width: 600px) {
+	/* Progress Bar */
+	#progress #bar span.sep,
+	#progress #bar span.wp-ui-notification,
+	#progress #bar strong.wp-ui-highlight {
+		display: block;
+		line-height: 1;
+	}
+	#progress #bar span.sep {
+		padding: .5em 1em;
+	}
+	/* floating halfs */
+	.th_w50percent {
+		width: auto;
+		float: none;
 	}
 }

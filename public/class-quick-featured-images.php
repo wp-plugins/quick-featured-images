@@ -75,7 +75,7 @@
 		if ( isset( $_GET[ 'activate' ] ) or isset( $_GET[ 'activate-multi' ] ) ) {
 			$plugin_was_activated = get_transient( self::PLUGIN_SLUG );
 			if ( false !== $plugin_was_activated ) {
-				add_action( 'pre_current_active_plugins', array( $this, 'display_activation_message' ) );
+				add_action( 'admin_notices', array( $this, 'display_activation_message' ) );
 				delete_transient( self::PLUGIN_SLUG );
 			}
 		}

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable tag: 3.2.1
+Stable tag: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,7 @@ The implemented filters allows you to narrow down the action to only the posts a
 * Filter by **status**: Search by several statuses (published, draft, private etc.). By default all statuses will be affected
 * Filter by **search**: Search by search term
 * Filter by **author**: Search by author
+* Filter by **time**: Search by time specifications
 * Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
 * Filter by **featured image size**: Search for too small featured images
 * Filter by **category**: Search posts by category
@@ -124,6 +125,12 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 4.0 =
+* Added new filter "Filter by Time Specifications": Search in time periods on a year-month base
+* Improved page speed at both the preview list and the result list
+* Improved style for smartphones
+* Updated *.pot file and german translation
+
 = 3.2.1 =
 * Added message after activation about the plugin's location in the backend
 * Updated *.pot file and german translation
@@ -185,6 +192,11 @@ If you want to contribute a translation of the plugin in your language it would 
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 4.0 =
+* Added new filter "Filter by Time Specifications": Search in time periods on a year-month base
+* Improved page speed at both the preview list and the result list
+* Improved style for smartphones
 
 = 3.2.1 =
 More orientation: After activation of this plugin a message tells you where you can find the plugin in the WordPress backend.
