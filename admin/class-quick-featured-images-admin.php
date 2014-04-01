@@ -281,11 +281,20 @@ class Quick_Featured_Images_Admin {
 	/**
 	 * User selected date queries the plugin should perform
 	 *
-	 * @since    1.0.0
+	 * @since    4.0
 	 *
 	 * @var      array
 	 */
 	protected $selected_date_queries = null;
+
+	/**
+	 * Post dates as stored in the db
+	 *
+	 * @since    4.0
+	 *
+	 * @var      array
+	 */
+	protected $valid_post_dates = null;
 
 	/**
 	 * Valid names and descriptions of the date queries
@@ -468,6 +477,7 @@ class Quick_Featured_Images_Admin {
 	 * @since    1.0.0
 	 * @updated  2.0: added: filter filter_img_size, action remove_any_img, $valid_image_dimensions, $selected_image_dimensions
 	 * @updated  3.0: added: filter filter_custom_taxonomies, valid_custom_post_types, valid_custom_taxonomies, selected_custom_taxonomies, all post types by default
+	 * @updated  4.0: added: filter filter_time and its variables
 	 */
 	private function set_default_values() {
 		/*
@@ -491,9 +501,9 @@ class Quick_Featured_Images_Admin {
 			'filter_post_types' 		=> __( '<strong>Post Type Filter:</strong> Search by post type. By default all posts, pages and custom post types will be affected.', $this->plugin_slug ),
 			'filter_status' 			=> __( '<strong>Status Filter:</strong> Search by several statuses (published, draft, private etc.). By default all statuses will be affected.', $this->plugin_slug ),
 			'filter_search' 			=> __( '<strong>Search Filter:</strong> Search by search term', $this->plugin_slug ),
+			'filter_time' 				=> __( '<strong>Time Filter:</strong> Search by time specifications', $this->plugin_slug ),
 			'filter_author' 			=> __( '<strong>Author Filter:</strong> Search by author', $this->plugin_slug ),
 			//'filter_custom_field' 		=> __( '<strong>Custom Field Filter:</strong> Search by custom field', $this->plugin_slug ),
-			//'filter_time' 				=> __( '<strong>Time Filter:</strong> Search by time point or date period', $this->plugin_slug ),
 			'filter_custom_taxonomies'	=> __( '<strong>Custom Taxonomy Filter:</strong> Search by other taxonomies like plugin categories etc.', $this->plugin_slug ),
 			'filter_image_size' 		=> __( '<strong>Featured Image Size Filter:</strong> Search by original dimensions of added featured image', $this->plugin_slug ),
 			'filter_category' 			=> __( '<strong>Category Filter:</strong> Search posts by category', $this->plugin_slug ),
@@ -505,7 +515,6 @@ class Quick_Featured_Images_Admin {
 			'page' 		=> __( 'Pages' ),
 		);
 		$this->valid_custom_post_types = $this->get_registered_custom_post_types();
-		$this->valid_custom_taxonomies = $this->get_registered_custom_taxonomies();
 		$this->valid_statuses = array(
 			'publish' => __( 'Published: already published', $this->plugin_slug ),
 			'pending' => __( 'Pending review: waiting for reviews', $this->plugin_slug ),
@@ -514,39 +523,11 @@ class Quick_Featured_Images_Admin {
 			'private' => __( 'Private: visible only to users who are logged in', $this->plugin_slug )
 		);
 		$this->valid_date_queries = array(
-			'year' 		=> __( 'Year (4 digits, e.g. 2011)', $this->plugin_slug ),
-			'month' 	=> __( 'Month', $this->plugin_slug ),
-			'day' 		=> __( 'Day of the month (from 1 to 31)', $this->plugin_slug ),
-			'week' 		=> __( 'Week of the year (from 0 to 53)', $this->plugin_slug ),
-			'hour' 		=> __( 'Hour (from 0 to 23)', $this->plugin_slug ),
-			'minute' 	=> __( 'Minute (from 0 to 59)', $this->plugin_slug ),
-			'second' 	=> __( 'Second (0 to 59)', $this->plugin_slug ),
-			/* todo:
-			'before_year' 	=> __( '4 digit start year', $this->plugin_slug ),
-			'before_month' 	=> __( 'Start month', $this->plugin_slug ),
-			'before_day' 	=> __( 'Start day', $this->plugin_slug ),
-			'after_year' 	=> __( '4 digit end year', $this->plugin_slug ),
-			'after_month' 	=> __( 'End month', $this->plugin_slug ),
-			'after_day' 	=> __( 'End day', $this->plugin_slug ),
-			*/
+			'after' 	=> __( 'Start Date' ),
+			'before'	=> __( 'End Date' ),
+			'inclusive'	=> __( 'Include the posts of the selected dates', $this->plugin_slug )
 		);
-		/* todo
-		operators for time comparisons
-		$this->valid_date_operators = array(
-			'='		=> __( 'is equal' ),
-			'!='	=> __( 'is not equal' ),
-			'>'		=> __( 'is after' ),
-			'>='	=> __( 'is same and after' ),
-			'<'		=> __( 'is before' ),
-			'<='	=> __( 'is same and before' ),
-		);
-		time columns to compare with user selected time 
-		$this->valid_date_columns = array(
-			'post_date'		=> __( 'Publication moment' ),
-			'post_modified'	=> __( 'Modification moment' ),
-		);
-
-		*/
+		// custom fields
 		$this->valid_custom_field = array(
 			'key' 		=> __( 'Custom field name', $this->plugin_slug ),
 			'compare' 	=> __( 'Operator to test with the value in the custom field', $this->plugin_slug ),
@@ -575,7 +556,7 @@ class Quick_Featured_Images_Admin {
 		// default: no tag
 		$this->selected_tag_id = 0;
 		// default: no date query
-		$this->selected_date_queries = array( array() );
+		$this->selected_date_queries = array( 'inclusive' => "1" ); // default: include posts matching selected time specifications
 		// default: all post statuses
 		$this->selected_statuses = array_keys( $this->valid_statuses ); // default: all statuses
 		// default: all post types
@@ -663,138 +644,18 @@ class Quick_Featured_Images_Admin {
 
 	/**
 	 *
-	 * Render options of a HTML selection list of months
-	 *
-	 * @access   private
-	 * @since    1.0.0
-	 * @updated  3.0: changed printf into return, added parameter first_empty
-	 */
-	private function get_html_options_months( $key = 'month', $first_empty = true ) {
-		$months = array(
-			__( 'January' ),
-			__( 'February' ),
-			__( 'March' ),
-			__( 'April' ),
-			__( 'May' ),
-			__( 'June' ),
-			__( 'July' ),
-			__( 'August' ),
-			__( 'September' ),
-			__( 'October' ),
-			__( 'November' ),
-			__( 'December' )
-		);
-
-		$start = 1;
-		$end = sizeof( $months ) + 1;
-		$output = $first_empty ? $this->get_html_empty_option() : '';
-		if ( array_key_exists( $key, $this->selected_date_queries[ 0 ] ) ) { 
-			for ( $i = $start; $i < $end; $i++ ) {
-				$output .= sprintf( '<option value="%d" %s>%s</option>', $i, selected( $this->selected_date_queries[ 0 ][ $key ] == $i, true, false ), $months[ $i - 1 ] );
-			}
-		} else {
-			for ( $i = $start; $i < $end; $i++ ) {
-				$output .= sprintf( '<option value="%d">%s</option>', $i, $months[ $i - 1 ] );
-			}
-		}
-		return $output;
-	}
-	
-	/**
-	 *
-	 * Render options of a HTML selection list of day numbers of a month
-	 *
-	 * @access   private
-	 * @since    1.0.0
-	 * @updated  3.0: changed printf into return
-	 */
-	private function get_html_options_days( $key = 'day' ) {
-		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 1, 32 );
-	}
-	
-	/**
-	 *
-	 * Render options of a HTML selection list of week numbers of a year
-	 *
-	 * @access   private
-	 * @since    1.0.0
-	 * @updated  3.0: changed printf into return
-	 */
-	private function get_html_options_weeks( $key = 'week' ) {
-		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 54 );
-	}
-	
-	/**
-	 *
-	 * Render options of a HTML selection list of hour numbers of a day
-	 *
-	 * @access   private
-	 * @since    1.0.0
-	 * @updated  3.0: changed printf into return
-	 */
-	private function get_html_options_hours( $key = 'hour' ) {
-		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 24 );
-	}
-	
-	/**
-	 *
-	 * Render options of a HTML selection list of minutes numbers of an hour
-	 *
-	 * @access   private
-	 * @since    1.0.0
-	 * @updated  3.0: changed printf into return
-	 */
-	private function get_html_options_minutes( $key = 'minute' ) {
-		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 60 );
-	}
-	
-	/**
-	 *
-	 * Render options of a HTML selection list of seconds numbers of an hour
-	 *
-	 * @access   private
-	 * @since    1.0.0
-	 * @updated  3.0: changed printf into return
-	 */
-	private function get_html_options_seconds( $key = 'second' ) {
-		return $this->get_html_options_integers( $this->selected_date_queries[ 0 ], $key, 0, 60 );
-	}
-	
-	/**
-	 *
-	 * Render options of HTML selection lists with integers as values
-	 *
-	 * @access   private
-	 * @since    1.0.0
-	 * @updated  3.0: changed printf into return, added parameter first_empty
-	 */
-	private function get_html_options_integers( $arr, $key, $start, $end, $first_empty = true ) {
-		$output = $first_empty ? $this->get_html_empty_option() : '';
-		if ( array_key_exists( $key, $arr ) ) { 
-			for ( $i = $start; $i < $end; $i++ ) {
-				$output .= sprintf( '<option value="%d" %s>%d</option>', $i, selected( $arr[ $key ] == $i, true, false ), $i );
-			}
-		} else {
-			for ( $i = $start; $i < $end; $i++ ) {
-				$output .= sprintf( '<option value="%d">%d</option>', $i, $i );
-			}
-		}
-		return $output;
-	}
-	
-	/**
-	 *
 	 * Render options of HTML selection lists with strings as values
 	 *
 	 * @access   private
 	 * @since    1.0.0
 	 * @updated  3.0: changed printf into return, added parameter first_empty
+	 * @updated   4.0: improved performance by changing array_key_exists() to isset()
 	 */
 	private function get_html_options_strings( $arr, $key, $options, $first_empty = true ) {
 		$output = $first_empty ? $this->get_html_empty_option() : '';
-		if ( array_key_exists( $key, $arr ) ) { 
+		if ( isset( $arr[ $key ] ) ) { 
 			foreach ( $options as $key => $label ) {
-				$output .= sprintf( '<option value="%s" %s>%s</option>', $key, selected( array_key_exists( $key, $arr ), true, false ), $label );
+				$output .= sprintf( '<option value="%s" %s>%s</option>', $key, selected( isset( $arr[ $key ] ), true, false ), $label );
 			}
 		} else {
 			foreach ( $options as $key => $label ) {
@@ -806,6 +667,40 @@ class Quick_Featured_Images_Admin {
 	
 	/**
 	 *
+	 * Render options of HTML selection lists with dates
+	 *
+	 * @access   private
+	 * @since    4.0
+	 */
+	private function get_html_date_options( $key, $first_empty = true ) {
+		global $wp_locale;
+		$output = $first_empty ? $this->get_html_empty_option() : '';
+
+		if ( count( $this->valid_post_dates ) ) {
+			if ( isset( $this->selected_date_queries[ $key ] ) ) { 
+				foreach ( $this->valid_post_dates as $date ) {
+					if ( 0 == $date->year ) {
+						continue;
+					}
+					$month = zeroise( $date->month, 2 );
+					$option_value = sprintf( '%s-%s', $date->year, $month );
+					$output .= sprintf( '<option value="%s" %s>%s %s</option>', $option_value, selected( $option_value == $this->selected_date_queries[ $key ], true, false ), $date->year, $wp_locale->get_month( $month ) );
+				}
+			} else {
+				foreach ( $this->valid_post_dates as $date ) {
+					if ( 0 == $date->year ) {
+						continue;
+					}
+					$month = zeroise( $date->month, 2 );
+					$output .= sprintf( '<option value="%s-%s">%s %s</option>', $date->year, $month, $date->year, $wp_locale->get_month( $month ) );
+				}
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 *
 	 * Return empty option for selection field
 	 *
 	 * @access   private
@@ -814,6 +709,7 @@ class Quick_Featured_Images_Admin {
 	private function get_html_empty_option() {
 			return sprintf( '<option value="">%s</option>', __( '&mdash; Select &mdash;' ) );
 		}
+
 	/**
 	 * Check the arguments for WP_Query depended on users selection
 	 *
@@ -823,6 +719,7 @@ class Quick_Featured_Images_Admin {
 	 * @updated  3.0: new filter_custom_taxonomies, changed order of cases, merge of post types and custom post types
 	 * @updated  3.0.2: corrected case filter_search
 	 * @updated  3.1: changed replace case, set merge of post types and custom post types as default
+	 * @updated  4.0: new filter_time
 	 *
 	 * @return    array    the args
 	 */
@@ -875,7 +772,35 @@ class Quick_Featured_Images_Admin {
 						break;
 					case 'filter_time':
 						$this->selected_date_queries = $this->get_sanitized_date_queries();
-						$args[ 'date_query' ] = $this->selected_date_queries;
+						// format the input for the query
+						$date_query = array();
+						foreach ( $this->selected_date_queries as $key => $value ) {
+							switch ( $key ) {
+								case 'after':
+								case 'before':
+									// start and end dates
+									$time_data = array();
+									if ( isset( $this->selected_date_queries[ $key ] ) AND  "" != $this->selected_date_queries[ $key ] ) {
+										$time_data[ $key ] = date( 'Y-m', strtotime( $this->selected_date_queries[ $key ] ) );
+										if ( isset( $this->selected_date_queries[ 'inclusive' ] ) AND  "1" === $this->selected_date_queries[ 'inclusive' ] ) {
+											if ( 'before' == $key ) {
+												$time_data[ $key ] .= '+1 month'; // correction because of $default_to_max in WP_Date_Query
+											}
+											$time_data[ 'inclusive' ] = true;
+										} else {
+											if ( 'after' == $key ) {
+												$time_data[ $key ] .= '+1 month'; // correction because of $default_to_max in WP_Date_Query
+											}
+											$time_data[ 'inclusive' ] = false;
+										}
+									}
+									if ( ! empty( $time_data ) ) {
+										$date_query[] = $time_data;
+									}
+									break;
+							} // switch()
+						} // foreach()
+						$args[ 'date_query' ] = $date_query;
 						break;
 					case 'filter_image_size':
 						$this->selected_image_dimensions = $this->get_sanitized_image_dimensions();
@@ -958,6 +883,7 @@ class Quick_Featured_Images_Admin {
 	 * @since     1.0.0
 	 * @updated   2.0: moving loop into ifs and switch to gain more performance
 	 * @updated   3.2: added current attached featured image html
+	 * @updated   4.0: improved performance with cache array
 	 *
 	 * @return    array    affected posts
 	 */
@@ -970,6 +896,10 @@ class Quick_Featured_Images_Admin {
 			absint( $this->used_thumbnail_height / 2 ) 
 		);
 		$attr = array( 'class' => 'attachment-thumbnail' );
+		// initialise cache array for better performance of calculating attachment image
+		$attached_images = array();
+		$false_id = 'false_id';
+		$attached_images[ $false_id ] = false;
 		// The Query
 		$the_query = new WP_Query( $this->get_query_args() );
 		#printf( '<p>%s</p>', $the_query->request ); // just for debugging
@@ -981,12 +911,25 @@ class Quick_Featured_Images_Admin {
 					case 'replace':
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
-							$success = set_post_thumbnail( get_the_ID(), $this->selected_image_id );
+							// get the post id once
+							$post_id = get_the_ID();
+							// do the task
+							$success = set_post_thumbnail( $post_id, $this->selected_image_id );
+							// get html for featured image
+							$thumb_id = get_post_thumbnail_id( $post_id );
+							if ( $thumb_id ) {
+								if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+									// get the html code for featured image once
+									$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+								}
+							} else {
+								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
 								get_the_title(),
-								wp_get_attachment_image( get_post_thumbnail_id( get_the_ID() ), $size, false, $attr ),
+								$attached_images[ $thumb_id ],
 								$success 
 							);
 						} // while()
@@ -995,12 +938,25 @@ class Quick_Featured_Images_Admin {
 					case 'remove_any_img':
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
-							$success = delete_post_thumbnail( get_the_ID() );
+							// get the post id once
+							$post_id = get_the_ID();
+							// do the task
+							$success = delete_post_thumbnail( $post_id );
+							// get html for featured image (yes, it's deleted, but does it for check)
+							$thumb_id = get_post_thumbnail_id( $post_id );
+							if ( $thumb_id ) {
+								if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+									// get the html code for featured image once
+									$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+								}
+							} else {
+								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
 								get_the_title(), 
-								wp_get_attachment_image( get_post_thumbnail_id( get_the_ID() ), $size, false, $attr ),
+								$attached_images[ $thumb_id ],
 								$success
 							);
 						} // while()
@@ -1008,13 +964,23 @@ class Quick_Featured_Images_Admin {
 			} else { // preview only, no changes
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
+					// get html for featured image
+					$thumb_id = get_post_thumbnail_id( get_the_ID() );
+					if ( $thumb_id ) {
+						if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+							// get the html code for featured image once
+							$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+						}
+					} else {
+						$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+					}
 					// store edit link, post title, post date, post author, image html
 					$results[] = array( 
 						get_edit_post_link(), 
 						get_the_title(), 
 						sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
 						sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
-						wp_get_attachment_image( get_post_thumbnail_id( get_the_ID() ), $size, false, $attr ),
+						$attached_images[ $thumb_id ],
 					);
 				} // while()
 			} // if( $perform )
@@ -1284,101 +1250,15 @@ class Quick_Featured_Images_Admin {
 	 * Check the requested time or date period and return safe values 
 	 *
 	 * @access   private
-	 * @since     1.0.0
-	 * @updated   2.0: added abs()
+	 * @since     4.0
 	 *
 	 * @return    array    the names of the user selected date queries
 	 */
 	private function get_sanitized_date_queries() {
-	/*
-		Model :
-$query = array (
-	array (
-		'column' => 'post_date',
-		'compare' => '=',
-		'relation' => 'AND',
-		array (
-			array (
-				'before' => array ( 
-					'year' => 2012,
-					'month' => 1,
-					'day' => 3
-				)
-			),
-			array (
-				'after' => array ( 
-					'year' => 2012,
-					'month' => 1,
-					'day' => 3
-				)
-			),
-			'column' => 'post_date'
-			'compare' => '=',
-			'inclusive' => true,
-			'year' => 2012,
-			'month' => 1,
-			'week' => 2,
-			'day' => 3,
-			'hour' => 4,
-			'minute' => 5,
-			'second' => 6
-		)
-	)
-);		
-	*/
-		$arr = $this->get_sanitized_associated_array( 'date_queries', $this->valid_date_queries );
-		// sanitize: cast values to integers
-		if ( $arr ) {
-			foreach ( $arr as $k => $v ) {
-				$arr[ $k ] = abs( intval( $v ) );
-			}
-		}
-		// rearrange the array for WP Query
-		$time_point = array();
-		/* todo:
-		$period_start_point = array();
-		$period_end_point = array();
-		// filter out period start point values in an array
-		foreach ( $arr as $k => $v ) {
-			// get period start
-			// if key name starts with prefix 'before_'
-			if ( preg_match( '/^before_(.+)/', $k, $match ) ) {
-				// store the value in the array $period_start with the key name with out the prefix
-				$period_start_point[ $match[ 1 ] ] = $v;
-				// delete this array piece
-				unset( $arr[ $k ] );
-			}
-			// get period end
-			// if key name starts with prefix 'after_'
-			elseif ( preg_match( '/^after_(.+)/', $k, $match ) ) {
-				// store the value in the array $period_end with the key name with out the prefix
-				$period_end_point[ $match[ 1 ] ] = $v;
-				// delete this array piece
-				unset( $arr[ $k ] );
-			}
-		}
-		*/
-		// get moment: the rest of $arr contains data of the moment
-		$time_point = $arr;
-		// rebuild the array
-		$date_query = array();
-		/*
-		$date_query[ 'column' ] = 'post_date';
-		$date_query[ 'compare' ] = '=';
-		$date_query[ 'relation' ] = 'AND';
-		*/
-		if ( ! empty( $time_point ) ) {
-			$date_query[] = $time_point;
-		}
-		/*
-		if ( ! empty( $period_start_point ) ) {
-			$date_query[] = $period_start;
-		}
-		if ( ! empty( $period_end_point ) ) {
-			$date_query[] = $period_end;
-		}
-		*/
-		return $date_query;
+		return $this->get_sanitized_associated_array( 
+			'date_queries', 
+			$this->valid_date_queries 
+		);
 	}
 
 	/**
@@ -1398,6 +1278,7 @@ $query = array (
 	 *
 	 * @access   private
 	 * @since     2.0
+	 * @updated   4.0: improved performance by changing array_key_exists() to isset()
 	 *
 	 * @return    array    the the user given dimensions of an image
 	 */
@@ -1405,9 +1286,8 @@ $query = array (
 		$img_dims = $this->get_sanitized_associated_array( 'image_dimensions', $this->valid_image_dimensions, $this->selected_image_dimensions );
 		// cast to positive integers
 		foreach ( array_keys( $this->valid_image_dimensions ) as $key ) {
-			if ( array_key_exists( $key, $img_dims ) ) {
-				$img_dims[ $key ] = abs( intval( $img_dims[ $key ] ) );
-			/* } else {	$img_dims[ $key ] = 0; not necessary because of default values setting */
+			if ( isset( $img_dims[ $key ] ) ) {
+				$img_dims[ $key ] = abs( intval( $img_dims[ $key ] ) ); // no 'else' block necessary because of default values setting
 			}
 		}
 		// correct too high or too low values
@@ -1486,6 +1366,22 @@ $query = array (
 			   '_builtin' => false # only custon post types
 		);
 		return get_taxonomies( $args, 'names' );
+	}
+
+	/**
+	 * Return registered post dates
+	 *
+	 * @access   private
+	 * @since    4.0
+	 *
+	 * @return    array    the values of the registered post dates
+	 */
+	private function get_registered_post_dates() {
+		global $wpdb;
+		$post_types = implode( "', '", array_merge( array_keys( $this->valid_post_types ), $this->valid_custom_post_types ) );
+		$post_statuses = implode( "', '" , array_keys( $this->valid_statuses ) );
+		$query = "SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month FROM $wpdb->posts WHERE post_type IN ( '" . $post_types . "' ) AND post_status IN ( '" . $post_statuses . "' ) ORDER BY post_date DESC";
+		return $wpdb->get_results( $query );
 	}
 
 	/**

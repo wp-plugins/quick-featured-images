@@ -140,6 +140,13 @@ if ( $this->selected_custom_taxonomies ) {
 <?php
 	}
 }
+if ( $this->selected_date_queries ) {
+	foreach ( $this->selected_date_queries as $k => $v ) {
+?>
+		<input type="hidden" name="date_queries[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
+<?php
+	}
+}
 ?>
 		<?php wp_nonce_field( 'quickfi_confirm', $this->plugin_slug . '_nonce' ); ?>
 		<input type="submit" class="button-primary" value="<?php _e( 'Yes. Apply now', $this->plugin_slug ); ?>" /> <a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'No. Start again', $this->plugin_slug );?></a>
