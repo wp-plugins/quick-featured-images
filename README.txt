@@ -3,7 +3,7 @@ Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SBF76TCGTRNX2
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
-Tested up to: 3.8.1
+Tested up to: 3.9
 Stable tag: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
