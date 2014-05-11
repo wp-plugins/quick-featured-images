@@ -10,7 +10,7 @@
  * Plugin Name:       Quick Featured Images
  * Plugin URI:        http://wordpress.org/plugins/quick-featured-images
  * Description:       Bulk set, replace and remove featured images
- * Version:           4.0
+ * Version:           4.1
  * Author:            Martin Stehle
  * Author URI:        http://stehle-internet.de
  * Text Domain:       quick-featured-images

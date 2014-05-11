@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-03-29 23:58+0100\n"
-"PO-Revision-Date: 2014-03-30 00:22+0100\n"
+"POT-Creation-Date: 2014-05-11 14:47+0100\n"
+"PO-Revision-Date: 2014-05-11 14:58+0100\n"
 "Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
 "Language-Team:  <m.stehle@gmx.de>\n"
 "Language: de_DE\n"
@@ -19,48 +19,48 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-quick-featured-images-admin.php:415
+#: admin/class-quick-featured-images-admin.php:430
 #, php-format
 msgid "Wrong image ID %d"
 msgstr "Falsche Bild-ID %d"
 
-#: admin/class-quick-featured-images-admin.php:488
+#: admin/class-quick-featured-images-admin.php:514
 msgid "Select"
 msgstr "Auswählen"
 
-#: admin/class-quick-featured-images-admin.php:489
+#: admin/class-quick-featured-images-admin.php:515
 msgid "Add filter"
 msgstr "Filter hinzufügen"
 
-#: admin/class-quick-featured-images-admin.php:490
+#: admin/class-quick-featured-images-admin.php:516
 msgid "Refine"
 msgstr "Verfeinern"
 
-#: admin/class-quick-featured-images-admin.php:491
+#: admin/class-quick-featured-images-admin.php:517
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: admin/class-quick-featured-images-admin.php:492
+#: admin/class-quick-featured-images-admin.php:518
 msgid "Perform"
 msgstr "Umsetzen"
 
-#: admin/class-quick-featured-images-admin.php:495
+#: admin/class-quick-featured-images-admin.php:521
 msgid "Set the selected image as new featured image"
 msgstr "Füge das ausgewählte Bild als neues Beitragsbild hinzu"
 
-#: admin/class-quick-featured-images-admin.php:496
+#: admin/class-quick-featured-images-admin.php:522
 msgid "Replace featured images by the selected image"
 msgstr "Ersetze mindestens ein Beitragsbild durch das ausgewählte Bild"
 
-#: admin/class-quick-featured-images-admin.php:497
+#: admin/class-quick-featured-images-admin.php:523
 msgid "Remove the selected image as featured image"
 msgstr "Entferne das ausgewählte Bild als Beitragsbild"
 
-#: admin/class-quick-featured-images-admin.php:498
+#: admin/class-quick-featured-images-admin.php:524
 msgid "Remove any image as featured image"
 msgstr "Lösche jedes Bild als Beitragsbild"
 
-#: admin/class-quick-featured-images-admin.php:501
+#: admin/class-quick-featured-images-admin.php:527
 msgid ""
 "<strong>Post Type Filter:</strong> Search by post type. By default all "
 "posts, pages and custom post types will be affected."
@@ -68,7 +68,7 @@ msgstr ""
 "<strong>Beitragstypfilter:</strong> Suchen nach Beitragstyp. Standardmäßig "
 "werden alle Beiträge, Seiten und Custom Post Types berücksichtigt."
 
-#: admin/class-quick-featured-images-admin.php:502
+#: admin/class-quick-featured-images-admin.php:528
 msgid ""
 "<strong>Status Filter:</strong> Search by several statuses (published, "
 "draft, private etc.). By default all statuses will be affected."
@@ -76,19 +76,19 @@ msgstr ""
 "<strong>Statusfilter:</strong> Suchen nach Status (veröffentlicht, Entwurf, "
 "privat usw.). Standardmäßig werden alle Statusse berücksichtigt."
 
-#: admin/class-quick-featured-images-admin.php:503
+#: admin/class-quick-featured-images-admin.php:529
 msgid "<strong>Search Filter:</strong> Search by search term"
 msgstr "<strong>Suchfilter:</strong> Suchen mit einem Suchbegriff"
 
-#: admin/class-quick-featured-images-admin.php:504
-msgid "<strong>Author Filter:</strong> Search by author"
-msgstr "<strong>Autorenfilter:</strong> Suchen nach einem Autor"
-
-#: admin/class-quick-featured-images-admin.php:506
+#: admin/class-quick-featured-images-admin.php:530
 msgid "<strong>Time Filter:</strong> Search by time specifications"
 msgstr "<strong>Zeitfilter:</strong> Suchen nach Zeitangaben"
 
-#: admin/class-quick-featured-images-admin.php:507
+#: admin/class-quick-featured-images-admin.php:531
+msgid "<strong>Author Filter:</strong> Search by author"
+msgstr "<strong>Autorenfilter:</strong> Suchen nach einem Autor"
+
+#: admin/class-quick-featured-images-admin.php:533
 msgid ""
 "<strong>Custom Taxonomy Filter:</strong> Search by other taxonomies like "
 "plugin categories etc."
@@ -96,7 +96,7 @@ msgstr ""
 "<strong>Taxonomienfilter:</strong> Beiträge suchen nach weiteren "
 "Klassifikationen, z.B. Kategorien eines Plugins"
 
-#: admin/class-quick-featured-images-admin.php:508
+#: admin/class-quick-featured-images-admin.php:534
 msgid ""
 "<strong>Featured Image Size Filter:</strong> Search by original dimensions "
 "of added featured image"
@@ -104,127 +104,131 @@ msgstr ""
 "<strong>Beitragsbildgrößenfilter:</strong> Suche nach Abmessungen des "
 "hinzugefügten Beitragsbildes"
 
-#: admin/class-quick-featured-images-admin.php:509
+#: admin/class-quick-featured-images-admin.php:535
 msgid "<strong>Category Filter:</strong> Search posts by category"
 msgstr ""
 "<strong>Kategorienfilter:</strong> Beiträge suchen nach einer Kategorie"
 
-#: admin/class-quick-featured-images-admin.php:510
+#: admin/class-quick-featured-images-admin.php:536
 msgid "<strong>Tag Filter:</strong> Search posts by tag"
 msgstr ""
 "<strong>Schlagwortfilter:</strong> Beiträge suchen nach einem Schlagwort"
 
-#: admin/class-quick-featured-images-admin.php:511
+#: admin/class-quick-featured-images-admin.php:537
 msgid "<strong>Parent Page Filter:</strong> Search child pages by parent page"
 msgstr ""
 "<strong>Elternseitenfilter:</strong> Seiten nach übergeordneter Seite suchen"
 
-#: admin/class-quick-featured-images-admin.php:520
+#: admin/class-quick-featured-images-admin.php:545
 msgid "Published: already published"
 msgstr "Veröffentlicht: bereits veröffentlicht"
 
-#: admin/class-quick-featured-images-admin.php:521
+#: admin/class-quick-featured-images-admin.php:546
 msgid "Pending review: waiting for reviews"
 msgstr "Ausstehender Review: Überprüfung abwartend"
 
-#: admin/class-quick-featured-images-admin.php:522
+#: admin/class-quick-featured-images-admin.php:547
 msgid "Draft: saved as draft"
 msgstr "Entwurf: gespeichert als Entwurf"
 
-#: admin/class-quick-featured-images-admin.php:523
+#: admin/class-quick-featured-images-admin.php:548
 msgid "Scheduled: will be published in the future"
 msgstr "Geplant: wird in der Zukunft veröffentlicht"
 
-#: admin/class-quick-featured-images-admin.php:524
+#: admin/class-quick-featured-images-admin.php:549
 msgid "Private: visible only to users who are logged in"
 msgstr "Privat: nur sichtbar für eingeloggte Nutzer"
 
-#: admin/class-quick-featured-images-admin.php:530
+#: admin/class-quick-featured-images-admin.php:554
 msgid "Include the posts of the selected dates"
 msgstr "Schließe die Beiträge der ausgewählten Zeitpunkte mit ein"
 
-#: admin/class-quick-featured-images-admin.php:535
+#: admin/class-quick-featured-images-admin.php:558
 msgid "Custom field name"
 msgstr "Benutzerdefinierter Feldname"
 
-#: admin/class-quick-featured-images-admin.php:536
+#: admin/class-quick-featured-images-admin.php:559
 msgid "Operator to test with the value in the custom field"
 msgstr "Operator, um auf den Wert im benutzerdefiniertem Feld zu testen"
 
-#: admin/class-quick-featured-images-admin.php:537
+#: admin/class-quick-featured-images-admin.php:560
 msgid "Custom field value to compare with"
 msgstr "Benutzerdefinierter Wert, mit dem verglichen werden soll"
 
-#: admin/class-quick-featured-images-admin.php:538
+#: admin/class-quick-featured-images-admin.php:561
 msgid "Custom field type"
 msgstr "Benutzerdefinierter Feld-Typ"
 
-#: admin/class-quick-featured-images-admin.php:542
+#: admin/class-quick-featured-images-admin.php:565
 msgid "Image width in pixels lower than"
 msgstr "Bildbreite in Pixeln kleiner als"
 
-#: admin/class-quick-featured-images-admin.php:543
+#: admin/class-quick-featured-images-admin.php:566
 msgid "Image height in pixels lower than"
 msgstr "Bildhöhe in Pixeln kleiner als"
 
-#: admin/class-quick-featured-images-admin.php:620
+#: admin/class-quick-featured-images-admin.php:644
 #, php-format
 msgid "The input field %s is empty."
 msgstr "Das Eingabefeld %s ist leer."
 
-#: admin/class-quick-featured-images-admin.php:621
+#: admin/class-quick-featured-images-admin.php:645
 msgid "Type in the input field a value."
 msgstr "Gebe in das Eingabefeld einen Wert ein."
 
-#: admin/class-quick-featured-images-admin.php:624
+#: admin/class-quick-featured-images-admin.php:648
 #, php-format
 msgid "%s is not defined."
 msgstr "%s ist nicht definiert."
 
-#: admin/class-quick-featured-images-admin.php:625
+#: admin/class-quick-featured-images-admin.php:649
 msgid "Check how to define the value."
 msgstr "Prüfe nach, wie der Wert gesetzt wird."
 
-#: admin/class-quick-featured-images-admin.php:628
+#: admin/class-quick-featured-images-admin.php:652
 msgid "There is no selected image."
 msgstr "Es gibt kein ausgewähltes Bild."
 
-#: admin/class-quick-featured-images-admin.php:629
+#: admin/class-quick-featured-images-admin.php:653
 msgid "Select an image from the media library."
 msgstr "Wähle ein Bild aus der Mediathek aus."
 
-#: admin/class-quick-featured-images-admin.php:632
+#: admin/class-quick-featured-images-admin.php:656
 msgid "You have not selected an action."
 msgstr "Du hast keine Aktion ausgewählt"
 
-#: admin/class-quick-featured-images-admin.php:633
+#: admin/class-quick-featured-images-admin.php:657
 msgid "Start again and select which action you want to apply."
 msgstr "Fange neu an und wähle aus, welche Aktion du anwenden willst."
 
-#: admin/class-quick-featured-images-admin.php:636
+#: admin/class-quick-featured-images-admin.php:660
 #, php-format
 msgid "The input field %s has an invalid value."
 msgstr "Das Eingabefeld %s hat einen ungültigen Wert."
 
-#: admin/class-quick-featured-images-admin.php:637
+#: admin/class-quick-featured-images-admin.php:661
 msgid "Type in valid values in the input field."
 msgstr "Gebe einen gültigen Wert in das Eingabefeld ein."
 
-#: admin/class-quick-featured-images-admin.php:641
+#: admin/class-quick-featured-images-admin.php:665
 msgid "Type in values stored by WordPress."
 msgstr "Gebe von WordPress gespeicherte Werte ein."
 
-#: admin/class-quick-featured-images-admin.php:984
+#: admin/class-quick-featured-images-admin.php:1008
 msgid "written on"
 msgstr "geschrieben am"
 
-#: admin/class-quick-featured-images-admin.php:985
+#: admin/class-quick-featured-images-admin.php:1009
 msgid "by"
 msgstr "von"
 
-#: admin/class-quick-featured-images-admin.php:1755
+#: admin/class-quick-featured-images-admin.php:1779
 msgid "Bulk set, replace and remove featured images"
 msgstr "Massenweises Hinzufügen, Ersetzen und Entfernen von Beitragsbildern"
+
+#: admin/class-quick-featured-images-admin.php:1802
+msgid "Bulk set as featured image"
+msgstr "Als Beitragsbild setzen"
 
 #: admin/views/error_msg.php:3
 msgid "Reason"
@@ -234,7 +238,7 @@ msgstr "Grund"
 msgid "Solution"
 msgstr "Lösung"
 
-#: admin/views/error_msg.php:8 admin/views/form_confirm.php:151
+#: admin/views/error_msg.php:8 admin/views/form_confirm.php:158
 #: admin/views/form_select.php:47 admin/views/results.php:51
 msgid "Start again"
 msgstr "Beginne neu"
@@ -302,21 +306,21 @@ msgstr ""
 msgid "There are no custom fields in use."
 msgstr "Zur Zeit werden keine benutzerdefinierte Felder genutzt."
 
-#: admin/views/filter_custom_taxonomies.php:23
+#: admin/views/filter_custom_taxonomies.php:25
 #, php-format
 msgid "Registered terms of the taxonomy <strong>%s</strong>"
 msgstr "Gespeicherte Begriffe der Taxonomie <strong>%s</strong>"
 
-#: admin/views/filter_custom_taxonomies.php:35
+#: admin/views/filter_custom_taxonomies.php:37
 #, php-format
 msgid "There are no terms of the taxonomy <strong>%s</strong>."
 msgstr "Es gibt keine Begriffe für die Taxonomie <strong>\"%s\"</strong>."
 
-#: admin/views/filter_custom_taxonomies.php:39
+#: admin/views/filter_custom_taxonomies.php:41
 msgid "Strange search result with custom taxonomies?"
 msgstr "Überraschendes Suchergebnis mit Taxonomien?"
 
-#: admin/views/filter_custom_taxonomies.php:40
+#: admin/views/filter_custom_taxonomies.php:42
 msgid ""
 "The search for custom taxonomy terms could lead to surprising results. The "
 "reason is custom taxonomies can be used in many different ways. It is not "
@@ -329,7 +333,7 @@ msgstr ""
 "Suchergebnis nicht zufrieden sein, versuche mit den anderen Filtern das "
 "gewünschte Ergebnis zu erhalten."
 
-#: admin/views/filter_custom_taxonomies.php:45
+#: admin/views/filter_custom_taxonomies.php:47
 msgid "There are no custom taxonomies."
 msgstr "Es gibt keine benutzerdefinierten Taxonomien."
 
@@ -482,15 +486,15 @@ msgstr "Änderung bestätigen"
 msgid "You can not undo the operation!"
 msgstr "Du kannst die Aktion nicht rückgängig machen!"
 
-#: admin/views/form_confirm.php:145
+#: admin/views/form_confirm.php:152
 msgid "Yes. Apply now"
 msgstr "Ja. Jetzt anwenden"
 
-#: admin/views/form_confirm.php:145
+#: admin/views/form_confirm.php:152
 msgid "No. Start again"
 msgstr "Nein. Fange neu an"
 
-#: admin/views/form_confirm.php:151
+#: admin/views/form_confirm.php:158
 msgid "or refine your selection with the following form fields."
 msgstr "oder verfeinere deine Auswahl mit dem folgenden Feldern."
 
@@ -769,7 +773,7 @@ msgstr "Deine ausgewählte Aktion"
 msgid "If wrong action start again"
 msgstr "Falsche Aktion? Beginne neu"
 
-#: public/class-quick-featured-images.php:245
+#: public/class-quick-featured-images.php:266
 #, php-format
 msgid ""
 "The plugin requires WordPress version %s or higher. Therefore, WordPress did "
@@ -780,8 +784,7 @@ msgstr ""
 "es nicht aktiviert. Falls du dieses Plugin nutzen willst, aktualisiere die "
 "WordPress-Dateien auf die neueste Version."
 
-#: public/class-quick-featured-images.php:330
+#: public/class-quick-featured-images.php:351
 #, php-format
-msgid "Welcome to Quick Featured Images! You can find the plugin at %s."
-msgstr ""
-"Willkommen zu Quick Featured Images! Du kannst das Plugin finden unter %s."
+msgid "Welcome to %s! You can find the plugin at %s."
+msgstr "Willkommen zu %s! Du kannst das Plugin finden unter %s."

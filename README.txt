@@ -1,10 +1,10 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SBF76TCGTRNX2
-Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
+Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
-Tested up to: 3.9
-Stable tag: 4.0
+Tested up to: 3.9.1
+Stable tag: 4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,8 @@ Bulk set, replace and remove featured images for posts, pages and custom post ty
 == Description ==
 
 Quick Featured Images sets, replaces and removes featured images for posts, pages and custom post types in one go and saves your time. You can run it over all posts or narrow down to posts by using flexible filters.
+
+You will find the plugin under 'Media' => 'Quick Featured Images' and in the media library at each image as a new action link 'Bulk set as featured image'.
 
 = Main actions =
 
@@ -26,22 +28,22 @@ Quick Featured Images enables you three main tasks with featured images: add, ex
 
 If there would be no filters Quick Featured Images would affect all posts and pages without exception! In most cases this is not desired. 
 
-The implemented filters allows you to narrow down the action to only the posts and pages you want to modify. The built-in filters are:
+The implemented filters allow you to narrow down the action to only the posts and pages you want to modify. The built-in filters are:
 
-* Filter by **post type**: Search by post types. By default all posts, pages and custom post types will be affected
-* Filter by **status**: Search by several statuses (published, draft, private etc.). By default all statuses will be affected
-* Filter by **search**: Search by search term
-* Filter by **author**: Search by author
-* Filter by **time**: Search by time specifications
-* Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
-* Filter by **featured image size**: Search for too small featured images
-* Filter by **category**: Search posts by category
-* Filter by **tag**: Search posts by tag
-* Filter by **parent page**: Search child pages by parent page
+1. Filter by **post type**: Search by post types. By default all posts, pages and custom post types will be affected
+2. Filter by **status**: Search by several statuses (published, draft, private etc.). By default all statuses will be affected
+3. Filter by **search**: Search by search term
+4. Filter by **time**: Search by time specifications
+5. Filter by **author**: Search by author
+6. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
+7. Filter by **featured image size**: Search for too small featured images
+8. Filter by **category**: Search posts by category
+9. Filter by **tag**: Search posts by tag
+10. Filter by **parent page**: Search child pages by parent page
 
-New filters will come.
+= Your idea to improve the plugin is welcome =
 
-If you have any new idea for Quick Featured Images post your questions and ideas in the [support forum at wordpress.org](http://wordpress.org/support/plugin/quick-featured-images).
+If you have any new idea for Quick Featured Images post your questions and ideas in the [support forum at wordpress.org](http://wordpress.org/support/plugin/quick-featured-images). I will try to take a look and answer as soon as possible.
 
 = Support =
 
@@ -83,6 +85,13 @@ BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PRO
 
 == Frequently Asked Questions ==
 
+= Where can I find the plugin in the WordPress backend? =
+
+There are two ways to find Quick Featured Images in the amdin area:
+
+1. Go to 'Media' => 'Quick Featured Images'
+2. Go to the media library 'Media'. At each image you will find a new link 'Bulk set as featured image'.
+
 = Who can see Quick Featured Images in the WordPress backend? =
 
 All users who have the right to **edit others posts** have the access to Quick Featured Images. As long as the user roles are untouched after a fresh standard WordPress installation both Administrators and Editors can use this plugin.
@@ -97,7 +106,7 @@ Yes. It works either activated for all sites (network wide) or activated in each
 
 This could be the case if the images were not uploaded via WordPress' own media uploader. If you have uploaded images via FTP or other ways the plugin can not find images.
 
-It does not matter where the images are stored on your server. They can be in any folder. But they have to be uploaded via WordPress' own media uploader to be found by this plugin. IF this is the case the plugin will work fine.
+It does not matter where the images are stored on your server. They can be in any folder. But they have to be uploaded via WordPress' own media uploader to be found by this plugin. If this is the case the plugin will work fine.
 
 = Why are there sometimes strange search results with custom taxonomies? =
 
@@ -106,6 +115,7 @@ The search for custom taxonomy terms could lead to surprising results. The reaso
 = Which languages does the plugin support? =
 
 Actually these languages are supported:
+
 * English
 * German
 
@@ -124,6 +134,12 @@ If you want to contribute a translation of the plugin in your language it would 
 5. The fifth and last screen: take an overview of the success of the action.
 
 == Changelog ==
+
+= 4.1 =
+* Added link "Buld set as featured image" under each image in the media library
+* Changed hard coded plugin name to variable
+* Tested with WordPress 3.9.1
+* Updated *.pot file and german translation
 
 = 4.0 =
 * Added new filter "Filter by Time Specifications": Search in time periods on a year-month base
@@ -192,6 +208,10 @@ If you want to contribute a translation of the plugin in your language it would 
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 4.1 =
+* Added link "Buld set as featured image" under each image in the media library
+* Tested with WordPress 3.9.1
 
 = 4.0 =
 * Added new filter "Filter by Time Specifications": Search in time periods on a year-month base

@@ -88,7 +88,16 @@ class Quick_Featured_Images_Admin {
 	 * @var      bool
 	 */
 	protected $is_error_no_old_image = null;
-	
+
+	/**
+	 * Whether the user comes with a direct link
+	 *
+	 * @since    4.1
+	 *
+	 * @var      bool
+	 */
+	protected $is_direct_access = null;
+
 	/**
 	 * Width of thumbnail images in the current WordPress settings
 	 *
@@ -356,11 +365,13 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since     1.0.0
+	 * @updated   4.1: added get_plugin_name()
 	 */
 	private function __construct() {
 
-		// Call $plugin_slug from public plugin class.
+		// Call some values from public plugin class.
 		$plugin = Quick_Featured_Images::get_instance();
+		$this->plugin_name = $plugin->get_plugin_name();
 		$this->plugin_slug = $plugin->get_plugin_slug();
 
 		// Load admin style sheet and JavaScript.
@@ -369,6 +380,9 @@ class Quick_Featured_Images_Admin {
 
 		// Add the admin page and menu item.
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ) );
+		
+		// Add 'Bulk set' link in rows of media library list
+		add_filter( 'media_row_actions', array( &$this, 'add_media_row_action' ), 10, 2 );
 
 	}
 	
@@ -378,6 +392,7 @@ class Quick_Featured_Images_Admin {
 	 * @since     1.0.0
      * @updated   2.0: added check for required image
      * @updated   3.0: some performance improvements
+     * @updated   4.1: added check for direct bulk set link
 	 *
 	 */
 	public function main() {
@@ -423,11 +438,21 @@ class Quick_Featured_Images_Admin {
 						// stay on the selection page with a warning
 						$this->selected_step = 'select';
 						$this->is_error_no_old_image = true;
+					// check if user comes from direct link in media page
+					} elseif ( "assign" == $this->selected_action 
+						&& "select" == $this->selected_step 
+						&& $this->selected_image_id ) {
+						// go to the filter selection page directly
+						$this->is_direct_access = true;
 					}
+
 					switch ( $this->selected_step ) {
 						case 'select':
 							if ( $this->is_error_no_old_image ) {
 								check_admin_referer( 'quickfi_refine', $this->plugin_slug . '_nonce' );
+							} elseif ( $this->is_direct_access ) {
+								// no referer check
+								check_admin_referer( 'bulk-assign' );
 							} else {
 								check_admin_referer( 'quickfi_start', $this->plugin_slug . '_nonce' );
 							}
@@ -478,6 +503,7 @@ class Quick_Featured_Images_Admin {
 	 * @updated  2.0: added: filter filter_img_size, action remove_any_img, $valid_image_dimensions, $selected_image_dimensions
 	 * @updated  3.0: added: filter filter_custom_taxonomies, valid_custom_post_types, valid_custom_taxonomies, selected_custom_taxonomies, all post types by default
 	 * @updated  4.0: added: filter filter_time and its variables
+	 * @updated  4.1: added: is_direct_access
 	 */
 	private function set_default_values() {
 		/*
@@ -547,6 +573,7 @@ class Quick_Featured_Images_Admin {
 		$this->selected_old_image_ids = array();
 		$this->selected_image_id = 0;
 		$this->is_error_no_old_image = false;
+		$this->is_direct_access = false;
 		// default: no category
 		$this->selected_category_id = 0;
 		// default: no parent page
@@ -1740,6 +1767,7 @@ class Quick_Featured_Images_Admin {
 	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
 	 *
 	 * @since    1.0.0
+	 * @updated  4.1: change hard coded plugin name to variable
 	 */
 	public function add_plugin_admin_menu() {
 
@@ -1748,11 +1776,33 @@ class Quick_Featured_Images_Admin {
 		 *
 		 */
 		$this->plugin_screen_hook_suffix = add_media_page(
-			sprintf( '%s: %s', 'Quick Featured Images', __( 'Bulk set, replace and remove featured images', $this->plugin_slug ) ),
-			'Quick Featured Images',
+			sprintf( '%s: %s', $this->plugin_name, __( 'Bulk set, replace and remove featured images', $this->plugin_slug ) ),
+			$this->plugin_name,
 			self::REQUIRED_USER_CAP,
 			$this->plugin_slug,
 			array( $this, 'main' )
 		);
 	}
+	
+	/**
+	 * Add a "Bulk set" link to the media row actions
+	 *
+	 * @since    4.1
+	 */
+	function add_media_row_action( $actions, $post ) {
+
+		// if current media is not an image or user has not the right or thumbnails are not supported return without change
+		if ( 'image/' != substr( $post->post_mime_type, 0, 6 ) || ! current_user_can( self::REQUIRED_USER_CAP ) || ! current_theme_supports( 'post-thumbnails' ) )
+			return $actions;
+		
+		// else build the link with nonce
+		$url = wp_nonce_url( admin_url( sprintf( 'upload.php?page=quick-featured-images&step=select&action=assign&image_id=%d', $post->ID ) ), 'bulk-assign' );
+		
+		// add it
+		$actions['quick-featured-images'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Bulk set as featured image', 'quick-featured-images' ) );
+		
+		// return extended action links list
+		return $actions;
+	}
+
 }
