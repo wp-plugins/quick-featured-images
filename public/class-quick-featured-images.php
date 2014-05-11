@@ -21,7 +21,7 @@
 	 *
 	 * @var     string
 	 */
-	const VERSION = '3.2.1';
+	const VERSION = '4.1';
 
 	/**
 	 * Lowest Wordpress version to run with this plugin
@@ -31,6 +31,16 @@
 	 * @var     string
 	 */
 	const REQUIRED_WP_VERSION = '3.7'; /* because of WP_DATE_QUERY */
+
+	/**
+	 * Name of this plugin.
+	 *
+	 *
+	 * @since    4.1
+	 *
+	 * @var      string
+	 */
+	protected static $plugin_name = 'Quick Featured Images';
 
 	/**
 	 * Unique identifier for your plugin.
@@ -79,6 +89,17 @@
 				delete_transient( self::PLUGIN_SLUG );
 			}
 		}
+	}
+
+	/**
+	 * Return the plugin name.
+	 *
+	 * @since    4.1
+	 *
+	 * @return    Plugin name variable.
+	 */
+	public function get_plugin_name() {
+		return self::$plugin_name;
 	}
 
 	/**
@@ -326,8 +347,8 @@
 	 */
 	public function display_activation_message () {
 		$url  = esc_url( admin_url( sprintf( 'upload.php?page=%s', self::PLUGIN_SLUG ) ) );
-		$link = sprintf( '<a href="%s">%s =&gt; Quick Featured Images</a>', $url, __( 'Media' ) );
-		$msg  = sprintf( __( 'Welcome to Quick Featured Images! You can find the plugin at %s.', self::PLUGIN_SLUG ), $link );
+		$link = sprintf( '<a href="%s">%s =&gt; %s</a>', $url, __( 'Media' ), self::$plugin_name );
+		$msg  = sprintf( __( 'Welcome to %s! You can find the plugin at %s.', self::PLUGIN_SLUG ), self::$plugin_name, $link );
 		$html = sprintf( '<div class="updated"><p>%s</p></div>', $msg );
 		print $html;
 	}
