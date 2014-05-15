@@ -393,6 +393,7 @@ class Quick_Featured_Images_Admin {
      * @updated   2.0: added check for required image
      * @updated   3.0: some performance improvements
      * @updated   4.1: added check for direct bulk set link
+     * @updated   4.1.1: fixed security check
 	 *
 	 */
 	public function main() {
@@ -403,6 +404,7 @@ class Quick_Featured_Images_Admin {
 		// print header
 		$this->display_header();
 		#Quick_Featured_Images::dump($_REQUEST);
+		#Quick_Featured_Images::dump($_SERVER);
 		/*
 		 * print content
 		 */
@@ -441,7 +443,8 @@ class Quick_Featured_Images_Admin {
 					// check if user comes from direct link in media page
 					} elseif ( "assign" == $this->selected_action 
 						&& "select" == $this->selected_step 
-						&& $this->selected_image_id ) {
+						&& $this->selected_image_id
+						&& isset( $_REQUEST[ '_wpnonce' ] ) ) {
 						// go to the filter selection page directly
 						$this->is_direct_access = true;
 					}
