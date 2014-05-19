@@ -507,6 +507,7 @@ class Quick_Featured_Images_Admin {
 	 * @updated  3.0: added: filter filter_custom_taxonomies, valid_custom_post_types, valid_custom_taxonomies, selected_custom_taxonomies, all post types by default
 	 * @updated  4.0: added: filter filter_time and its variables
 	 * @updated  4.1: added: is_direct_access
+     * @updated  4.1.2: fixed wrong placement of valid_custom_taxonomies
 	 */
 	private function set_default_values() {
 		/*
@@ -539,11 +540,13 @@ class Quick_Featured_Images_Admin {
 			'filter_tag' 				=> __( '<strong>Tag Filter:</strong> Search posts by tag', $this->plugin_slug ),
 			'filter_parent_page' 		=> __( '<strong>Parent Page Filter:</strong> Search child pages by parent page', $this->plugin_slug ),
 		);
+		// post types (generic and custom)
 		$this->valid_post_types = array(
 			'post' 		=> __( 'Posts' ),
 			'page' 		=> __( 'Pages' ),
 		);
 		$this->valid_custom_post_types = $this->get_registered_custom_post_types();
+		// statuses
 		$this->valid_statuses = array(
 			'publish' => __( 'Published: already published', $this->plugin_slug ),
 			'pending' => __( 'Pending review: waiting for reviews', $this->plugin_slug ),
@@ -551,6 +554,7 @@ class Quick_Featured_Images_Admin {
 			'future'  => __( 'Scheduled: will be published in the future', $this->plugin_slug ),
 			'private' => __( 'Private: visible only to users who are logged in', $this->plugin_slug )
 		);
+		// time and dates
 		$this->valid_date_queries = array(
 			'after' 	=> __( 'Start Date' ),
 			'before'	=> __( 'End Date' ),
@@ -563,6 +567,8 @@ class Quick_Featured_Images_Admin {
 			'value' 	=> __( 'Custom field value to compare with', $this->plugin_slug ),
 			'type' 		=> __( 'Custom field type', $this->plugin_slug )
 		);
+		// custom taxonomies
+		$this->valid_custom_taxonomies = $this->get_registered_custom_taxonomies();
 		// image dimensions
 		$this->valid_image_dimensions = array(
 			'max_width' 	=> __( 'Image width in pixels lower than', $this->plugin_slug ),
