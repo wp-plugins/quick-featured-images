@@ -153,6 +153,15 @@ class Quick_Featured_Images_Admin {
 	protected $valid_actions = null;
 
 	/**
+	 * Valid names and descriptions of the actions without a user selected image
+	 *
+	 * @since    5.0
+	 *
+	 * @var      array
+	 */
+	protected $valid_actions_without_image = null;
+
+	/**
 	 * User selected filters the plugin should perform
 	 *
 	 * @since    1.0.0
@@ -394,6 +403,7 @@ class Quick_Featured_Images_Admin {
      * @updated   3.0: some performance improvements
      * @updated   4.1: added check for direct bulk set link
      * @updated   4.1.1: fixed security check
+     * @updated   5.0: added action "take first img", added snippet form_back_to_selection
 	 *
 	 */
 	public function main() {
@@ -418,8 +428,8 @@ class Quick_Featured_Images_Admin {
 			if ( ! $this->selected_action ) {
 				$this->display_error( 'wrong_action', false );
 			} else {
-				// check whether thumb id is not required at required circumstances: all except start page oder action 'remove_any_img'
-				if ( 'remove_any_img' == $this->selected_action ) {
+				// check whether thumb id is not required due to selected action
+				if ( in_array( $this->selected_action, array_keys( $this->valid_actions_without_image ) ) ) {
 					$this->is_image_required = false;
 				}
 				// get selected image id, else 0
@@ -470,6 +480,8 @@ class Quick_Featured_Images_Admin {
 							include_once( 'views/section_image.php' );	
 							// print form to refine choice
 							include_once( 'views/form_refine.php' );	
+							// print form for going back to the filter selection without loosing input data
+							include_once( 'views/form_back_to_selection.php' );	
 							break;
 						case 'confirm':
 							check_admin_referer( 'quickfi_refine', $this->plugin_slug . '_nonce' );
@@ -483,6 +495,8 @@ class Quick_Featured_Images_Admin {
 							if ( $this->selected_filters ) {
 								include_once( 'views/form_refine.php' );	
 							}
+							// print form for going back to the filter selection without loosing input data
+							include_once( 'views/form_back_to_selection.php' );	
 							break;
 						case 'perform':
 							check_admin_referer( 'quickfi_confirm', $this->plugin_slug . '_nonce' );
@@ -508,6 +522,7 @@ class Quick_Featured_Images_Admin {
 	 * @updated  4.0: added: filter filter_time and its variables
 	 * @updated  4.1: added: is_direct_access
      * @updated  4.1.2: fixed wrong placement of valid_custom_taxonomies
+     * @updated  5.0: added valid actions without selected image, added maximum dimensions for thumbnails
 	 */
 	private function set_default_values() {
 		/*
@@ -525,7 +540,10 @@ class Quick_Featured_Images_Admin {
 			'assign'			=> __( 'Set the selected image as new featured image', $this->plugin_slug ),
 			'replace'			=> __( 'Replace featured images by the selected image', $this->plugin_slug ),
 			'remove'			=> __( 'Remove the selected image as featured image', $this->plugin_slug ),
-			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug )
+		);
+		$this->valid_actions_without_image = array(
+			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug ),
+			'take_first_img'	=> __( 'Set the first post image as featured image', $this->plugin_slug ),
 		);
 		$this->valid_filters = array(
 			'filter_post_types' 		=> __( '<strong>Post Type Filter:</strong> Search by post type. By default all posts, pages and custom post types will be affected.', $this->plugin_slug ),
@@ -605,9 +623,12 @@ class Quick_Featured_Images_Admin {
 		$this->selected_custom_field = array();
 		// default: no selected posts
 		$this->selected_post_ids = array();
-		// get user defined dimensions for thumbnails, else take 150 px
-		$this->used_thumbnail_width  = get_option( 'thumbnail_size_w', 150 );
-		$this->used_thumbnail_height = get_option( 'thumbnail_size_h', 150 );
+		// get user defined dimensions for thumbnails, else take 150 px and set maximum value if necessary
+		$max_dimension = 160; // width of thumbnail column in px at 1024 px window width
+		$this->used_thumbnail_width  = get_option( 'thumbnail_size_w', $max_dimension );
+		$this->used_thumbnail_height = get_option( 'thumbnail_size_h', $max_dimension );
+		$this->used_thumbnail_width = $this->used_thumbnail_width > $max_dimension ? $max_dimension : $this->used_thumbnail_width;
+		$this->used_thumbnail_height = $this->used_thumbnail_height > $max_dimension ? $max_dimension : $this->used_thumbnail_height;
 		 // default:  stored sizes for thumbnails
 		$this->selected_image_dimensions = array(
 			'max_width' 	=> $this->used_thumbnail_width,
@@ -920,6 +941,7 @@ class Quick_Featured_Images_Admin {
 	 * @updated   2.0: moving loop into ifs and switch to gain more performance
 	 * @updated   3.2: added current attached featured image html
 	 * @updated   4.0: improved performance with cache array
+	 * @updated   5.0: added action "take_first_img"
 	 *
 	 * @return    array    affected posts
 	 */
@@ -936,6 +958,7 @@ class Quick_Featured_Images_Admin {
 		$attached_images = array();
 		$false_id = 'false_id';
 		$attached_images[ $false_id ] = false;
+		$pat_find_img_src = '/<img.*?src=[\'"]([^\'"]+)[\'"][^>]*>/i';
 		// The Query
 		$the_query = new WP_Query( $this->get_query_args() );
 		#printf( '<p>%s</p>', $the_query->request ); // just for debugging
@@ -996,35 +1019,161 @@ class Quick_Featured_Images_Admin {
 								$success
 							);
 						} // while()
+						break;
+					case 'take_first_img':
+						while ( $the_query->have_posts() ) {
+							$the_query->the_post();
+							$success = false;
+							// get the post id once
+							$post_id = get_the_ID();
+							// get html for featured image
+							$thumb_id = get_post_thumbnail_id( $post_id );
+							if ( $thumb_id ) {
+								if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+									// get the html code for featured image once
+									$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+								}
+							} else {
+								// if there are no featured image, search post content for embedded images and take the first found image
+								preg_match_all( $pat_find_img_src, get_the_content(), $matches );
+								if ( isset( $matches ) and 0 < count( $matches ) ) {
+									foreach ( $matches[ 1 ] as $img_src ) {
+										$thumb_id = $this->get_image_id_by_url( $img_src );
+										// stop loop, because we want only the first matching image of a post
+										if ( $thumb_id ) {
+											break;
+										}
+									} // foreach( $img_src )
+								} // if $matches
+								if ( $thumb_id ) {
+									// do the task
+									$success = set_post_thumbnail( $post_id, $thumb_id );
+									// get html for featured image
+									$thumb_id = get_post_thumbnail_id( $post_id );
+									if ( $thumb_id ) {
+										if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+											// get the html code for featured image once
+											$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+										}
+									} else {
+										$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+									}
+								} else {
+									$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+								}
+							}
+							// store edit link, post title, image html, success of action (true or false)
+							$results[] = array( 
+								get_edit_post_link(), 
+								get_the_title(),
+								$attached_images[ $thumb_id ],
+								$success 
+							);
+						} // while()
+						break;
 				} // switch()
 			} else { // preview only, no changes
-				while ( $the_query->have_posts() ) {
-					$the_query->the_post();
-					// get html for featured image
-					$thumb_id = get_post_thumbnail_id( get_the_ID() );
-					if ( $thumb_id ) {
-						if ( ! isset( $attached_images[ $thumb_id ] ) ) {
-							// get the html code for featured image once
-							$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
-						}
-					} else {
-						$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
-					}
-					// store edit link, post title, post date, post author, image html
-					$results[] = array( 
-						get_edit_post_link(), 
-						get_the_title(), 
-						sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
-						sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
-						$attached_images[ $thumb_id ],
-					);
-				} // while()
+				switch ( $this->selected_action ) {
+					case 'take_first_img':
+						while ( $the_query->have_posts() ) {
+							$the_query->the_post();
+							// get the post id once
+							$post_id = get_the_ID();
+							// get html for featured image
+							$thumb_id = get_post_thumbnail_id( $post_id );
+							if ( $thumb_id ) {
+								if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+									// get the html code for featured image once
+									$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+								}
+							} else {
+								// if there are no featured image, search post content for embedded images and take the first found image
+								preg_match_all( $pat_find_img_src, get_the_content(), $matches );
+								if ( isset( $matches ) and 0 < count( $matches ) ) {
+									foreach ( $matches[ 1 ] as $img_src ) {
+										$thumb_id = $this->get_image_id_by_url( $img_src );
+										// stop loop, because we want only the first matching image of a post
+										if ( $thumb_id ) {
+											break;
+										}
+									} // foreach( $img_src )
+								} // if $matches
+								if ( $thumb_id ) {
+									if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+										// get the html code for featured image once
+										$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+									}
+								} else {
+									$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+								}
+							}
+							// store edit link, post title, post date, post author, image html
+							$results[] = array( 
+								get_edit_post_link(), 
+								get_the_title(), 
+								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
+								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								$attached_images[ $thumb_id ],
+							);
+						} // while()
+						break;
+					default:
+						while ( $the_query->have_posts() ) {
+							$the_query->the_post();
+							// get html for featured image
+							$thumb_id = get_post_thumbnail_id( get_the_ID() );
+							if ( $thumb_id ) {
+								if ( ! isset( $attached_images[ $thumb_id ] ) ) {
+									// get the html code for featured image once
+									$attached_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+								}
+							} else {
+								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+							}
+							// store edit link, post title, post date, post author, image html
+							$results[] = array( 
+								get_edit_post_link(), 
+								get_the_title(), 
+								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
+								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								$attached_images[ $thumb_id ],
+							);
+						} // while()
+				} // switch()
 			} // if( $perform )
 		} // if( have_posts )
 		// Restore original Post Data
 		wp_reset_postdata();
 		// return results
 		return $results;
+	}
+	
+	/**
+	 * Returns the post id of an uploaded image, else 0
+	 *
+	 * @access   private
+	 * @since     5.0
+	 *
+	 * @return    integer    the post id of the image
+	 */
+	private function get_image_id_by_url ( $url ) {
+		global $wpdb;
+		$thumb_id = 0;
+		// look for internal images only, i.e. images from the media library and no image embedded by URL from external servers
+		preg_match( '|' . get_site_url() . '.+/([^/]+)\.[a-z0-9]+$|i', $url, $matches );
+		// if site-owned image
+		if ( isset( $matches ) and 0 < count( $matches ) ) {
+			// delete size values in image file name to get the origin file name
+			$base_file_name = preg_replace( '/(.+)-[0-9]+x[0-9]+/', '\1', $matches[ 1 ] );
+			// look up its ID in the db
+			$img_id = $wpdb->get_var( $wpdb->prepare( "SELECT `ID` FROM $wpdb->posts WHERE `post_name` = '%s'", $base_file_name ) );
+			// if it is available take its ID as new thumb id
+			if ( $img_id ) {
+				// finally we have an id
+				$thumb_id = intval( $img_id );
+			}
+		} // if $matches
+		return $thumb_id;
 	}
 
 	/**
@@ -1202,7 +1351,7 @@ class Quick_Featured_Images_Admin {
 	private function get_sanitized_action() {
 		return $this->get_sanitized_value(
 			'action',
-			array_keys( $this->valid_actions )
+			array_keys( array_merge( $this->valid_actions, $this->valid_actions_without_image ) )
 		);
 	}
 

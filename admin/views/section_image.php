@@ -15,7 +15,16 @@ if ( $this->is_image_required ) {
 <?php
 }
 ?>		<h4><?php _e( 'Your selected action', $this->plugin_slug ); ?></h4>
-		<p><?php echo $this->valid_actions[ $this->selected_action ]; ?></p>
+<?php
+$selected_action = __( 'You have not selected an action.', $this->plugin_slug );
+if ( isset( $this->valid_actions[ $this->selected_action ] ) ) {
+	$selected_action = $this->valid_actions[ $this->selected_action ];
+} elseif ( isset( $this->valid_actions_without_image[ $this->selected_action ] ) ) {
+	$selected_action = $this->valid_actions_without_image[ $this->selected_action ];
+} else {
+}
+?>
+		<p><?php echo $selected_action; ?></p>
 		<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'If wrong action start again', $this->plugin_slug );?></a></p>
 <?php
 if ( $this->is_image_required ) {

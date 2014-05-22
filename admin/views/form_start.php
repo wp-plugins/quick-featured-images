@@ -19,6 +19,8 @@ $label_available_filters 	= __( 'You will able to use filters on the next page.'
 	<p><?php _e( 'Whatever you select: You can refine your choice on the next page.', $this->plugin_slug ); ?></p>
 	<fieldset>
 		<legend><span><?php _e( 'Select action', $this->plugin_slug ); ?></span></legend>
+		<h4><?php _e( 'Actions with a selected image', $this->plugin_slug ); ?></h4>
+		<p><?php _e( 'These actions require to select an image with the following button.', $this->plugin_slug ); ?></p>
 <?php 
 foreach ( $this->valid_actions as $name => $label ) {
 ?>
@@ -30,8 +32,21 @@ foreach ( $this->valid_actions as $name => $label ) {
 	}
 	$text = 'replace' == $name ? $label_no_available_filters : $label_available_filters;
 	printf( ' %s', $text );
-	$text = 'remove_any_img' == $name ? $label_not_required_image : $label_required_image;
-	printf( ' %s', $text );
+	//printf( ' %s', $label_required_image );
+?></label>
+		</p>
+<?php
+}
+?>
+		<h4><?php _e( 'Actions without a selected image', $this->plugin_slug ); ?></h4>
+		<p><?php _e( 'These actions do not require a selected image.', $this->plugin_slug ); ?></p>
+<?php
+foreach ( $this->valid_actions_without_image as $name => $label ) {
+?>
+		<p>
+			<input type="radio" id="<?php echo $name; ?>" name="action" value="<?php echo $name; ?>" <?php checked( 'assign' == $name ); ?> />
+			<label for="<?php echo $name; ?>"><strong><?php echo $label; ?>.</strong><br><?php
+	printf( ' %s', $label_available_filters );
 ?></label>
 		</p>
 <?php

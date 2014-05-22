@@ -11,9 +11,19 @@
 		case 'remove':
 			$headline = __( 'Remove the image as featured image from found posts and pages', $this->plugin_slug );
 			$question = __( 'Should the selected image be removed from all listed posts?', $this->plugin_slug );
+			break;
 		case 'remove_any_img':
 			$headline = __( 'Remove any featured image from found posts and pages', $this->plugin_slug );
 			$question = __( 'Should the added featured images be removed from all listed posts?', $this->plugin_slug );
+			break;
+		case 'take_first_img':
+			$headline = __( 'Set the first post image as featured image to found posts and pages', $this->plugin_slug );
+			$question = __( 'Should the proposed images be set as featured images at all listed posts?', $this->plugin_slug );
+			break;
+	}
+	$thumb_column_headline = __( 'Current Featured Image', $this->plugin_slug );
+	if ( 'take_first_img' == $this->selected_action ) {
+		$thumb_column_headline = __( 'Proposed Featured Image', $this->plugin_slug );
 	}
 ?>
 <h3><?php echo $headline; ?></h3>
@@ -27,7 +37,7 @@ if ( $results ) {
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
 			<th><?php _e( 'Details' ); ?></th>
-			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
+			<th class="num"><?php echo $thumb_column_headline; ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -51,7 +61,7 @@ if ( $results ) {
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
 			<th><?php _e( 'Details' ); ?></th>
-			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
+			<th class="num"><?php echo $thumb_column_headline; ?></th>
 		</tr>
 	</tfoot>
 </table>
