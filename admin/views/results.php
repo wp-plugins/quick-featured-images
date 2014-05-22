@@ -49,3 +49,5 @@ if ( $results ) {
 }
 ?>
 <p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
+<h3><?php _e( 'Do you like the plugin?', $this->plugin_slug ); ?></h3>
+<p><a href="http://wordpress.org/support/view/plugin-reviews/quick-featured-images"><?php _e( 'Please rate it at wordpress.org!', $this->plugin_slug ); ?></a></p>

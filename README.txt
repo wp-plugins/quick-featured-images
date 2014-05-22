@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.9.1
-Stable tag: 4.1.2
+Stable tag: 5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,9 +20,9 @@ You will find the plugin under 'Media' => 'Quick Featured Images' and in the med
 
 Quick Featured Images enables you three main tasks with featured images: add, exchange and delete them.
 
-1. **Adding featured images:** You can set and replace an image as the new featured image to hundreds of posts in one go.
-2. **Exchanging featured images:** You can replace or update several existing featured images with one new image in one go.
-3. **Deleting featured images:** You can remove a particular or any existing featured image in one go.
+1. **Adding featured images:** You can select an image or scan for the first post image to set it as the new featured image to hundreds of posts in one go.
+2. **Exchanging featured images:** You can replace or update several existing featured images with a selected image in one go.
+3. **Deleting featured images:** You can remove a selected featured image or all existing featured images in one go.
 
 = Filters =
 
@@ -135,6 +135,10 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 5.0 =
+* Added action: Take the first image in a post as featured image
+* Updated *.pot file and german translation
+
 = 4.1.2 =
 Fixed bug on using custom taxonomies
 
@@ -214,6 +218,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 5.0 =
+Added action: Take the first image in a post as featured image
 
 = 4.1.2 =
 Fixed bug on using custom taxonomies

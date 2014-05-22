@@ -52,9 +52,10 @@ if ( 'replace' == $this->selected_action ) {
 } else {
 // else display filter selection
 ?>
-<h3><?php _e( 'Optional: Add a filter', $this->plugin_slug ); ?></h3>
-<p><?php _e( 'If you want select one of the following filters to narrow down the set of concerned posts and pages.', $this->plugin_slug ); ?></p>
+<h3><?php _e( 'Refine your selections', $this->plugin_slug ); ?></h3>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=refine', $this->plugin_slug ) ) ); ?>">
+<h4><?php _e( 'Optional: Add a filter', $this->plugin_slug ); ?></h4>
+<p><?php _e( 'If you want select one of the following filters to narrow down the set of concerned posts and pages.', $this->plugin_slug ); ?></p>
 	<fieldset>
 		<legend><span><?php _e( 'Select filters', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'You can select multiple filters. They will return an intersection of their results.', $this->plugin_slug ); ?></p>
@@ -78,6 +79,8 @@ if ( 'replace' == $this->selected_action ) {
 	</p>
 </form>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=confirm', $this->plugin_slug ) ) ); ?>">
+	<h3><?php _e( 'Alternatively go on with no filters', $this->plugin_slug ); ?></h3>
+	<p><?php _e( 'If you do not want to use any filter just go on by clicking on this button.', $this->plugin_slug ); ?></p>
 	<p>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
