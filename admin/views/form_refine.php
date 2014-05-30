@@ -18,6 +18,16 @@ if ( $this->selected_filters ) {
 ?>
 	</fieldset>
 	<p>
+<?php
+// remember selected options if there are some
+if ( $this->selected_options ) {
+	foreach ( $this->selected_options as $v ) {
+?>
+		<input type="hidden" name="options[]" value="<?php echo $v; ?>" />
+<?php
+	}
+}
+?>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 		<?php wp_nonce_field( 'quickfi_refine', $this->plugin_slug . '_nonce' ); ?>

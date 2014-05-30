@@ -1,32 +1,27 @@
 <?php 
 	switch ( $this->selected_action ) {
 		case 'assign':
-			$headline = __( 'Set the image as featured image to found posts and pages', $this->plugin_slug );
 			$question = __( 'Should the selected image be set as featured image to all listed posts?', $this->plugin_slug );
 			break;
 		case 'replace':
-			$headline = __( 'Replace the image of found posts and pages', $this->plugin_slug );
 			$question = __( 'Should the current set featured image be replaced by the selected image at all listed posts?', $this->plugin_slug );
 			break;
 		case 'remove':
-			$headline = __( 'Remove the image as featured image from found posts and pages', $this->plugin_slug );
 			$question = __( 'Should the selected image be removed from all listed posts?', $this->plugin_slug );
 			break;
 		case 'remove_any_img':
-			$headline = __( 'Remove any featured image from found posts and pages', $this->plugin_slug );
 			$question = __( 'Should the added featured images be removed from all listed posts?', $this->plugin_slug );
 			break;
 		case 'take_first_img':
-			$headline = __( 'Set the first post image as featured image to found posts and pages', $this->plugin_slug );
-			$question = __( 'Should the proposed images be set as featured images at all listed posts?', $this->plugin_slug );
+			$question = __( 'Should the future images be set as featured images at all listed posts?', $this->plugin_slug );
 			break;
 	}
 	$thumb_column_headline = __( 'Current Featured Image', $this->plugin_slug );
 	if ( 'take_first_img' == $this->selected_action ) {
-		$thumb_column_headline = __( 'Proposed Featured Image', $this->plugin_slug );
+		$thumb_column_headline = __( 'Future Featured Image', $this->plugin_slug );
 	}
 ?>
-<h3><?php echo $headline; ?></h3>
+<h3><?php _e( 'Preview of your selection', $this->plugin_slug ); ?></h3>
 <h4><?php printf( __( '%d matches found', $this->plugin_slug ), sizeof( $results ) ); ?></h4>
 <?php 
 if ( $results ) { 
@@ -37,7 +32,8 @@ if ( $results ) {
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
 			<th><?php _e( 'Details' ); ?></th>
-			<th class="num"><?php echo $thumb_column_headline; ?></th>
+			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
+			<th class="num"><?php _e( 'Future Featured Image', $this->plugin_slug ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -45,15 +41,18 @@ if ( $results ) {
 	$c = 1;
 	foreach ( $results as $result ) {
 		// check if no featured image for the post, else add default
-		$img = $result[ 4 ] ? $result[ 4 ] : $img = __( 'No Image' ); #$img = sprintf( '<img src="%s" alt="" width="%d" height="%d">', plugins_url( 'admin/assets/images/no-thumb.gif' , dirname ( dirname( __FILE__ ) ) ), $this->assigned_thumbnail_dimensions[0], $this->assigned_thumbnail_dimensions[1] );
-		// alternating row colors
+		$current_img = $result[ 4 ] ? $result[ 4 ] : $current_img = __( 'No Image' );
+		$future_img = $result[ 5 ] ? $result[ 5 ] : $future_img = __( 'No Image' );
+		// alternating row colors: if $c is divisible by 2 (so the modulo is 0) then set 'alt'-class
 		$class_attrib = 0 == $c % 2 ? ' class="alt"' : '';
 		// print the table row
 		printf( '<tr%s>', $class_attrib );
 		printf( '<td class="num">%d</td>', $c );
 		printf( '<td><a href="%s" target="_blank">%s</a><br>%s<br>%s</td>', $result[ 0 ], $result[ 1 ], $result[ 2 ], $result[ 3 ] );
-		printf( '<td class="num">%s</td>', $img );
+		printf( '<td class="num">%s</td>', $current_img );
+		printf( '<td class="num">%s</td>', $future_img );
 		print "</tr>\n";
+		// increase counter
 		$c++;
 	}
 ?>
@@ -61,7 +60,8 @@ if ( $results ) {
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
 			<th><?php _e( 'Details' ); ?></th>
-			<th class="num"><?php echo $thumb_column_headline; ?></th>
+			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
+			<th class="num"><?php _e( 'Future Featured Image', $this->plugin_slug ); ?></th>
 		</tr>
 	</tfoot>
 </table>
@@ -93,6 +93,13 @@ if ( $this->selected_custom_post_types ) {
 	foreach ( $this->selected_custom_post_types as $v ) {
 ?>
 		<input type="hidden" name="custom_post_types[]" value="<?php echo $v; ?>" />
+<?php
+	}
+}
+if ( $this->selected_options ) {
+	foreach ( $this->selected_options as $v ) {
+?>
+		<input type="hidden" name="options[]" value="<?php echo $v; ?>" />
 <?php
 	}
 }

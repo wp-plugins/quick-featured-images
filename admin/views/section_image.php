@@ -1,4 +1,4 @@
-<h3><?php _e( 'What you selected', $this->plugin_slug ); ?></h3>
+<h3><?php _e( 'Your selection', $this->plugin_slug ); ?></h3>
 <?php
 if ( $this->is_image_required ) {
 ?>
@@ -16,12 +16,12 @@ if ( $this->is_image_required ) {
 }
 ?>		<h4><?php _e( 'Your selected action', $this->plugin_slug ); ?></h4>
 <?php
-$selected_action = __( 'You have not selected an action.', $this->plugin_slug );
 if ( isset( $this->valid_actions[ $this->selected_action ] ) ) {
 	$selected_action = $this->valid_actions[ $this->selected_action ];
 } elseif ( isset( $this->valid_actions_without_image[ $this->selected_action ] ) ) {
 	$selected_action = $this->valid_actions_without_image[ $this->selected_action ];
 } else {
+	$selected_action = __( 'You have not selected an action.', $this->plugin_slug );
 }
 ?>
 		<p><?php echo $selected_action; ?></p>
@@ -33,4 +33,54 @@ if ( $this->is_image_required ) {
 </div><!-- .th_wrapper -->
 <?php
 }
+// don't show on selection page
+if ( 'select' != $this->selected_step ) {
 ?>
+<div class="th_wrapper">
+	<div class="th_w50percent">
+		<h4><?php _e( 'Your selected options', $this->plugin_slug ); ?></h4>
+<?php 
+	if ( $this->selected_options ) {
+?>
+		<ul>
+<?php 
+		foreach ( $this->selected_options as $option ) {
+?>
+			<li><?php echo $this->valid_options[ $option ]; ?></li>
+<?php 
+		}
+?>
+		</ul>
+<?php 
+	} else {
+?>
+		<p><?php _e( 'No selected options', $this->plugin_slug ); ?></p>
+<?php 
+}
+?>
+	</div><!-- .th_w50percent -->
+	<div class="th_w50percent">
+		<h4><?php _e( 'Your selected filters', $this->plugin_slug ); ?></h4>
+<?php 
+	if ( $this->selected_filters ) {
+?>
+		<ul>
+<?php 
+		foreach ( $this->selected_filters as $filter ) {
+?>
+			<li><?php echo $this->valid_filters[ $filter ]; ?></li>
+<?php 
+		}
+?>
+		</ul>
+<?php 
+	} else {
+?>
+		<p><?php _e( 'No selected filters', $this->plugin_slug ); ?></p>
+<?php 
+	}
+?>
+	</div><!-- .th_w50percent -->
+</div><!-- .th_wrapper -->
+<?php
+} // if ( 'select' != $this->selected_step )
