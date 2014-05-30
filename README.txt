@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.9.1
-Stable tag: 5.0
+Stable tag: 5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,10 @@ Quick Featured Images enables you three main tasks with featured images: add, ex
 1. **Adding featured images:** You can select an image or scan for the first post image to set it as the new featured image to hundreds of posts in one go.
 2. **Exchanging featured images:** You can replace or update several existing featured images with a selected image in one go.
 3. **Deleting featured images:** You can remove a selected featured image or all existing featured images in one go.
+
+= Options =
+
+You can switch between overwriting existing featured images or keeping them unchanged. The latter setting is the default.
 
 = Filters =
 
@@ -85,6 +89,13 @@ BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PRO
 
 == Frequently Asked Questions ==
 
+= How can I set a default featured image? =
+
+For that use the plugin twice:
+
+1. Remove all undesired featured images if there are some. If desired set the images using the option "Overwrite existing featured images".
+2. Set the default image without the option "Overwrite existing featured images". This will set the image to all posts without a featured image.
+
 = Where can I find the plugin in the WordPress backend? =
 
 There are two ways to find Quick Featured Images in the amdin area:
@@ -134,6 +145,15 @@ If you want to contribute a translation of the plugin in your language it would 
 5. The fifth and last screen: take an overview of the success of the action.
 
 == Changelog ==
+
+= 5.1 =
+* Added: Column in the preview list for the future featured image
+* Added: Option whether to overwrite existing featured images or not
+* Added: User selected filters and options in the information section
+* Changed: Setting no filters jumps directly to confirmation page instead of displaying an error message
+* Improved: Search for first image in posts finds more images
+* Improved: Selected featured images which should be replaced are remembered if the user goes back to selection page
+* Updated *.pot file and german translation
 
 = 5.0 =
 * Added action: Take the first image in a post as featured image
@@ -218,6 +238,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 5.1 =
+New option and many user interface improvements
 
 = 5.0 =
 Added action: Take the first image in a post as featured image

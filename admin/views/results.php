@@ -21,7 +21,7 @@ if ( $results ) {
 		$msg = $result[ 3 ] ? __( 'Changed successfully', $this->plugin_slug ) : '<span class="failure">' . __( 'Unchanged', $this->plugin_slug ) . '</span>';
 		// alternating row colors with error class if error
 		$classname = $result[ 3 ] ? '' : 'form-invalid';
-		if ( 0 == $c % 2 ) {
+		if ( 0 == $c % 2 ) { // if $c is divisible by 2 (so the modulo is 0)
 			$classname .= $result[ 3 ] ? 'alt' : ' alt';
 		}
 		// print the table row
@@ -30,6 +30,7 @@ if ( $results ) {
 		printf( '<td><a href="%s" target="_blank">%s</a><br>%s</td>', $result[ 0 ], $result[ 1 ], $msg );
 		printf( '<td class="num">%s</td>', $img );
 		print "</tr>\n";
+		// increase counter
 		$c++;
 	}
 ?>
