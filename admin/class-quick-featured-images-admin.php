@@ -554,6 +554,7 @@ class Quick_Featured_Images_Admin {
 	 * @updated  4.1: added: is_direct_access
      * @updated  4.1.2: fixed wrong placement of valid_custom_taxonomies
      * @updated  5.0: added valid actions without selected image, added maximum dimensions for thumbnails
+     * @updated  5.1.1: changed 'take_first_img' to 'assign_first_img'
 	 */
 	private function set_default_values() {
 		/*
@@ -573,8 +574,8 @@ class Quick_Featured_Images_Admin {
 			'remove'			=> __( 'Remove the selected image as featured image', $this->plugin_slug ),
 		);
 		$this->valid_actions_without_image = array(
+			'assign_first_img'	=> __( 'Set the first post image as featured image', $this->plugin_slug ),
 			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug ),
-			'take_first_img'	=> __( 'Set the first post image as featured image', $this->plugin_slug ),
 		);
 		$this->valid_filters = array(
 			'filter_post_types' 		=> __( 'Post Type Filter', $this->plugin_slug ),
@@ -977,8 +978,9 @@ class Quick_Featured_Images_Admin {
 	 * @updated   2.0: moving loop into ifs and switch to gain more performance
 	 * @updated   3.2: added current attached featured image html
 	 * @updated   4.0: improved performance with cache array
-	 * @updated   5.0: added action "take_first_img"
+	 * @updated   5.0: added action "assign_first_img"
 	 * @updated   5.1: added future image as column value for preview list
+	 * @updated   5.1.1: refactored lines around $this->get_image_id_by_url()
 	 *
 	 * @return    array    affected posts
 	 */
@@ -997,8 +999,6 @@ class Quick_Featured_Images_Admin {
 		$future_featured_images = array();
 		$current_featured_images[ $false_id ] = false;
 		$future_featured_images[ $false_id ] = false;
-		// define other vars
-		$pat_find_img_src = '/<img.*?src=[\'"]([^\'"]+)[\'"][^>]*>/i';
 		// The Query
 		$the_query = new WP_Query( $this->get_query_args() );
 		#printf( '<p>%s</p>', $the_query->request ); // just for debugging
@@ -1066,7 +1066,7 @@ class Quick_Featured_Images_Admin {
 							);
 						} // while()
 						break;
-					case 'take_first_img':
+					case 'assign_first_img':
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
 							$success = false;
@@ -1075,17 +1075,7 @@ class Quick_Featured_Images_Admin {
 							// check if there is an existing featured image
 							$current_thumb_id = get_post_thumbnail_id( $post_id );
 							// search post content for embedded images and take the first found image
-							$future_thumb_id = 0;
-							preg_match_all( $pat_find_img_src, get_the_content(), $matches );
-							if ( isset( $matches ) and 0 < count( $matches ) ) {
-								foreach ( $matches[ 1 ] as $img_src ) {
-									$future_thumb_id = $this->get_image_id_by_url( $img_src );
-									// stop loop, because we want only the first matching image of a post
-									if ( $future_thumb_id ) {
-										break;
-									}
-								} // foreach( $img_src )
-							} // if $matches
+							$future_thumb_id = $this->get_image_id_by_url( get_the_content() );
 							// if old thumb 
 							if ( $current_thumb_id ) {
 								// if new thumb + overwrite old thumb => new thumb
@@ -1234,7 +1224,7 @@ class Quick_Featured_Images_Admin {
 							);
 						} // while()
 						break;
-					case 'take_first_img':
+					case 'assign_first_img':
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
 							// get the post id once
@@ -1248,61 +1238,37 @@ class Quick_Featured_Images_Admin {
 								}
 								if ( in_array( 'overwrite', $this->selected_options ) ) {
 									// preview old thumb + new thumb
-									$future_thumb_id = 0;
-									// if there are no featured image, search post content for embedded images and take the first found image
-									preg_match_all( $pat_find_img_src, get_the_content(), $matches );
-									if ( isset( $matches ) and 0 < count( $matches ) ) {
-										foreach ( $matches[ 1 ] as $img_src ) {
-											$future_thumb_id = $this->get_image_id_by_url( $img_src );
-											// stop loop, because we want only the first matching image of a post
-											if ( $future_thumb_id ) {
-												break;
-											}
-										} // foreach( $img_src )
-										if ( $future_thumb_id ) {
-											if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
-												// get the html code for featured image once
-												$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
-											}
-										} else {
-											// preview old thumb + old thumb
-											$future_thumb_id = $current_thumb_id;
-											$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
-										}
-									} // if $matches
-								} else {
-									// preview old thumb + old thumb
-									$future_thumb_id = $current_thumb_id;
-									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
-								}
-							} else {
-								// preview no old thumb + new thumb
-								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
-								// get html of future thumbnail
-								$future_thumb_id = 0;
-								// if there are no featured image, search post content for embedded images and take the first found image
-								preg_match_all( $pat_find_img_src, get_the_content(), $matches );
-								if ( isset( $matches ) and 0 < count( $matches ) ) {
-									foreach ( $matches[ 1 ] as $img_src ) {
-										$future_thumb_id = $this->get_image_id_by_url( $img_src );
-										// stop loop, because we want only the first matching image of a post
-										if ( $future_thumb_id ) {
-											break;
-										}
-									} // foreach( $img_src )
+									$future_thumb_id = $this->get_image_id_by_url( get_the_content() );
 									if ( $future_thumb_id ) {
 										if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
 											// get the html code for featured image once
 											$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 										}
 									} else {
-										$future_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+										// preview old thumb + old thumb
+										$future_thumb_id = $current_thumb_id;
+										$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
+									}
+								} else {
+									// preview old thumb + old thumb
+									$future_thumb_id = $current_thumb_id;
+									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
+								} // if 'overwrite' option
+							} else {
+								// preview no old thumb + new thumb
+								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+								// try to get html of future thumbnail
+								$future_thumb_id = $this->get_image_id_by_url( get_the_content() );
+								if ( $future_thumb_id ) {
+									if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
+										// get the html code for featured image once
+										$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 									}
 								} else {
 									// preview no old thumb + no old thumb
 									$future_thumb_id = $current_thumb_id;
 									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
-								} // if $matches
+								} // if $future_thumb_id
 							}
 							// store edit link, post title, post date, post author, current image html, future image html
 							$results[] = array( 
@@ -1350,30 +1316,46 @@ class Quick_Featured_Images_Admin {
 	
 	/**
 	 * Returns the post id of an uploaded image, else 0
+	 * Looks for internal images only, i.e. images from the 
+	 * media library and not images embedded by URL from 
+	 * external servers
 	 *
 	 * @access   private
 	 * @since     5.0
+	 * @updated     5.1.1: refactored
 	 *
 	 * @return    integer    the post id of the image
 	 */
-	private function get_image_id_by_url ( $url ) {
+	private function get_image_id_by_url ( $content ) {
+		// set variables
 		global $wpdb;
 		$thumb_id = 0;
-		// look for internal images only, i.e. images from the media library and no image embedded by URL from external servers
-		preg_match( '|' . get_site_url() . '|i', $url, $matches );
-		// if site-owned image
+		$pat_find_img_src = '/<img.*?src=[\'"]([^\'"]+)[\'"][^>]*>/i';
+		// look for images in HTML code
+		preg_match_all( $pat_find_img_src, $content, $matches );
+		// if img elements found: try to get the first image's ID
 		if ( isset( $matches ) and 0 < count( $matches ) ) {
-			// delete optional query string
-			$url = preg_replace( '/([^?]+).*/', '\1', $url );
-			// delete image dimensions data, just take base name and extension
-			$guid = preg_replace( '/(.+)-\d+x\d+\.(\w+)/', '\1.\2', $url );
-			// look up its ID in the db
-			$img_id = $wpdb->get_var( $wpdb->prepare( "SELECT `ID` FROM $wpdb->posts WHERE `guid` = '%s'", $guid ) );
-			// if it is available take its ID as new thumb id
-			if ( $img_id ) {
-				// finally we have an id
-				$thumb_id = intval( $img_id );
-			}
+			foreach ( $matches[ 1 ] as $url ) {
+				preg_match( '|' . get_site_url() . '|i', $url, $matches );
+				// if site-owned image
+				if ( isset( $matches ) and 0 < count( $matches ) ) {
+					// delete optional query string in img src
+					$url = preg_replace( '/([^?]+).*/', '\1', $url );
+					// delete image dimensions data in img file name, just take base name and extension
+					$guid = preg_replace( '/(.+)-\d+x\d+\.(\w+)/', '\1.\2', $url );
+					// look up its ID in the db
+					$img_id = $wpdb->get_var( $wpdb->prepare( "SELECT `ID` FROM $wpdb->posts WHERE `guid` = '%s'", $guid ) );
+					// if it is available take its ID as new thumb id
+					if ( $img_id ) {
+						// finally we have an id
+						$thumb_id = intval( $img_id );
+					}
+				} // if $matches
+				// stop loop, because we want only the first matching image of a post
+				if ( $thumb_id ) {
+					break;
+				}
+			} // foreach( $url )
 		} // if $matches
 		return $thumb_id;
 	}

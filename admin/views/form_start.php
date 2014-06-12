@@ -45,9 +45,7 @@ foreach ( $this->valid_actions_without_image as $name => $label ) {
 ?>
 		<p>
 			<input type="radio" id="<?php echo $name; ?>" name="action" value="<?php echo $name; ?>" <?php checked( 'assign' == $name ); ?> />
-			<label for="<?php echo $name; ?>"><strong><?php echo $label; ?>.</strong><br><?php
-	printf( ' %s', $label_available_filters );
-?></label>
+			<label for="<?php echo $name; ?>"><strong><?php echo $label; ?>.</strong><br><?php printf( ' %s', $label_available_filters ); ?></label>
 		</p>
 <?php
 }
@@ -56,6 +54,7 @@ foreach ( $this->valid_actions_without_image as $name => $label ) {
 	<h3 id="th_img_sel_h"><?php _e( 'Choose Image' ); ?></h3>
 	<fieldset>
 		<legend><?php _e( 'Set featured image' ); ?></legend>
+	<div class="th_w50percent">
 		<p><?php _e( 'Select the image you want to add to, replace or delete from posts and pages by clicking on the following button.', $this->plugin_slug ); ?></p>
 		<p>
 <?php
@@ -79,6 +78,12 @@ if ( $this->selected_image_id ) {
 			<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php _e( 'Featured Image' ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
 			<input type="button" id="upload_image_button" class="button th_select_image" value="<?php _e( 'Choose Image' ); ?>" />
 		</p>
+	</div>
+	<div class="th_w50percent">
+		<p><strong><?php _e( 'If the button does not work, read this:', $this->plugin_slug ); ?></strong></p>
+		<p><?php _e( 'Some users reported that this button would not work in some WordPress installations. If this should be the case you can take another way:', $this->plugin_slug ); ?></p>
+		<p><?php _e( '1. Go to the media library. 2. Move the mouse over the desired image. Further links are appearing, among them the link &quot;Bulk set as featured image&quot;. 3. After a click on it you can move on in this plugin.', $this->plugin_slug ); ?></p>
+	</div>
 	</fieldset>
 	<h3><?php _e( 'Go on', $this->plugin_slug ); ?></h3>
 <?php 
