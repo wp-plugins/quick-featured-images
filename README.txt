@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.9.1
-Stable tag: 5.1
+Stable tag: 5.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,6 +146,12 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 5.1.1 =
+* Added a notice to the image selection button for the case of not working.
+* Tiny text changes
+* Refactoring for the image search function
+* Updated *.pot file and german translation
+
 = 5.1 =
 * Added: Column in the preview list for the future featured image
 * Added: Option whether to overwrite existing featured images or not
@@ -238,6 +244,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 5.1.1 =
+Added a notice to the image selection button for the case of not working.
 
 = 5.1 =
 New option and many user interface improvements

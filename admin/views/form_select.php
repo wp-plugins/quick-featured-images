@@ -59,7 +59,7 @@ if ( 'replace' == $this->selected_action ) {
 <?php
 switch ( $this->selected_action ) {
 	case 'assign':
-	case 'take_first_img':
+	case 'assign_first_img':
 ?>
 <h4><?php _e( 'Optional: Select options', $this->plugin_slug ); ?></h4>
 	<fieldset>

@@ -9,15 +9,15 @@
 		case 'remove':
 			$question = __( 'Should the selected image be removed from all listed posts?', $this->plugin_slug );
 			break;
+		case 'assign_first_img':
+			$question = __( 'Should the future images be set as featured images at all listed posts?', $this->plugin_slug );
+			break;
 		case 'remove_any_img':
 			$question = __( 'Should the added featured images be removed from all listed posts?', $this->plugin_slug );
 			break;
-		case 'take_first_img':
-			$question = __( 'Should the future images be set as featured images at all listed posts?', $this->plugin_slug );
-			break;
 	}
 	$thumb_column_headline = __( 'Current Featured Image', $this->plugin_slug );
-	if ( 'take_first_img' == $this->selected_action ) {
+	if ( 'assign_first_img' == $this->selected_action ) {
 		$thumb_column_headline = __( 'Future Featured Image', $this->plugin_slug );
 	}
 ?>
