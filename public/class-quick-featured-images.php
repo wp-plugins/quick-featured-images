@@ -21,7 +21,7 @@
 	 *
 	 * @var     string
 	 */
-	const VERSION = '5.1.1';
+	const VERSION = '6.0';
 
 	/**
 	 * Lowest Wordpress version to run with this plugin

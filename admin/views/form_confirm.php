@@ -3,6 +3,9 @@
 		case 'assign':
 			$question = __( 'Should the selected image be set as featured image to all listed posts?', $this->plugin_slug );
 			break;
+		case 'assign_randomly':
+			$question = __( 'Should the selected images be set randomly as featured images to all listed posts?', $this->plugin_slug );
+			break;
 		case 'replace':
 			$question = __( 'Should the current set featured image be replaced by the selected image at all listed posts?', $this->plugin_slug );
 			break;
@@ -72,6 +75,12 @@ if ( $results ) {
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 <?php 
+if ( $this->selected_multiple_image_ids ) {
+	$v = implode( ',', $this->selected_multiple_image_ids );
+?>
+		<input type="hidden" name="multiple_image_ids" value="<?php echo $v; ?>" />
+<?php
+}
 if ( $this->selected_filters ) {
 	foreach ( $this->selected_filters as $v ) {
 ?>

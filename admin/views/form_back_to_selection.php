@@ -14,6 +14,13 @@ if ( $this->selected_filters ) {
 <?php
 	}
 }
+// remember selected multiple images if there are some
+if ( $this->selected_multiple_image_ids ) {
+	$v = implode( ',', $this->selected_multiple_image_ids );
+?>
+		<input type="hidden" name="multiple_image_ids" value="<?php echo $v; ?>" />
+<?php
+}
 // remember selected replacement images if there are some
 if ( $this->selected_old_image_ids ) {
 	foreach ( $this->selected_old_image_ids as $v ) {

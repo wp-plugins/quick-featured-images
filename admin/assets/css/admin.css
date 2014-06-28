@@ -131,6 +131,14 @@
 	list-style: disc outside none;
 	padding-left: 1em;
 }
+#th_main .th_content ul.selected_images {
+	padding-left: 0;
+}
+#th_main .th_content ul.selected_images li {
+    display: inline;
+    margin: 0 8px 0 0;
+    padding: 0;
+}
 #th_main .th_content ol {
 	margin-left: 3em;
 	margin-right: 8px;

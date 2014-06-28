@@ -1,8 +1,6 @@
 <?php
 // display used featured images if user selected replacement with the selected image
 if ( 'replace' == $this->selected_action ) {
-?>
-<?php
 	$thumb_ids_in_use = $this->get_featured_image_ids();
 	if ( $thumb_ids_in_use ) {
 ?>
@@ -57,28 +55,29 @@ if ( 'replace' == $this->selected_action ) {
 <h3><?php _e( 'Refine your selections', $this->plugin_slug ); ?></h3>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=refine', $this->plugin_slug ) ) ); ?>">
 <?php
-switch ( $this->selected_action ) {
-	case 'assign':
-	case 'assign_first_img':
+	switch ( $this->selected_action ) {
+		case 'assign':
+		case 'assign_first_img':
+		case 'assign_randomly':
 ?>
 <h4><?php _e( 'Optional: Select options', $this->plugin_slug ); ?></h4>
 	<fieldset>
 		<legend><span><?php _e( 'Process Options', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'You can control the process with the following options.', $this->plugin_slug ); ?></p>
 <?php 
-	foreach ( $this->valid_options as $key => $label ) {
+		foreach ( $this->valid_options as $key => $label ) {
 ?>
 		<p>
 			<input type="checkbox" id="<?php printf( 'th_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
 			<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
 		</p>
 <?php
-	} // foreach()
+		} // foreach()
 ?>
 	</fieldset>
 <?php
-		break;
-} // switch( selected_action )
+			break;
+	} // switch( selected_action )
 ?>
 <h4><?php _e( 'Optional: Add a filter', $this->plugin_slug ); ?></h4>
 	<fieldset>
@@ -135,6 +134,15 @@ switch ( $this->selected_action ) {
 	</fieldset>
 	<p><?php _e( 'On the next page you can refine the filters. If you did not select any filter you will go to the preview list directly.', $this->plugin_slug ); ?></p>
 	<p>
+<?php
+// remember selected multiple images if there are some
+if ( $this->selected_multiple_image_ids ) {
+	$v = implode( ',', $this->selected_multiple_image_ids );
+?>
+		<input type="hidden" name="multiple_image_ids" value="<?php echo $v; ?>" />
+<?php
+}
+?>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 		<?php wp_nonce_field( 'quickfi_select', $this->plugin_slug . '_nonce' ); ?>

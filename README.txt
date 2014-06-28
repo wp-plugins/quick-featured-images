@@ -1,10 +1,10 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SBF76TCGTRNX2
-Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
+Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, random, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
 Requires at least: 3.7
 Tested up to: 3.9.1
-Stable tag: 5.1.1
+Stable tag: 6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,13 +14,16 @@ Bulk set, replace and remove featured images for posts, pages and custom post ty
 
 Quick Featured Images sets, replaces and removes featured images for posts, pages and custom post types in one go and saves your time. You can run it over all posts or narrow down to posts by using flexible filters.
 
-You will find the plugin under 'Media' => 'Quick Featured Images' and in the media library at each image as a new action link 'Bulk set as featured image'.
+= Access =
+
+1. You will find the plugin under 'Media' => 'Quick Featured Images' 
+2. You can select an image under 'Media' with its new action link 'Bulk set as featured image'. Per click on it you can go on with the plugin.
 
 = Main actions =
 
 Quick Featured Images enables you three main tasks with featured images: add, exchange and delete them.
 
-1. **Adding featured images:** You can select an image or scan for the first post image to set it as the new featured image to hundreds of posts in one go.
+1. **Adding featured images:** You can select an image or scan for the first post image to set it as the new featured image to hundreds of posts in one go. You can select multiple images to set them randomly as featured images.
 2. **Exchanging featured images:** You can replace or update several existing featured images with a selected image in one go.
 3. **Deleting featured images:** You can remove a selected featured image or all existing featured images in one go.
 
@@ -146,6 +149,11 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 6.0 =
+* Added action: Set multiple selected images as featured images randomly
+* Revised layout of the plugin's start page
+* Updated *.pot file and german translation
+
 = 5.1.1 =
 * Added a notice to the image selection button for the case of not working.
 * Tiny text changes
@@ -244,6 +252,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 6.0 =
+New action: Set multiple selected images as featured images randomly
 
 = 5.1.1 =
 Added a notice to the image selection button for the case of not working.
