@@ -27,6 +27,13 @@ if ( $this->selected_options ) {
 <?php
 	}
 }
+// remember selected multiple images if there are some
+if ( $this->selected_multiple_image_ids ) {
+	$v = implode( ',', $this->selected_multiple_image_ids );
+?>
+		<input type="hidden" name="multiple_image_ids" value="<?php echo $v; ?>" />
+<?php
+}
 ?>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />

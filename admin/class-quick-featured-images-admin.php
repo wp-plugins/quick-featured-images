@@ -72,6 +72,15 @@ class Quick_Featured_Images_Admin {
 	protected $selected_image_id = null;
 
 	/**
+	 * User selected IDs of the new featured images
+	 *
+	 * @since    6.0
+	 *
+	 * @var      array
+	 */
+	protected $selected_multiple_image_ids = null;
+
+	/**
 	 * User selected ID of the featured image to replace
 	 *
 	 * @since    1.0.0
@@ -160,6 +169,16 @@ class Quick_Featured_Images_Admin {
 	 * @var      array
 	 */
 	protected $valid_actions_without_image = null;
+
+	/**
+	 * Valid names and descriptions of the actions with multiple user selected images
+	 *
+	 * @since    6.0
+	 *
+	 * @var      array
+	 */
+	protected $valid_actions_multiple_images = null;
+
 
 	/**
 	 * User selected filters the plugin should perform
@@ -423,6 +442,7 @@ class Quick_Featured_Images_Admin {
      * @updated   4.1.1: fixed security check
      * @updated   5.0: added action "take first img", added snippet form_back_to_selection
      * @updated   5.1: added skip of refine page if user has not selected a filter
+     * @updated   6.0: refactored if-branches, added selection of multiple images
 	 *
 	 */
 	public function main() {
@@ -448,39 +468,38 @@ class Quick_Featured_Images_Admin {
 				$this->display_error( 'wrong_action', false );
 			} else {
 				// check whether thumb id is not required due to selected action
-				if ( in_array( $this->selected_action, array_keys( $this->valid_actions_without_image ) ) ) {
+				if ( in_array( $this->selected_action, array_merge( array_keys( $this->valid_actions_without_image ), array_keys( $this->valid_actions_multiple_images ) ) ) ) {
 					$this->is_image_required = false;
 				}
 				// get selected image id, else 0
 				$this->selected_image_id = $this->get_sanitized_image_id();
-				// check whether an image id is avaiable if required
+				// get selected image ids, else empty array
+				$this->selected_multiple_image_ids = $this->get_sanitized_multiple_image_ids();
+				// check whether an image id is available if required
 				if ( $this->is_image_required && ! $this->selected_image_id ) {
 					$this->display_error( 'no_image', false );
-				// check whether assigned attachment is an image if required
+				// check whether selected attachment is an image if required
 				} elseif ( $this->is_image_required && ! wp_get_attachment_image_src( $this->selected_image_id ) ) {
 					$this->display_error( 'no_result', sprintf( __( 'Wrong image ID %d' ), $this->selected_image_id ) );
+				// check whether there are selected images if required
+				} elseif ( 'assign_randomly' == $this->selected_action && ! $this->selected_multiple_image_ids ) {
+					$this->display_error( 'no_image', false );
 				} else {
 					// get user selected filters
 					$this->selected_filters = $this->get_sanitized_filter_names();
 					// get user selected options
 					$this->selected_options = $this->get_sanitized_option_names();
 					// after the old image selection page (filter_replace.php) and if no old image was selected
-					if ( 'replace' == $this->selected_action 
-						&& 'confirm' == $this->selected_step 
-						&& ! isset( $_REQUEST[ 'replacement_image_ids' ] ) ) {
+					if ( 'replace' == $this->selected_action && 'confirm' == $this->selected_step && ! isset( $_REQUEST[ 'replacement_image_ids' ] ) ) {
 						// stay on the selection page with a warning
 						$this->selected_step = 'select';
 						$this->is_error_no_old_image = true;
 					// check if user comes from direct link in media page
-					} elseif ( 'assign' == $this->selected_action 
-						&& 'select' == $this->selected_step 
-						&& $this->selected_image_id
-						&& isset( $_REQUEST[ '_wpnonce' ] ) ) {
+					} elseif ( 'assign' == $this->selected_action && 'select' == $this->selected_step && $this->selected_image_id && isset( $_REQUEST[ '_wpnonce' ] ) ) {
 						// go to the filter selection page directly
 						$this->is_direct_access = true;
 					// check if user comes from the selection page and has not select any filter
-					} elseif ( 'refine' == $this->selected_step
-						&& empty( $this->selected_filters ) ) {
+					} elseif ( 'refine' == $this->selected_step	&& empty( $this->selected_filters ) ) {
 						// skip refine page, go to the confirm page directly
 						$this->selected_step = 'confirm';
 						$this->is_skip_refine = true;
@@ -555,12 +574,14 @@ class Quick_Featured_Images_Admin {
      * @updated  4.1.2: fixed wrong placement of valid_custom_taxonomies
      * @updated  5.0: added valid actions without selected image, added maximum dimensions for thumbnails
      * @updated  5.1.1: changed 'take_first_img' to 'assign_first_img'
+     * @updated  6.0: added selection of multiple images
 	 */
 	private function set_default_values() {
 		/*
 		 * Note: The order of the entries affects the order in the frontend page
 		 *
 		 */
+		// process steps
 		$this->valid_steps = array(
 			'start'		=> __( 'Select', $this->plugin_slug ),
 			'select'	=> __( 'Add filter', $this->plugin_slug ),
@@ -568,6 +589,11 @@ class Quick_Featured_Images_Admin {
 			'confirm'	=> __( 'Confirm', $this->plugin_slug ),
 			'perform'	=> __( 'Perform', $this->plugin_slug ),
 		);
+		// process options
+		$this->valid_options = array(
+			'overwrite' => __( 'Overwrite existing featured images with new ones', $this->plugin_slug ),
+		);
+		// actions
 		$this->valid_actions = array(
 			'assign'			=> __( 'Set the selected image as new featured image', $this->plugin_slug ),
 			'replace'			=> __( 'Replace featured images by the selected image', $this->plugin_slug ),
@@ -577,6 +603,10 @@ class Quick_Featured_Images_Admin {
 			'assign_first_img'	=> __( 'Set the first post image as featured image', $this->plugin_slug ),
 			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug ),
 		);
+		$this->valid_actions_multiple_images = array(
+			'assign_randomly'	=> __( 'Set multiple images randomly as featured images', $this->plugin_slug ),
+		);
+		// filters
 		$this->valid_filters = array(
 			'filter_post_types' 		=> __( 'Post Type Filter', $this->plugin_slug ),
 			'filter_status' 			=> __( 'Status Filter', $this->plugin_slug ),
@@ -589,10 +619,6 @@ class Quick_Featured_Images_Admin {
 			'filter_category' 			=> __( 'Category Filter', $this->plugin_slug ),
 			'filter_tag' 				=> __( 'Tag Filter', $this->plugin_slug ),
 			'filter_parent_page' 		=> __( 'Parent Page Filter', $this->plugin_slug ),
-		);
-		// process options
-		$this->valid_options = array(
-			'overwrite' => __( 'Overwrite existing featured images with new ones', $this->plugin_slug ),
 		);
 		// post types (generic and custom)
 		$this->valid_post_types = array(
@@ -981,6 +1007,7 @@ class Quick_Featured_Images_Admin {
 	 * @updated   5.0: added action "assign_first_img"
 	 * @updated   5.1: added future image as column value for preview list
 	 * @updated   5.1.1: refactored lines around $this->get_image_id_by_url()
+	 * @updated   6.0: added action "assign_randomly"
 	 *
 	 * @return    array    affected posts
 	 */
@@ -1111,6 +1138,39 @@ class Quick_Featured_Images_Admin {
 								get_edit_post_link(), 
 								get_the_title(),
 								$future_featured_images[ $future_thumb_id ],
+								$success 
+							);
+						} // while()
+						break;
+					case 'assign_randomly':
+						$last_index = count( $this->selected_multiple_image_ids ) - 1;
+						while ( $the_query->have_posts() ) {
+							$the_query->the_post();
+							$success = false;
+							// get the post id once
+							$post_id = get_the_ID();
+							// check if there is an existing featured image
+							$thumb_id = get_post_thumbnail_id( $post_id );
+							// if no existing featured image or permission to overwrite it
+							if ( ! $thumb_id or in_array( 'overwrite', $this->selected_options ) ) {
+								// do the task, get thumb id randomly
+								$success = set_post_thumbnail( $post_id, $this->selected_multiple_image_ids[ rand( 0, $last_index ) ] );
+								// get new featured image (this is also a test of successful setting the featured image)
+								$thumb_id = get_post_thumbnail_id( $post_id );
+							}
+							if ( $thumb_id ) {
+								if ( ! isset( $current_featured_images[ $thumb_id ] ) ) {
+									// get the html code for featured image once
+									$current_featured_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
+								}
+							} else {
+								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+							}
+							// store edit link, post title, image html, success of action (true or false)
+							$results[] = array( 
+								get_edit_post_link(), 
+								get_the_title(),
+								$current_featured_images[ $thumb_id ],
 								$success 
 							);
 						} // while()
@@ -1281,6 +1341,53 @@ class Quick_Featured_Images_Admin {
 							);
 						} // while()
 						break;
+					case 'assign_randomly':
+						$last_index = count( $this->selected_multiple_image_ids ) - 1;
+						while ( $the_query->have_posts() ) {
+							$the_query->the_post();
+							// get the post id once
+							$post_id = get_the_ID();
+							// get html of current thumbnail
+							$current_thumb_id = get_post_thumbnail_id( $post_id );
+							if ( $current_thumb_id ) {
+								if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
+									// get the html code for featured image once
+									$current_featured_images[ $current_thumb_id ] = wp_get_attachment_image( $current_thumb_id, $size, false, $attr );
+								}
+								// get html of future thumbnail
+								if ( in_array( 'overwrite', $this->selected_options ) ) {
+									// preview old thumb + new thumb
+									$future_thumb_id = $this->selected_multiple_image_ids[ rand( 0, $last_index ) ]; // get thumb id randomly
+									if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
+										// get the html code for featured image once
+										$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
+									}
+								} else {
+									// preview old thumb + old thumb
+									$future_thumb_id = $current_thumb_id;
+									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
+								}
+							} else {
+								// preview no old thumb + new thumb
+								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+								// get html of future thumbnail
+								$future_thumb_id = $this->selected_multiple_image_ids[ rand( 0, $last_index ) ]; // get thumb id randomly
+								if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
+									// get the html code for featured image once
+									$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
+								}
+							}
+							// store edit link, post title, post date, post author, current image html, future image html
+							$results[] = array( 
+								get_edit_post_link(), 
+								get_the_title(), 
+								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
+								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								$current_featured_images[ $current_thumb_id ],
+								$future_featured_images[ $future_thumb_id ],
+							);
+						} // while()
+						break;
 					case 'remove':
 					case 'remove_any_img':
 						while ( $the_query->have_posts() ) {
@@ -1322,7 +1429,7 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since     5.0
-	 * @updated     5.1.1: refactored
+	 * @updated   5.1.1: refactored
 	 *
 	 * @return    integer    the post id of the image
 	 */
@@ -1529,13 +1636,14 @@ class Quick_Featured_Images_Admin {
 	 *
 	 * @access   private
 	 * @since     1.0.0
+	 * @updated  6.0: added array valid_actions_multiple_images
 	 *
 	 * @return    string    the name of the action the plugin should perform, else empty string
 	 */
 	private function get_sanitized_action() {
 		return $this->get_sanitized_value(
 			'action',
-			array_keys( array_merge( $this->valid_actions, $this->valid_actions_without_image ) )
+			array_keys( array_merge( $this->valid_actions, $this->valid_actions_without_image, $this->valid_actions_multiple_images ) )
 		);
 	}
 
@@ -1913,6 +2021,23 @@ class Quick_Featured_Images_Admin {
 	 */
 	private function get_sanitized_image_id() {
 		return $this->get_sanitized_id( 'image_id' );
+	}
+	
+	/**
+	 * Check the ids of selected featured images and return safe value
+	 *
+	 * @access   private
+	 * @since     6.0
+	 *
+	 * @return    array    the ids or empty
+	 */
+	private function get_sanitized_multiple_image_ids() {
+		if ( ! isset( $_REQUEST[ 'multiple_image_ids' ] ) or empty( $_REQUEST[ 'multiple_image_ids' ] ) ) {
+			return array();
+		} else {
+			// read: sanatize string, make array out of string, convert each array value to integer, return result array
+			return array_map( 'intval', explode( ',', sanitize_text_field( $_REQUEST[ 'multiple_image_ids' ] ) ) );
+		}
 	}
 	
 	/**

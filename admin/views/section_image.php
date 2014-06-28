@@ -1,6 +1,6 @@
 <h3><?php _e( 'Your selection', $this->plugin_slug ); ?></h3>
 <?php
-if ( $this->is_image_required ) {
+if ( $this->selected_image_id ) {
 ?>
 <div class="th_wrapper">
 	<div class="th_w50percent">
@@ -13,6 +13,27 @@ if ( $this->is_image_required ) {
 	</div><!-- .th_w50percent -->
 	<div class="th_w50percent">
 <?php
+} elseif ( $this->selected_multiple_image_ids ) {
+?>
+<div class="th_wrapper">
+	<div class="th_w50percent">
+		<h4><?php _e( 'Your selected thumbnails', $this->plugin_slug ); ?></h4>
+		<ul class="selected_images">
+<?php
+	$size = array( 60, 60 );
+	$attr = array( 'class' => 'attachment-thumbnail' );
+	foreach( $this->selected_multiple_image_ids as $attachment_id ) {
+?>			<li><?php echo wp_get_attachment_image( $attachment_id, $size, false, $attr ); ?></li>
+<?php
+	} // foreach()
+?>
+		</ul>
+<?php
+?>
+		<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'If wrong image start again', $this->plugin_slug );?></a></p>
+	</div><!-- .th_w50percent -->
+	<div class="th_w50percent">
+<?php
 }
 ?>		<h4><?php _e( 'Your selected action', $this->plugin_slug ); ?></h4>
 <?php
@@ -20,6 +41,8 @@ if ( isset( $this->valid_actions[ $this->selected_action ] ) ) {
 	$selected_action = $this->valid_actions[ $this->selected_action ];
 } elseif ( isset( $this->valid_actions_without_image[ $this->selected_action ] ) ) {
 	$selected_action = $this->valid_actions_without_image[ $this->selected_action ];
+} elseif ( isset( $this->valid_actions_multiple_images[ $this->selected_action ] ) ) {
+	$selected_action = $this->valid_actions_multiple_images[ $this->selected_action ];
 } else {
 	$selected_action = __( 'You have not selected an action.', $this->plugin_slug );
 }
@@ -27,7 +50,7 @@ if ( isset( $this->valid_actions[ $this->selected_action ] ) ) {
 		<p><?php echo $selected_action; ?></p>
 		<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'If wrong action start again', $this->plugin_slug );?></a></p>
 <?php
-if ( $this->is_image_required ) {
+if ( $this->selected_image_id || $this->selected_multiple_image_ids ) {
 ?>
 	</div><!-- .th_w50percent -->
 </div><!-- .th_wrapper -->
