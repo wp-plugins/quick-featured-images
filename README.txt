@@ -1,25 +1,38 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SBF76TCGTRNX2
-Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, random, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
-Requires at least: 3.7
+Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, column, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, random, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
+Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 6.0
+Stable tag: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Bulk set, replace and remove featured images for posts, pages and custom post types in one go and save your time
+Bulk set, replace and remove featured images, see them in posts lists and save your time
 
 == Description ==
 
-Quick Featured Images sets, replaces and removes featured images for posts, pages and custom post types in one go and saves your time. You can run it over all posts or narrow down to posts by using flexible filters.
+The plugin 'Quick Featured Images' helps you bulk managing featured images and saves your time. 
+
+It sets, replaces and removes featured images for hundreds of posts, pages and custom post types in one go. You can run it over all posts or let it work only to desired posts by using flexible filters.
+
+It displays assigned features images in an extra column in lists of posts, pages and custom post types if they support thumbnails. With that you get a quick overview about used thumbnails of all posts and pages.
+
+= What other people said =
+
+* **"Sooo damn convenient!"** by Benbodhi on July 2, 2014
+* **"With one word, it is 'great'"** by Can on June 25, 2014
+* **"Easy and effective"** by manuamaro on June 10, 2014
+* **"You've saved me a lot of time!"** by Celebrianne on May 31, 2014
+
+See more comments under [Reviews](http://wordpress.org/support/view/plugin-reviews/quick-featured-images).
 
 = Access =
 
-1. You will find the plugin under 'Media' => 'Quick Featured Images' 
-2. You can select an image under 'Media' with its new action link 'Bulk set as featured image'. Per click on it you can go on with the plugin.
+1. You will find the plugin under the own **menu item 'Featured Images'** 
+2. You can select an image under 'Media' with its new **action link 'Bulk set as featured image'**. Per click on it you can go on with the plugin.
 
-= Main actions =
+= Customizing Actions =
 
 Quick Featured Images enables you three main tasks with featured images: add, exchange and delete them.
 
@@ -29,7 +42,9 @@ Quick Featured Images enables you three main tasks with featured images: add, ex
 
 = Options =
 
-You can switch between overwriting existing featured images or keeping them unchanged. The latter setting is the default.
+You can switch between **overwriting existing featured images** or **keeping them unchanged**. The latter setting is the default.
+
+Under **'Settings'** you can switch on and off the additional image column in lists of every post type, even custom post types if they support thumbnails.
 
 = Filters =
 
@@ -37,13 +52,13 @@ If there would be no filters Quick Featured Images would affect all posts and pa
 
 The implemented filters allow you to narrow down the action to only the posts and pages you want to modify. The built-in filters are:
 
-1. Filter by **post type**: Search by post types. By default all posts, pages and custom post types will be affected
-2. Filter by **status**: Search by several statuses (published, draft, private etc.). By default all statuses will be affected
+1. Filter by **post type**: Search by post types. By **default all** posts, pages and custom post types will be affected
+2. Filter by **status**: Search by several statuses (published, draft, private etc.). By **default all** statuses will be affected
 3. Filter by **search**: Search by search term
 4. Filter by **time**: Search by time specifications
 5. Filter by **author**: Search by author
 6. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
-7. Filter by **featured image size**: Search for too small featured images
+7. Filter by **featured image size**: Search for small featured images below a given size
 8. Filter by **category**: Search posts by category
 9. Filter by **tag**: Search posts by tag
 10. Filter by **parent page**: Search child pages by parent page
@@ -54,13 +69,15 @@ If you have any new idea for Quick Featured Images post your questions and ideas
 
 = Support =
 
-Support for this plugin will be provided in the form of Product Support. This means that I intend to fix any confirmed bugs, listen to ideas for this plugin and improve the user experience when enhancements are identified and can reasonably be accomodated. There is no User Support provided for this plugin. If you are having trouble with this plugin in your particular installation of WordPress, I will not be able to help you troubleshoot the problem.
+Support for this plugin will be provided in the form of Product Support. This means that I intend to fix any confirmed bugs, listen to ideas for this plugin and improve the user experience when enhancements are identified and can reasonably be accomodated.
+
+There is no User Support provided for this plugin. If you are having trouble with this plugin in your particular installation of WordPress, I will not be able to help you troubleshoot the problem.
 
 = No warranty and liability! = 
 
-This plugin is provided under the terms of the GPL, including the following:
+**Notice: This plugin has no Undo function!** This plugin is provided under the terms of the GPL, including the following:
 
-BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. **THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.** SHOULD THE PROGRAM PROVE DEFECTIVE, **YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION**.
 
 == Installation ==
 
@@ -70,7 +87,7 @@ BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PRO
 2. Search for 'Quick Featured Images'
 3. Click 'Install Now'
 4. Activate the plugin on the Plugin dashboard
-5. Go to 'Media' => 'Quick Featured Images'
+5. Go to 'Featured Images'
 
 = Uploading in WordPress Dashboard =
 
@@ -79,7 +96,7 @@ BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PRO
 3. Select `quick-featured-images.zip` from your computer
 4. Click 'Install Now'
 5. Activate the plugin in the Plugin dashboard
-6. Go to 'Media' => 'Quick Featured Images'
+6. Go to 'Featured Images'
 
 = Using FTP =
 
@@ -87,7 +104,7 @@ BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PRO
 2. Extract the `quick-featured-images` directory to your computer
 3. Upload the `quick-featured-images` directory to the `/wp-content/plugins/` directory
 4. Activate the plugin in the Plugin dashboard
-5. Go to 'Media' => 'Quick Featured Images'
+5. Go to 'Featured Images'
 
 
 == Frequently Asked Questions ==
@@ -98,13 +115,6 @@ For that use the plugin twice:
 
 1. Remove all undesired featured images if there are some. If desired set the images using the option "Overwrite existing featured images".
 2. Set the default image without the option "Overwrite existing featured images". This will set the image to all posts without a featured image.
-
-= Where can I find the plugin in the WordPress backend? =
-
-There are two ways to find Quick Featured Images in the amdin area:
-
-1. Go to 'Media' => 'Quick Featured Images'
-2. Go to the media library 'Media'. At each image you will find a new link 'Bulk set as featured image'.
 
 = Who can see Quick Featured Images in the WordPress backend? =
 
@@ -145,9 +155,27 @@ If you want to contribute a translation of the plugin in your language it would 
 2. The second screen: select a filter to narrow down to posts and pages you want to modify with the image. Alternatively you can drop filtering and jump to Screen 4 directly.
 3. The third screen: refine the filters.
 4. The fourth screen: take a preview. If the filtering does not correspond to your expectations you can refine the filters again under the list on this page.
-5. The fifth and last screen: take an overview of the success of the action.
+5. The fifth screen: take an overview of the success of the action.
+6. The sixth and last screen: take an look on the extra column (marked red) for assigned featured images.
 
 == Changelog ==
+
+= 7.0 =
+* Added a top level menu item 'Featured Images'
+* Added a sub menu page 'Overview'
+* Added a sub menu page 'Settings'
+* Added a sub menu page 'Customize', moved the former menu link 'Media' - 'Quick Featured Images' to there
+* Added additional image column in lists of posts for assigned featured images
+* Added additional image column in lists of pages
+* Added additional image column in lists of thumbnail supporting custom post types
+* Added options to switch each of the additional image columns on or off
+* Added uninstall file
+* Raised the lowest required WordPress version from 3.7 to 3.8 because of the use of dashicons
+* Significant refactoring
+* Fixed width of selected image on the plugin's start page
+* Fixed error message for too old WordPress version
+* Tested on localized WordPress installations
+* Updated *.pot file and german translation
 
 = 6.0 =
 * Added action: Set multiple selected images as featured images randomly
@@ -253,6 +281,9 @@ Fixed an insufficient security check which prevented to set a featured image
 
 == Upgrade Notice ==
 
+= 7.0 =
+Added: new top level menu item, column for featured images in lists of posts, options page
+
 = 6.0 =
 New action: Set multiple selected images as featured images randomly
 
@@ -272,13 +303,10 @@ Fixed bug on using custom taxonomies
 Fixed security check
 
 = 4.1 =
-* Added link "Bulk set as featured image" under each image in the media library
-* Tested with WordPress 3.9.1
+Added link "Bulk set as featured image" under each image in the media library. Tested with WordPress 3.9.1
 
 = 4.0 =
-* Added new filter "Filter by Time Specifications": Search in time periods on a year-month base
-* Improved page speed at both the preview list and the result list
-* Improved style for smartphones
+Added new filter "Filter by Time Specifications": Search in time periods on a year-month base. Improved page speed at both the preview list and the result list. Improved style for smartphones
 
 = 3.2.1 =
 More orientation: After activation of this plugin a message tells you where you can find the plugin in the WordPress backend.
@@ -290,9 +318,7 @@ Better overview: Now you can see both in the preview and the result lists the cu
 Fixed useless listing of custom post types which do not support thumbnails
 
 = 3.1 =
-* Many improvements of the user interface in style and labeling
-* Now you can select multiple images to be replaced instead of only a single one
-* Fixed some minor errors
+Many improvements of the user interface in style and labeling. Now you can select multiple images to be replaced instead of only a single one. Fixed some minor errors
 
 = 3.0.2 =
 Now the filter by search term works properly again.
@@ -301,11 +327,7 @@ Now the filter by search term works properly again.
 Fixed error message after plugin activation and missed images in the library
 
 = 3.0 =
-* Added new filter "Filter by Custom Taxonomies"
-* Be aware of the changed default behaviour: ALL posts, pages and custom post types are included in the search by default 
-* Improved performance
-* Improved design of confirmation page
-
+Added new filter "Filter by Custom Taxonomies". Be aware of the changed default behaviour: ALL posts, pages and custom post types are included in the search by default. Improved performance. Improved design of confirmation page
 
 = 2.0 =
 Many improvements and additions

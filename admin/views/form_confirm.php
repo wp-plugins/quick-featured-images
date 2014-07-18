@@ -28,13 +28,15 @@
 <h4><?php printf( __( '%d matches found', $this->plugin_slug ), sizeof( $results ) ); ?></h4>
 <?php 
 if ( $results ) { 
+	$details_text = 'Details';
+	$details_label = __( $details_text );
 ?>
 <p><?php _e( 'You can take a view to the post in a new window by clicking on its link in the list.', $this->plugin_slug ); ?></p>
 <table class="widefat">
 	<thead>
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
-			<th><?php _e( 'Details' ); ?></th>
+			<th><?php echo $details_label; ?></th>
 			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
 			<th class="num"><?php _e( 'Future Featured Image', $this->plugin_slug ); ?></th>
 		</tr>
@@ -42,10 +44,12 @@ if ( $results ) {
 	<tbody>
 <?php
 	$c = 1;
+	$no_image_text = 'No Image';
+	$no_image_label = __( $no_image_text );
 	foreach ( $results as $result ) {
 		// check if no featured image for the post, else add default
-		$current_img = $result[ 4 ] ? $result[ 4 ] : $current_img = __( 'No Image' );
-		$future_img = $result[ 5 ] ? $result[ 5 ] : $future_img = __( 'No Image' );
+		$current_img = $result[ 4 ] ? $result[ 4 ] : $current_img = $no_image_label;
+		$future_img = $result[ 5 ] ? $result[ 5 ] : $future_img = $no_image_label;
 		// alternating row colors: if $c is divisible by 2 (so the modulo is 0) then set 'alt'-class
 		$class_attrib = 0 == $c % 2 ? ' class="alt"' : '';
 		// print the table row
@@ -62,7 +66,7 @@ if ( $results ) {
 	<tfoot>
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
-			<th><?php _e( 'Details' ); ?></th>
+			<th><?php echo $details_label; ?></th>
 			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
 			<th class="num"><?php _e( 'Future Featured Image', $this->plugin_slug ); ?></th>
 		</tr>
@@ -70,7 +74,7 @@ if ( $results ) {
 </table>
 <h3><?php _e( 'Confirm the change', $this->plugin_slug ); ?></h3>
 <p><?php echo $question; ?> <?php _e( 'You can not undo the operation!', $this->plugin_slug ); ?></p>
-<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=perform', $this->plugin_slug ) ) ); ?>">
+<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=perform', $this->page_slug ) ) ); ?>">
 	<p>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
@@ -175,12 +179,12 @@ if ( $this->selected_date_queries ) {
 }
 ?>
 		<?php wp_nonce_field( 'quickfi_confirm', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button-primary" value="<?php _e( 'Yes. Apply now', $this->plugin_slug ); ?>" /> <a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'No. Start again', $this->plugin_slug );?></a>
+		<input type="submit" class="button-primary" value="<?php _e( 'Yes. Apply now', $this->plugin_slug ); ?>" /> <a class="button" href='<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>'><?php _e( 'No. Start again', $this->plugin_slug );?></a>
 	</p>
 </form>
 <?php
 } else { 
 ?>
-<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>'><?php _e( 'Start again', $this->plugin_slug );?></a> <?php _e( 'or refine your selection with the following form fields.', $this->plugin_slug );?></p>
+<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>'><?php _e( 'Start again', $this->plugin_slug );?></a> <?php _e( 'or refine your selection with the following form fields.', $this->plugin_slug );?></p>
 <?php
 }

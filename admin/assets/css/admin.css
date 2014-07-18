@@ -107,6 +107,7 @@
 }
 
 /* Other content elements */
+body[class*=_page_quick-featured-images-settings] #th_main .th_content table,
 #th_main .th_content legend,
 #th_main .th_content h5,
 #th_main .th_content h4,
@@ -151,6 +152,9 @@
     color: #222222;
     padding: 8px;
 }
+.wrap h3.nobottom {
+    margin-bottom: 0;
+}
 .th_content_inside .failure {
 	color: #000;
 	font-size: 1.5em;
@@ -165,7 +169,15 @@
 	margin-top: 0.5em;
     padding: 0 15px;
 }
-
+.toplevel_page_quick-featured-images-overview #th_main .th_content ul li span.dashicons {
+	font-size: 15em;
+	width: auto;
+	height: auto;
+	line-height: 1;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: baseline;
+}
 #th_main .th_content .failure {
 	font-weight: bold;
 }
@@ -182,7 +194,25 @@
 	width: 4em;
 
 }
-
+.toplevel_page_quick-featured-images-overview #th_main .th_content ul {
+	list-style: none;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+	overflow: hidden;
+}
+.toplevel_page_quick-featured-images-overview #th_main .th_content li {
+	display: block;
+	float: left;
+	width: 50%;
+}
+.toplevel_page_quick-featured-images-overview #th_main .th_content ul li a:focus img,
+.toplevel_page_quick-featured-images-overview #th_main .th_content ul li a:hover img {
+	opacity: .6;
+}
+#qfi_header_image {
+	width: 100%;
+}
 img.avatar {
 	display: inline;
 	float: left;
@@ -216,6 +246,7 @@ img.avatar {
 		padding: .5em 1em;
 	}
 	/* floating halfs */
+	.toplevel_page_quick-featured-images-overview #th_main .th_content li,
 	.th_w50percent {
 		width: auto;
 		float: none;

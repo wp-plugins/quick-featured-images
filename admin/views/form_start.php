@@ -8,7 +8,7 @@ if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 <?php 
 }
 ?>
-<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=select', $this->plugin_slug ) ) ); ?>">
+<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=select', $this->page_slug ) ) ); ?>">
 	<h3><?php _e( 'What do you want to do?', $this->plugin_slug ); ?></h3>
 	<p><?php _e( 'Select one of the following actions you want to do with the selected image.', $this->plugin_slug ); ?></p>
 	<p><?php _e( 'Whatever you select: You can refine your choice on the next page.', $this->plugin_slug ); ?></p>
@@ -52,7 +52,7 @@ if ( $this->selected_image_id ) {
 }
 ?>
 					<input type="hidden" id="image_id" name="image_id" value="<?php echo $this->selected_image_id; ?>">
-					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php _e( 'Featured Image' ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
+					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php $alt_text = 'Featured Image'; _e( $alt_text ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
 					<input type="button" id="upload_image_button" class="button th_select_image" value="<?php _e( 'Choose Image', $this->plugin_slug ); ?>" />
 				</p>
 			</div>
@@ -108,7 +108,8 @@ foreach ( $this->valid_actions_without_image as $name => $label ) {
 ?>
 	</fieldset>
 <?php 
+$next_label = 'Next';
 wp_nonce_field( 'quickfi_start', $this->plugin_slug . '_nonce' ); 
-submit_button( __( 'Next' ), 'secondary' );
+submit_button( __( $next_label ), 'secondary' );
 ?>
 </form>
