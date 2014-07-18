@@ -1,5 +1,6 @@
 <h3><?php _e( 'Results of the action', $this->plugin_slug ); ?></h3>
 <?php
+$details_label = 'Details';
 if ( $results ) {
 ?> 
 <p><?php _e( 'You can take a view to the post in a new window by clicking on its link in the list.', $this->plugin_slug ); ?></p>
@@ -7,16 +8,17 @@ if ( $results ) {
 	<thead>
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
-			<th><?php _e( 'Details' ); ?></th>
+			<th><?php _e( $details_label ); ?></th>
 			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
 <?php
 	$c = 1;
+	$no_image_label = 'No Image';
 	foreach ( $results as $result ) {
 		// check if no featured image for the post, else add default
-		$img = $result[ 2 ] ? $result[ 2 ] : $img = __( 'No Image' ); #$img = sprintf( '<img src="%s" alt="" width="%d" height="%d">', plugins_url( 'admin/assets/images/no-thumb.gif' , dirname ( dirname( __FILE__ ) ) ), $this->assigned_thumbnail_dimensions[0], $this->assigned_thumbnail_dimensions[1] );
+		$img = $result[ 2 ] ? $result[ 2 ] : $img = __( $no_image_label ); #$img = sprintf( '<img src="%s" alt="" width="%d" height="%d">', plugins_url( 'admin/assets/images/no-thumb.gif' , dirname ( dirname( __FILE__ ) ) ), $this->assigned_thumbnail_dimensions[0], $this->assigned_thumbnail_dimensions[1] );
 		// get the result message per post
 		$msg = $result[ 3 ] ? __( 'Changed successfully', $this->plugin_slug ) : '<span class="failure">' . __( 'Unchanged', $this->plugin_slug ) . '</span>';
 		// alternating row colors with error class if error
@@ -37,7 +39,7 @@ if ( $results ) {
 	<tfoot>
 		<tr>
 			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
-			<th><?php _e( 'Details' ); ?></th>
+			<th><?php _e( $details_label ); ?></th>
 			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
 		</tr>
 	</tfoot>
@@ -49,6 +51,6 @@ if ( $results ) {
 <?php 
 }
 ?>
-<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
+<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
 <h3><?php _e( 'Do you like the plugin?', $this->plugin_slug ); ?></h3>
 <p><a href="http://wordpress.org/support/view/plugin-reviews/quick-featured-images"><?php _e( 'Please rate it at wordpress.org!', $this->plugin_slug ); ?></a></p>

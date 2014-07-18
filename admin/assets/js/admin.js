@@ -39,7 +39,7 @@ jQuery(document).ready(function($){
             $('#image_id').val(attachment.id);
             $('#selected_image').attr( 'src', attachment.url);
             $('#selected_image').attr( 'class', 'attachment-thumbnail');
-            $('#selected_image').attr( 'style', 'width:250px');
+            $('#selected_image').attr( 'style', 'width:95%');
         });
  
         //Open the uploader dialog

@@ -4,7 +4,7 @@ if ( 'replace' == $this->selected_action ) {
 	$thumb_ids_in_use = $this->get_featured_image_ids();
 	if ( $thumb_ids_in_use ) {
 ?>
-<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=confirm', $this->plugin_slug ) ) ); ?>">
+<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=confirm', $this->page_slug ) ) ); ?>">
 <?php 
 		if ( $this->is_error_no_old_image ) {
 ?>
@@ -44,7 +44,7 @@ if ( 'replace' == $this->selected_action ) {
 	} else {
 ?>
 <p><?php _e( 'There are no featured images in use.', $this->plugin_slug ); ?></p>
-<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s', $this->plugin_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
+<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
 <?php 
 	} // if( thumb_ids_in_use )
 ?>
@@ -53,7 +53,7 @@ if ( 'replace' == $this->selected_action ) {
 // else display filter selection
 ?>
 <h3><?php _e( 'Refine your selections', $this->plugin_slug ); ?></h3>
-<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=refine', $this->plugin_slug ) ) ); ?>">
+<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=refine', $this->page_slug ) ) ); ?>">
 <?php
 	switch ( $this->selected_action ) {
 		case 'assign':
@@ -65,14 +65,17 @@ if ( 'replace' == $this->selected_action ) {
 		<legend><span><?php _e( 'Process Options', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'You can control the process with the following options.', $this->plugin_slug ); ?></p>
 <?php 
-		foreach ( $this->valid_options as $key => $label ) {
+		$key = 'overwrite';
+		$label = $this->valid_options[ $key ];
+		$desc = __( 'Overwrite existing featured images with new ones', $this->plugin_slug );
+		//foreach ( $this->valid_options as $key => $label ) {
 ?>
 		<p>
 			<input type="checkbox" id="<?php printf( 'th_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
-			<label for="<?php printf( 'th_%s', $key ); ?>"><?php echo $label; ?></label>
+			<label for="<?php printf( 'th_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
 		</p>
 <?php
-		} // foreach()
+		//} // foreach()
 ?>
 	</fieldset>
 <?php
@@ -146,7 +149,7 @@ if ( $this->selected_multiple_image_ids ) {
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 		<?php wp_nonce_field( 'quickfi_select', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php _e( 'Next' ); ?>" />
+		<input type="submit" class="button" value="<?php $next_label = 'Next'; _e( $next_label ); ?>" />
 	</p>
 </form>
 <?php

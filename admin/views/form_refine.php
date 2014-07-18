@@ -3,7 +3,7 @@
 // display selected filters
 if ( $this->selected_filters ) {
 ?>
-<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'upload.php?page=%s&amp;step=confirm', $this->plugin_slug ) ) ); ?>">
+<form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=confirm', $this->page_slug ) ) ); ?>">
 	<fieldset>
 		<legend><span><?php print _e( 'Refine filters', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'Now you can find posts and pages by matching parameters. Refine them here.', $this->plugin_slug ); ?></p>

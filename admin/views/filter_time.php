@@ -1,5 +1,5 @@
 <h4><?php echo $this->valid_filters[ 'filter_time' ]; ?></h4>
-<h5><?php _e( 'Date range:' ); ?></h5>
+<h5><?php $date_range_label = 'Date range:'; _e( $date_range_label ); ?></h5>
 <p><?php _e( 'To define a time segment select both the start date and the end date.', $this->plugin_slug ); ?></p>
 <p><?php _e( 'You can also define a time period by selecting only one date as the limiting value of the period.', $this->plugin_slug ); ?></p>
 <p><?php _e( 'The listed dates are the date of the publication of stored posts.', $this->plugin_slug ); ?></p>
