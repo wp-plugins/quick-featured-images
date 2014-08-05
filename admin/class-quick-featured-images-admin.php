@@ -7,7 +7,6 @@
  * @license   GPL-2.0+
  * @link      http://stehle-internet.de
  * @copyright 2014 Martin Stehle
- * @todo:     add reqirement check: theme must support thumbnails
  */
 
  class Quick_Featured_Images_Admin {
@@ -20,7 +19,7 @@
 	 *
 	 * @var     string
 	 */
-	protected $plugin_version = '7.0';
+	protected $plugin_version = '8.0';
 
 	/**
 	 * Instance of this class.
@@ -74,28 +73,6 @@
 	protected $plugin_slug = 'quick-featured-images';
 
 	/**
-	 * Headline of the class' page
-	 *
-	 * Use the translation function before displaying it
-	 *
-	 * @since    7.0
-	 *
-	 * @var      string
-	 */
-	protected $page_headline = 'Overview';
-
-	/**
-	 * Menu label of the class' page
-	 *
-	 * Use the translation function before displaying it
-	 *
-	 * @since    7.0
-	 *
-	 * @var      string
-	 */
-	protected $menu_label = 'Featured Images';
-
-	/**
 	 * Unique slug for the admin page of this class
 	 *
 	 * @since    7.0
@@ -119,9 +96,10 @@
 	 *
 	 * @since     1.0.0
 	 * @updated   3.2.1: hook on displaying a message after plugin activation
+	 * @updated   8.0: removed action display_menu_icon
 	 */
 	private function __construct() {
-
+	
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
@@ -136,7 +114,7 @@
 		#add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 		// style for top level menu item 
-		add_action( 'admin_head', array( $this, 'display_menu_icon' ) );
+		//add_action( 'admin_head', array( $this, 'display_menu_icon' ) );
 
 		// hook on displaying a message after plugin activation
 		// if single activation via link or bulk activation
@@ -157,7 +135,9 @@
 	 * @since    7.0
 	 */
 	public function main() {
-		include_once( 'views/page_overview.php' );
+		$this->display_header();
+		include_once( 'views/section_overview.php' );
+		$this->display_footer();
 	}
 	
 	/**
@@ -207,7 +187,18 @@
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( $this->page_headline );
+		return __( 'Overview', $this->plugin_slug );
+	}
+
+	/**
+	 * Return the page description.
+	 *
+	 * @since    8.0
+	 *
+	 *@return    page description variable.
+	 */
+	public function get_page_description() {
+		return __( 'Your time-saving Swiss Army Knife for featured images: Set, replace and delete them in bulk, set default images, get overview lists.', $this->plugin_slug );
 	}
 
 	/**
@@ -241,55 +232,6 @@
 	 */
 	public function get_settings_db_slug() {
 		return $this->settings_db_slug;
-	}
-
-	/**
-	 * Get current or default settings
-	 *
-	 * @since    7.0
-	 */
-	public function get_stored_settings() {
-		// try to load current settings. If they are not in the DB return set default settings
-		$stored_settings = get_option( $this->settings_db_slug, array() );
-		// if empty array set and store default values
-		if ( empty( $stored_settings ) ) {
-			$this->set_default_settings();
-			// try to load current settings again. Now there should be the data
-			$stored_settings = get_option( $this->settings_db_slug );
-		}
-		
-		return $stored_settings;
-	}
-	
-	/**
-	 * Set default settings
-	 *
-	 * @since    7.0
-	 */
-	private function set_default_settings() {
-		if ( ! current_user_can( 'manage_options' ) )  {
-			// use WordPress standard message for this case
-			$die_text = 'You do not have sufficient permissions to manage options for this site.';
-			wp_die( __( $die_text ) );
-		}
-		
-		// define the default settings
-		$default_settings = array(
-			'show_headline'  => 1,
-			'headline'  => __( 'Contact to us', $this->plugin_slug ),
-		);
-
-		// store default values in the db as a single and serialized entry
-		add_option( $this->settings_db_slug, $default_settings );
-		
-		/** 
-		* to do: finish check
-		* // test if the options are stored successfully
-		* if ( false === get_option( self::$settings_db_slug ) ) {
-		* 	// warn if there is something wrong with the options
-		* 	something like: printf( '<div class="error"><p>%s</p></div>', __( 'The settings for plugin Purify WP Menus are not stored in the database. Is the database server ok?', 'purify_wp_menus' ) );
-		* }
-		*/
 	}
 
 	/**
@@ -523,8 +465,8 @@
 	 * @updated  7.0: changed url and message (page moved from media sub menu to own object menu)
 	 */
 	public function display_activation_message () {
-		$url  = esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );
-		$link = sprintf( '<a href="%s">%s</a>', $url, __( $this->menu_label ) );
+		$url  = admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) );
+		$link = sprintf( '<a href="%s">%s</a>', $url, __( 'Featured Images', $this->plugin_slug ) );
 		$msg  = sprintf( __( 'Welcome to %s! You can find the plugin at %s.', $this->plugin_slug ), $this->plugin_name, $link );
 		$html = sprintf( '<div class="updated"><p>%s</p></div>', $msg );
 		print $html;
@@ -540,7 +482,7 @@
 	public function add_plugin_admin_menu() {
 		
 		// get translated string of the menu label and page headline
-		$label = __( $this->page_headline );
+		$label = $this->get_page_headline();
 		
 		$page_title = sprintf( '%s: %s', $this->plugin_name, $label );
 		$function = array( $this, 'main' ); // to execute when loading this page
@@ -549,12 +491,14 @@
 		 * Add the top level menu page of this plugin
 		 *
 		 */
-		$this->plugin_screen_hook_suffix = add_object_page(
+		$this->plugin_screen_hook_suffix = add_menu_page(
 			$page_title,
-			__( $this->menu_label ), // menu_title
+			__( 'Featured Images', $this->plugin_slug ), // menu_title
 			$this->required_user_cap, // capability to use the following function
 			$this->page_slug,
-			$function
+			$function,
+			'dashicons-images-alt2', // icon
+			11 // position after menu item 'Media'
 		);
 		
 		// Give first sub level menu link a different label than the top level menu link 
@@ -571,22 +515,116 @@
 	}
 	
 	/**
+	 *
+	 * Render the header of the admin page
+	 *
+	 * @access   private
+	 * @since    1.0.0
+	 */
+	private function display_header() {
+		include_once( 'views/section_header.php' );
+	}
+	
+	/**
+	 *
+	 * Render the footer of the admin page
+	 *
+	 * @access   private
+	 * @since    1.0.0
+	 */
+	private function display_footer() {
+		include_once( 'views/section_footer.php' );
+	}
+	
+	/**
 	 * Print icon for top level menu item of this plugin
 	 *
 	 * @since     7.0
+	 * @updated   8.0: deprecated
 	 *
 	 * @return    null    
 	 */
-	public function display_menu_icon(){
+	/*public function display_menu_icon(){
 		print '<style type="text/css">';
-		print '/* Quick Featured Images Menu Icon */';
+		print '/* Quick Featured Images Menu Icon * /';
 		print "\n";
 		printf( '#toplevel_page_%s .dashicons-admin-generic:before {', $this->page_slug );
 		#print ' content: "\f232";';
-		print ' content: "\f233";';
+		#print ' content: "\f233";';
 		print '}';
 		print "\n";
 		print '</style>';
+	}*/
+
+}
+
+/**
+ * Library class for all QFI classes with common variables and functions
+ * Status: experimental, actually not in use
+ *
+ * @since: 8.0
+ *
+ */
+class Quick_Featured_Images_Base {
+
+	/**
+	 * Returns the post id of an uploaded image, else 0
+	 * Looks for internal images only, i.e. images from the 
+	 * media library and not images embedded by URL from 
+	 * external servers
+	 *
+	 * @access   private
+	 * @since     5.0
+	 * @updated   5.1.1: refactored
+	 * @updated   7.0: improved performance by changing intval() to (int)
+	 *
+	 * @return    integer    the post id of the image
+	 */
+	protected function get_image_id_by_url ( $content ) {
+		// set variables
+		global $wpdb;
+		$thumb_id = 0;
+		$pat_find_img_src = '/<img.*?src=[\'"]([^\'"]+)[\'"][^>]*>/i';
+		// look for images in HTML code
+		preg_match_all( $pat_find_img_src, $content, $matches );
+		// if img elements found: try to get the first image's ID
+		if ( isset( $matches ) and 0 < count( $matches ) ) {
+			foreach ( $matches[ 1 ] as $url ) {
+				preg_match( '|' . get_site_url() . '|i', $url, $matches );
+				// if site-owned image
+				if ( isset( $matches ) and 0 < count( $matches ) ) {
+					// delete optional query string in img src
+					$url = preg_replace( '/([^?]+).*/', '\1', $url );
+					// delete image dimensions data in img file name, just take base name and extension
+					$guid = preg_replace( '/(.+)-\d+x\d+\.(\w+)/', '\1.\2', $url );
+					// look up its ID in the db
+					$img_id = $wpdb->get_var( $wpdb->prepare( "SELECT `ID` FROM $wpdb->posts WHERE `guid` = '%s'", $guid ) );
+					// if it is available take its ID as new thumb id
+					if ( $img_id ) {
+						// finally we have an id
+						$thumb_id = (int) $img_id ;
+					}
+				} // if $matches
+				// stop loop, because we want only the first matching image of a post
+				if ( $thumb_id ) {
+					break;
+				}
+			} // foreach( $url )
+		} // if $matches
+		return $thumb_id;
 	}
 
+	/**
+	 * For development: Display a var_dump() of the variable within HTML 'pre' elements and die if true
+	 *
+	 * dambedei: read: "dump and die". If you know what it is you know my home region ;-)
+	 *
+	 * @since    1.0.0
+	 */
+	function dambedei ( $v, $die = false ) {
+		print "<pre>";
+		var_dump( $v );
+		print "</pre>";
+		if ( $die ) die();
+	}
 }

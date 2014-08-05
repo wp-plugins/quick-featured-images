@@ -1,25 +1,26 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SBF76TCGTRNX2
-Tags: add, assign, associate, attach, author, batch, bulk, category, categories, change, column, control, custom post types, custom taxonomy, custom taxonomies, date, dates, time, period, filter, define, delete, detach, exchange, featured, featured image, featured images, image, image size, images, mass, media, pages, parent page, post type, post types, posts, quick, random, rapid, remove, replace, search, set, tag, taxonomy, taxonomies , thumb, thumbnail, thumbnails, thumbs, unset, update
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
+Tags: add, assign, associate, attach, author, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update
 Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 7.0
+Stable tag: 8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Bulk set, replace and remove featured images, see them in posts lists and save your time
+Your time-saving Swiss Army Knife for featured images: Set, replace and delete them in bulk, set default images, get overview lists.
 
 == Description ==
 
-The plugin 'Quick Featured Images' helps you bulk managing featured images and saves your time. 
+The plugin 'Quick Featured Images' helps you bulk managing featured images, define automatic default featured image and saves your time. 
 
-It sets, replaces and removes featured images for hundreds of posts, pages and custom post types in one go. You can run it over all posts or let it work only to desired posts by using flexible filters.
+1. It **sets, replaces and removes featured images for hundreds of posts**, pages and custom post types in one go. You can run it over all posts or let it work only to desired posts by using flexible filters.
+2. It displays assigned features images in an **extra image column in lists of posts, pages and custom post types** if they support thumbnails. With that you get a quick overview about used thumbnails of all posts and pages.
+3. It enables you to **define presets for automatic default featured images** for future posts as many as you need. You can set accurate **rules based on post type, category, tag, custom post type, custom taxonomy or the first content image**.
 
-It displays assigned features images in an extra column in lists of posts, pages and custom post types if they support thumbnails. With that you get a quick overview about used thumbnails of all posts and pages.
+= What users said =
 
-= What other people said =
-
+* **"Finally! It's about time somebody got it right!"** by yallways on August 3, 2014
 * **"Sooo damn convenient!"** by Benbodhi on July 2, 2014
 * **"With one word, it is 'great'"** by Can on June 25, 2014
 * **"Easy and effective"** by manuamaro on June 10, 2014
@@ -32,21 +33,19 @@ See more comments under [Reviews](http://wordpress.org/support/view/plugin-revie
 1. You will find the plugin under the own **menu item 'Featured Images'** 
 2. You can select an image under 'Media' with its new **action link 'Bulk set as featured image'**. Per click on it you can go on with the plugin.
 
-= Customizing Actions =
+= Set, replace, remove: Actions =
 
-Quick Featured Images enables you three main tasks with featured images: add, exchange and delete them.
+With Quick Featured Images you can apply time-saving tasks with featured images: add, exchange and delete them in bulk.
 
 1. **Adding featured images:** You can select an image or scan for the first post image to set it as the new featured image to hundreds of posts in one go. You can select multiple images to set them randomly as featured images.
 2. **Exchanging featured images:** You can replace or update several existing featured images with a selected image in one go.
 3. **Deleting featured images:** You can remove a selected featured image or all existing featured images in one go.
 
-= Options =
+= Set, replace, remove: Options =
 
 You can switch between **overwriting existing featured images** or **keeping them unchanged**. The latter setting is the default.
 
-Under **'Settings'** you can switch on and off the additional image column in lists of every post type, even custom post types if they support thumbnails.
-
-= Filters =
+= Set, replace, remove: Filters =
 
 If there would be no filters Quick Featured Images would affect all posts and pages without exception! In most cases this is not desired. 
 
@@ -62,6 +61,41 @@ The implemented filters allow you to narrow down the action to only the posts an
 8. Filter by **category**: Search posts by category
 9. Filter by **tag**: Search posts by tag
 10. Filter by **parent page**: Search child pages by parent page
+
+= Automatic Default Featured Images =
+
+**You can define rules for default featured images of new posts easily.** Every time you save a post Quick Featured Images will look for a rule to set the desired featured image for the saved post. You can define the rules based on
+
+1. standard post types 'Post' and 'Page'
+2. post categories
+3. post tags
+4. all other custom post types supporting featured images
+5. all other custom taxonomies supporting featured images
+6. always the first content image.
+
+The rules are easy to set: choose an image, a taxonmy, a value and save the settings. That's it. **You do not need to code.** Look at some examples:
+
+1. To set a default featured image for every new post: 
+	1. choose the image
+	2. choose the taxonomy 'Post Type' and
+	3. choose the value 'Post'.
+2. To set a default featured image for every new post of the category 'Lorem ipsum':
+	1. choose the image
+	2. choose the taxonomy 'Category' and
+	3. choose the value 'Lorem ipsum'.
+3. To set a default featured image for every new custom taxonomy of a theme or a plugin, e.g. events of the category 'Concert':
+	1. choose the image
+	2. choose the taxonomy 'Event Category' and
+	3. choose the value 'Concert'.
+
+You can add, change and delete every rule whenever you want. So you get an **umlimited and precise set of rules** for automatic default featured images in your blog.
+
+= Additional columns in posts lists =
+
+Quick Featured Images adds columns with the currently assigned featured image of each post. With that you can get a **quick overview about all used images**. You can also see posts with no featured image at a glance.
+
+Under **'Featured Images'** &gt; **'Settings'** you can switch on and off the additional image column for every single post type, even custom post types if they support thumbnails.
+
 
 = Your idea to improve the plugin is welcome =
 
@@ -120,7 +154,7 @@ For that use the plugin twice:
 
 All users who have the right to **edit others posts** have the access to Quick Featured Images. As long as the user roles are untouched after a fresh standard WordPress installation both Administrators and Editors can use this plugin.
 
-For these users the link 'Quick Featured Images' under 'Media' in the WordPress backend appears. All other users will not see the 'Quick Featured Images' link or will get an error message while requesting a Quick Featured Images page via a direct link.
+For these users the menu item 'Featured Images' with its sub pages appears in the WordPress backend. All other users will not see this menu item or will get an error message if they would request a Quick Featured Images page via a direct link.
 
 = Does the plugin work in a WordPress Multisite installation? =
 
@@ -156,9 +190,21 @@ If you want to contribute a translation of the plugin in your language it would 
 3. The third screen: refine the filters.
 4. The fourth screen: take a preview. If the filtering does not correspond to your expectations you can refine the filters again under the list on this page.
 5. The fifth screen: take an overview of the success of the action.
-6. The sixth and last screen: take an look on the extra column (marked red) for assigned featured images.
+6. The sixth screen: take an look on the extra column (marked red) for assigned featured images.
+7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 8.0 =
+* Added the functionality of auto set featured images for new posts based on user defined rules
+* Added a sub menu page 'Default Images'
+* Updated menu page 'Overview'
+* Moved menu item near menu item 'Media'
+* Tested JavaScript in Opera, Firefox, Chrome and Internet Explorer
+* Fixed wrong behaviour on Customize page if both image selection buttons were clicked
+* Fixed HTML content section of custom taxonomies filter
+* Updated uninstall file
+* Updated *.pot file and german translation
 
 = 7.0 =
 * Added a top level menu item 'Featured Images'
@@ -280,6 +326,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 8.0 =
+Added the functionality of auto set featured images for new posts based on user defined rules and a new sub menu page 'Default Images'
 
 = 7.0 =
 Added: new top level menu item, column for featured images in lists of posts, options page

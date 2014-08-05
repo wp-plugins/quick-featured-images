@@ -149,7 +149,7 @@ if ( $this->selected_multiple_image_ids ) {
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 		<?php wp_nonce_field( 'quickfi_select', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php $next_label = 'Next'; _e( $next_label ); ?>" />
+		<input type="submit" class="button" value="<?php _e( 'Next', $this->plugin_slug ); ?>" />
 	</p>
 </form>
 <?php

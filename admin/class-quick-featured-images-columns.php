@@ -5,7 +5,7 @@
  * @package   Quick_Featured_Images_Columns
  * @author    Martin Stehle <m.stehle@gmx.de>
  * @license   GPL-2.0+
- * @link      http://wordpress.org/plugins/speed-contact-bar/
+ * @link      http://wordpress.org/plugins/quick-featured-images/
  * @copyright 2014 
  */
 
@@ -214,7 +214,7 @@ class Quick_Featured_Images_Columns {
 		/* collect js for the color picker */
 		$screen = get_current_screen();
 		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), Quick_Featured_Images_Admin::VERSION );
+			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
 		}
 	}
 
@@ -226,8 +226,7 @@ class Quick_Featured_Images_Columns {
 	 * @return    null    
 	 */
     public function add_thumbnail_column( $cols ) {
-		$column_label = 'Featured Image';
-        $cols[ $this->column_name ] = __( $column_label );
+        $cols[ $this->column_name ] = __( 'Featured Image', $this->plugin_slug );
         return $cols;
     }
 	
@@ -257,8 +256,7 @@ class Quick_Featured_Images_Columns {
 			if ( $thumbnail_id ) {
 				echo wp_get_attachment_image( $thumbnail_id, array( $width, $height ) );
 			} else {
-				$no_image_label = 'No Image';
-				echo __( $no_image_label );
+				echo __( 'No Image', $this->plugin_slug );
 			}
 		}
     }

@@ -7,11 +7,10 @@ if ( $parent_pages ) {
 ?>
 	<label for="page_id"><?php _e( 'Select a parent page', $this->plugin_slug ); ?></label><br />
 <?php 
-	$first_option_label = '&mdash; Select &mdash;'; #__('None'),
 	$args = array(
 		'include' => $parent_pages,
 		'selected' => $this->selected_parent_page_id,
-		'show_option_none' => __( $first_option_label ),
+		'show_option_none' => __( '&mdash; Select &mdash;', $this->plugin_slug ),
 		'option_none_value' => '',
 	);
 	wp_dropdown_pages( $args ); 

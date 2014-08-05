@@ -10,10 +10,10 @@ if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 ?>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=select', $this->page_slug ) ) ); ?>">
 	<h3><?php _e( 'What do you want to do?', $this->plugin_slug ); ?></h3>
-	<p><?php _e( 'Select one of the following actions you want to do with the selected image.', $this->plugin_slug ); ?></p>
+	<p><?php _e( 'Here you can add, replace and delete featured images to your posts. Select one of the following actions and, if necessary, one or more images.', $this->plugin_slug ); ?></p>
 	<p><?php _e( 'Whatever you select: You can refine your choice on the next page.', $this->plugin_slug ); ?></p>
 	<fieldset>
-		<legend><span><?php _e( 'Select action', $this->plugin_slug ); ?></span></legend>
+		<legend class="screen-reader-text"><span><?php _e( 'Select action', $this->plugin_slug ); ?></span></legend>
 		<h4><?php _e( 'Actions with a selected image', $this->plugin_slug ); ?></h4>
 		<p><?php _e( 'These actions require to select an image with the following button.', $this->plugin_slug ); ?></p>
 <?php 
@@ -52,7 +52,7 @@ if ( $this->selected_image_id ) {
 }
 ?>
 					<input type="hidden" id="image_id" name="image_id" value="<?php echo $this->selected_image_id; ?>">
-					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php $alt_text = 'Featured Image'; _e( $alt_text ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
+					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php _e( 'Featured Image', $this->plugin_slug ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
 					<input type="button" id="upload_image_button" class="button th_select_image" value="<?php _e( 'Choose Image', $this->plugin_slug ); ?>" />
 				</p>
 			</div>
@@ -108,8 +108,7 @@ foreach ( $this->valid_actions_without_image as $name => $label ) {
 ?>
 	</fieldset>
 <?php 
-$next_label = 'Next';
 wp_nonce_field( 'quickfi_start', $this->plugin_slug . '_nonce' ); 
-submit_button( __( $next_label ), 'secondary' );
+submit_button( __( 'Next', $this->plugin_slug ), 'secondary' );
 ?>
 </form>
