@@ -5,7 +5,7 @@
  * @package   Quick_Featured_Images_Settings
  * @author    Martin Stehle <m.stehle@gmx.de>
  * @license   GPL-2.0+
- * @link      http://wordpress.org/plugins/speed-contact-bar/
+ * @link      http://wordpress.org/plugins/quick-featured-images/
  * @copyright 2014 
  */
 
@@ -31,7 +31,7 @@ class Quick_Featured_Images_Settings {
 	 *
 	 * @var     string
 	 */
-	protected $required_user_cap = 'manage_options';
+	protected $required_user_cap = 'edit_others_posts';
 
 	/**
 	 * Slug of the plugin screen.
@@ -62,17 +62,6 @@ class Quick_Featured_Images_Settings {
 	 * @var      string
 	 */
 	protected $plugin_slug = null;
-
-	/**
-	 * Headline of the class' page
-	 *
-	 * Use the translation function before displaying it
-	 *
-	 * @since    7.0
-	 *
-	 * @var      string
-	 */
-	protected $page_headline = 'Settings';
 
 	/**
 	 * Unique identifier for the admin page of this class.
@@ -132,16 +121,6 @@ class Quick_Featured_Images_Settings {
 	protected $settings_fields_slug = 'quick-featured-images-options';
 	
 	/**
-	 * Structure of the form sections with headline, description and options
-	 *
-	 *
-	 * @since    7.0
-	 *
-	 * @var      array
-	 */
-	protected $form_structure = null;
-
-	/**
 	 * Stored settings in an array
 	 *
 	 *
@@ -195,7 +174,9 @@ class Quick_Featured_Images_Settings {
 	 * @since    7.0
 	 */
 	public function main() {
-		include_once( 'views/page_settings.php' );
+		$this->display_header();
+		include_once( 'views/section_settings.php' );
+		$this->display_footer();
 	}
 
 	/**
@@ -223,7 +204,18 @@ class Quick_Featured_Images_Settings {
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( $this->page_headline );
+		return __( 'Settings', $this->plugin_slug );
+	}
+
+	/**
+	 * Return the page description.
+	 *
+	 * @since    8.0
+	 *
+	 *@return    page description variable.
+	 */
+	public function get_page_description() {
+		return __( 'Helpful options for managing featured images', $this->plugin_slug );
 	}
 
 	/**
@@ -285,7 +277,7 @@ class Quick_Featured_Images_Settings {
 		/* collect js for the color picker */
 		$screen = get_current_screen();
 		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), Quick_Featured_Images_Admin::VERSION );
+			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin-settings.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
 		}
 	}
 
@@ -297,7 +289,7 @@ class Quick_Featured_Images_Settings {
 	public function add_plugin_admin_menu() {
 
 		// get translated string of the menu label and page headline
-		$label = __( $this->page_headline );
+		$label = $this->get_page_headline();
 		
 		// Add a settings page for this plugin to the Settings menu.
 		$this->plugin_screen_hook_suffix = add_submenu_page( 
@@ -317,12 +309,12 @@ class Quick_Featured_Images_Settings {
 	 * @since    7.0
 	 */
 	public function add_action_links( $links ) {
-
+		$url = sprintf( 'admin.php?page=%s-settings', $this->plugin_slug );
 		return array_merge(
-			$links,
 			array(
-				'settings' => '<a href="' . admin_url( 'admin.php?page=' . $this->plugin_slug . '-settings' ) . '">' . __( $this->page_headline ) . '</a>'
-			)
+				'settings' => sprintf( '<a href="%s">%s</a>', admin_url( $url ), $this->get_page_headline() )
+			),
+			$links
 		);
 
 	}
@@ -364,7 +356,7 @@ class Quick_Featured_Images_Settings {
 		// try to load current settings again. Now there should be the data
 		$stored_settings = get_option( $this->settings_db_slug, false );
 		
-		return $stored_settings;
+		return $stored_settings; # todo: return $this->sanitize_stored_settings( $stored_settings );
 	}
 	
 	/**
@@ -381,170 +373,51 @@ class Quick_Featured_Images_Settings {
 		// get current or default settings
 		$this->stored_settings = $this->get_stored_settings();
 
-		// define the form sections, order by appereance, with headlines, and options
-		$posts_label = 'Posts';
-		$pages_label = 'Pages';
-		$post_types = array(
-			'show_posts_images' => __( $posts_label ),
-			'show_pages_images' => __( $pages_label ),
-		);
-		// get the registered custom post types as objects
-        $custom_post_types = get_post_types( array( '_builtin' => false ), 'objects' );
-		// add their names and labels to the standard WP post types
-        foreach ( $custom_post_types as $name => $object ) {
-            if ( post_type_supports( $name, 'thumbnail' ) ) {
-				$key = sprintf( 'show_%s_images', $name );
-				$post_types[ $key ] = $object->label; 
-            }
-		}
-		$this->form_structure = array(
-			'1st_section' => array(
-				'headline' => __( 'Columns for featured images in posts lists', $this->plugin_slug ),
-				'description' => __( 'The additional columns give you a quick overview about all used featured images for every post.', $this->plugin_slug ),
-				'options' => array(
-					'column_toggles' => array(
-						'type'    => 'checkboxes',
-						'title'   => __( 'Show additional column for featured images in lists of', $this->plugin_slug ),
-						'desc'    => __( 'Activate the checkboxes at each post type to show the extra columns in the post lists.', $this->plugin_slug ),
-						'values'  => $post_types,
-						'illu'    => array( plugins_url( 'assets/images/posts_list_w_image_column.gif' , __FILE__ ), 'Screenshot' ),
-					),
-				),
-			),
-		);
-		// build form with sections and options
-		foreach ( $this->form_structure as $section_key => $section_values ) {
-		
-			// assign callback functions to form sections (options groups)
-			add_settings_section(
-				// 'id' attribute of tags
-				$section_key, 
-				// title of the section.
-				$this->form_structure[ $section_key ][ 'headline' ],
-				// callback function that fills the section with the desired content
-				array( $this, 'print_section_' . $section_key ),
-				// menu page on which to display this section
-				$this->main_options_page_slug
-			); // end add_settings_section()
-			
-			// set labels and callback function names per option name
-			foreach ( $section_values[ 'options' ] as $option_name => $option_values ) {
-				// set default description
-				$desc = '';
-				if ( isset( $option_values[ 'desc' ] ) and '' != $option_values[ 'desc' ] ) {
-					if ( 'checkbox' == $option_values[ 'type' ] ) {
-						$desc =  $option_values[ 'desc' ];
-					} else {
-						$desc =  sprintf( '<p class="description">%s</p>', $option_values[ 'desc' ] );
-					}
-				}
-				// build the form elements values
-				switch ( $option_values[ 'type' ] ) {
-					case 'radiobuttons':
-						$title = $option_values[ 'title' ];
-						$stored_value = isset( $this->stored_settings[ $option_name ] ) ? esc_attr( $this->stored_settings[ $option_name ] ) : '';
-						$html = sprintf( '<fieldset><legend class="screen-reader-text"><span>%s</span></legend>', $title );
-						foreach ( $option_values[ 'values' ] as $value => $label ) {
-							$checked = $stored_value ? checked( $stored_value, $value, false ) : '';
-							$html .= sprintf( '<label><input type="radio" name="%s[%s]" value="%s"%s /> <span>%s</span></label><br />', $this->settings_db_slug, $option_name, $value, $checked, $label );
-						}
-						$html .= '</fieldset>';
-						$html .= $desc;
-						break;
-					case 'checkboxes':
-						$title = $option_values[ 'title' ];
-						$html = sprintf( '<fieldset><legend class="screen-reader-text"><span>%s</span></legend>', $title );
-						foreach ( $option_values[ 'values' ] as $value => $label ) {
-							$stored_value = isset( $this->stored_settings[ $value ] ) ? esc_attr( $this->stored_settings[ $value ] ) : '0';
-							$checked = $stored_value ? checked( '1', $stored_value, false ) : '0';
-							$html .= sprintf( '<label for="%s"><input name="%s[%s]" type="checkbox" id="%s" value="1"%s /> %s</label><br />' , $value, $this->settings_db_slug, $value, $value, $checked, $label );
-						}
-						$html .= '</fieldset>';
-						$html .= $desc;
-						break;
-					case 'selection':
-						$title = $option_values[ 'title' ];
-						$stored_value = isset( $this->stored_settings[ $option_name ] ) ? esc_attr( $this->stored_settings[ $option_name ] ) : '';
-						$html = sprintf( '<select id="%s" name="%s[%s]">', $option_name, $this->settings_db_slug, $option_name );
-						foreach ( $option_values[ 'values' ] as $value => $label ) {
-							$selected = $stored_value ? selected( $stored_value, $value, false ) : '';
-							$html .= sprintf( '<option value="%s"%s>%s</option>', $value, $selected, $label );
-						}
-						$html .= '</select>';
-						$html .= $desc;
-						break;
-					case 'checkbox':
-						$title = $option_values[ 'title' ];
-						$value = isset( $this->stored_settings[ $option_name ] ) ? esc_attr( $this->stored_settings[ $option_name ] ) : '0';
-						$checked = $value ? checked( '1', $value, false ) : '';
-						$html = sprintf( '<label for="%s"><input name="%s[%s]" type="checkbox" id="%s" value="1"%s /> %s</label>' , $option_name, $this->settings_db_slug, $option_name, $option_name, $checked, $desc );
-						break;
-					case 'url':
-						$title = sprintf( '<label for="%s">%s</label>', $option_name, $option_values[ 'title' ] );
-						$value = isset( $this->stored_settings[ $option_name ] ) ? esc_url( $this->stored_settings[ $option_name ] ) : '';
-						$html = sprintf( '<input type="text" id="%s" name="%s[%s]" value="%s">', $option_name, $this->settings_db_slug, $option_name, $value );
-						$html .= $desc;
-						break;
-					case 'textarea':
-						$title = sprintf( '<label for="%s">%s</label>', $option_name, $option_values[ 'title' ] );
-						$value = isset( $this->stored_settings[ $option_name ] ) ? esc_textarea( $this->stored_settings[ $option_name ] ) : '';
-						$html = sprintf( '<textarea id="%s" name="%s[%s]" cols="30" rows="5">%s</textarea>', $option_name, $this->settings_db_slug, $option_name, $value );
-						$html .= $desc;
-						break;
-					case 'farbtastic':
-						$title = sprintf( '<label for="%s">%s</label>', $option_name, $option_values[ 'title' ] );
-						$value = isset( $this->stored_settings[ $option_name ] ) ? esc_attr( $this->stored_settings[ $option_name ] ) : '#cccccc';
-						$html = '<div class="farbtastic-container" style="position: relative;">';
-						$html .= sprintf( '<input type="text" id="%s" name="%s[%s]" value="%s">', $option_name, $this->settings_db_slug, $option_name, $value );
-						$html .= sprintf( '<div id="farbtastic-%s"></div></div>', $option_name );
-						$html .= $desc;
-						break;
-					case 'colorpicker':
-						$title = sprintf( '<label for="%s">%s</label>', $option_name, $option_values[ 'title' ] );
-						$value = isset( $this->stored_settings[ $option_name ] ) ? esc_attr( $this->stored_settings[ $option_name ] ) : '#cccccc';
-						$html = sprintf( '<input type="text" id="%s" class="wp-color-picker" name="%s[%s]" value="%s">', $option_name, $this->settings_db_slug, $option_name, $value );
-						$html .= $desc;
-						break;
-					// else text field
-					default:
-						$title = sprintf( '<label for="%s">%s</label>', $option_name, $option_values[ 'title' ] );
-						$value = isset( $this->stored_settings[ $option_name ] ) ? esc_attr( $this->stored_settings[ $option_name ] ) : '';
-						$html = sprintf( '<input type="text" id="%s" name="%s[%s]" value="%s">', $option_name, $this->settings_db_slug, $option_name, $value );
-						$html .= $desc;
-				} // end switch()
+		/*
+		 * 1st section
+		 */
+		 
+		// build the form section for column toggles
+		$section_key = '1st_section';
+		// register the section
+		add_settings_section(
+			// 'id' attribute of tags
+			$section_key, 
+			// title of the section.
+			__( 'Columns for featured images in posts lists', $this->plugin_slug ),
+			// callback function that fills the section with the desired content
+			array( $this, 'print_section_' . $section_key ),
+			// menu page on which to display this section
+			$this->main_options_page_slug
+		); // end add_settings_section()
 
-				if ( isset( $option_values[ 'illu' ] ) and ! empty( $option_values[ 'illu' ] ) ) {
-					$title .= sprintf( '<br />&nbsp;<br /><img src="%s" alt="%s" />', $option_values[ 'illu' ][ 0 ], $option_values[ 'illu' ][ 1 ] );
-				}
-				// register the option
-				add_settings_field(
-					// form field name for use in the 'id' attribute of tags
-					$option_name,
-					// title of the form field
-					$title,
-					// callback function to print the form field
-					array( $this, 'print_option' ),
-					// menu page on which to display this field for do_settings_section()
-					$this->main_options_page_slug,
-					// section where the form field appears
-					$section_key,
-					// arguments passed to the callback function 
-					array(
-						'html' => $html,
-					)
-				); // end add_settings_field()
+		// register the options for the section
+		$title = __( 'Show additional column for featured images in lists of', $this->plugin_slug );
+		add_settings_field(
+			// form field name for use in the 'id' attribute of tags
+			'column_toggles',
+			// title of the form field
+			$title . sprintf( '<br />&nbsp;<br /><img src="%s" alt="Screenshot" />', plugins_url( 'assets/images/posts_list_w_image_column.gif' , __FILE__ ) ),
+			// callback function to print the form field
+			array( $this, 'print_columns_options' ),
+			// menu page on which to display this field for do_settings_section()
+			$this->main_options_page_slug,
+			// section where the form field appears
+			$section_key,
+			// arguments passed to the callback function 
+			array( $title )
+		); // end add_settings_field()
 
-			} // end foreach( section_values )
-
-		} // end foreach( section )
-
-		// finally register all options. They will be stored in the database in the wp_options table under the options name $this->settings_db_slug.
+		/*
+		 * Finally register all options. They will be stored in the database 
+		 * in the wp_options table under the options name $this->settings_db_slug.
+		 */
 		register_setting( 
 			// group name in settings_fields()
 			$this->settings_fields_slug,
 			// name of the option to sanitize and save in the db
 			$this->settings_db_slug,
-			// callback function that sanitizes the option's value.
+			// callback function that sanitizes the option's values.
 			array( $this, 'sanitize_options' )
 		); // end register_setting()
 		
@@ -560,39 +433,77 @@ class Quick_Featured_Images_Settings {
 	* @return  array              Options and their sanatized values
 	*/
 	public function sanitize_options ( $input ) {
-		foreach ( $this->form_structure as $section_name => $section_values ) {
-			foreach ( $section_values[ 'options' ] as $option_name => $option_values ) {
-				switch ( $option_values[ 'type' ] ) {
-					// if checkbox is set assign '1', else '0'
-					case 'checkbox':
-						$input[ $option_name ] = isset( $input[ $option_name ] ) ? 1 : 0 ;
-						break;
-					// clean email value
-					case 'email':
-						$email = sanitize_email( $input[ $option_name ] );
-						$input[ $option_name ] = is_email( $email ) ? $email : '';
-						break;
-					// clean url values
-					case 'url':
-						$input[ $option_name ] = esc_url_raw( $input[ $option_name ] );
-						break;
-					// clean all other form elements values
-					default:
-						$input[ $option_name ] = sanitize_text_field( $input[ $option_name ] );
-				} // end switch()
-			} // foreach( options )
-		} // foreach( sections )
-		return $input;
+		$sanitized_input = array();
+		foreach ( $input as $key => $value ) {
+			// checkboxes
+			if ( preg_match( '/^show_.+_images$/', $key ) ) {
+				$sanitized_input[ $key ] = isset( $input[ $key ] ) ? '1' : '0' ;
+				continue;
+			}
+		} // foreach()
+		return $sanitized_input;
 	} // end sanitize_options()
 
+	/**
+	 *
+	 * Render the header of the admin page
+	 *
+	 * @access   private
+	 * @since    1.0.0
+	 */
+	private function display_header() {
+		include_once( 'views/section_header.php' );
+	}
+	
+	/**
+	 *
+	 * Render the footer of the admin page
+	 *
+	 * @access   private
+	 * @since    1.0.0
+	 */
+	private function display_footer() {
+		include_once( 'views/section_footer.php' );
+	}
+	
 	/**
 	* Print the option
 	*
 	* @since   7.0
 	*
 	*/
-	public function print_option ( $args ) {
-		print $args[ 'html' ];
+	public function print_columns_options ( $args ) {
+		// define the form sections, order by appereance, with headlines, and options
+		$post_types = array(
+			'show_posts_images' => __( 'Posts', $this->plugin_slug ),
+			'show_pages_images' => __( 'Pages', $this->plugin_slug ),
+		);
+		// get the registered custom post types as objects
+        $custom_post_types = get_post_types( array( '_builtin' => false ), 'objects' );
+		// add their names and labels to the standard WP post types
+        foreach ( $custom_post_types as $name => $object ) {
+            if ( post_type_supports( $name, 'thumbnail' ) ) {
+				$key = sprintf( 'show_%s_images', $name );
+				$post_types[ $key ] = $object->label; 
+            }
+		}
+		$html = sprintf( '<fieldset><legend class="screen-reader-text"><span>%s</span></legend>', $args[ 0 ] );
+		foreach ( $post_types as $value => $label ) {
+			$stored_value = isset( $this->stored_settings[ $value ] ) ? esc_attr( $this->stored_settings[ $value ] ) : '0';
+			$checked = $stored_value ? checked( '1', $stored_value, false ) : '0';
+			$html .= sprintf( 
+				'<label for="%s"><input name="%s[%s]" type="checkbox" id="%s" value="1"%s /> %s</label><br />',
+				$value,
+				$this->settings_db_slug,
+				$value,
+				$value,
+				$checked,
+				$label 
+			);
+		} // foreach()
+		$html .= '</fieldset>';
+		$html .= sprintf( '<p class="description">%s</p>', __( 'Activate the checkboxes at each post type to show the extra columns in the post lists.', $this->plugin_slug ) );
+		print $html;
 	}
 
 	/**
@@ -601,25 +512,7 @@ class Quick_Featured_Images_Settings {
 	* @since   7.0
 	*/
 	public function print_section_1st_section () {
-		printf( "<p>%s</p>\n", $this->form_structure[ '1st_section' ][ 'description' ] );
+		printf( "<p>%s</p>\n", __( 'The additional columns give you a quick overview about all used featured images for every post.', $this->plugin_slug ) );
 	}
 
-	/**
-	* Print the explanation for section 2
-	*
-	* @since   7.0
-	*/
-	public function print_section_2nd_section () {
-		printf( "<p>%s</p>\n", $this->form_structure[ '2nd_section' ][ 'description' ] );
-	}
-
-	/**
-	* Print the explanation for section 3
-	*
-	* @since   7.0
-	*/
-	public function print_section_3rd_section () {
-		printf( "<p>%s</p>\n", $this->form_structure[ '3rd_section' ][ 'description' ] );
-	}
-	
 }

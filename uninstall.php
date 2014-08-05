@@ -16,3 +16,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 // remove settings
 delete_option( 'quick-featured-images-settings' ); 
+delete_option( 'quick-featured-images-defaults' ); 

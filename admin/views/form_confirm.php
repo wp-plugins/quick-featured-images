@@ -18,38 +18,36 @@
 		case 'remove_any_img':
 			$question = __( 'Should the added featured images be removed from all listed posts?', $this->plugin_slug );
 			break;
-	}
-	$thumb_column_headline = __( 'Current Featured Image', $this->plugin_slug );
-	if ( 'assign_first_img' == $this->selected_action ) {
-		$thumb_column_headline = __( 'Future Featured Image', $this->plugin_slug );
-	}
+	} // switch()
 ?>
 <h3><?php _e( 'Preview of your selection', $this->plugin_slug ); ?></h3>
 <h4><?php printf( __( '%d matches found', $this->plugin_slug ), sizeof( $results ) ); ?></h4>
 <?php 
 if ( $results ) { 
-	$details_text = 'Details';
-	$details_label = __( $details_text );
+	// translate once for multiple usage and improve performance
+	$label_details 	  = __( 'Details', $this->plugin_slug );
+	$label_no_image   = __( 'No Image', $this->plugin_slug );
+	$label_number 	  = __( 'No.', $this->plugin_slug );
+	$label_current_fi = __( 'Current Featured Image', $this->plugin_slug );
+	$label_future_fi  = __( 'Future Featured Image', $this->plugin_slug );
 ?>
 <p><?php _e( 'You can take a view to the post in a new window by clicking on its link in the list.', $this->plugin_slug ); ?></p>
 <table class="widefat">
 	<thead>
 		<tr>
-			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
-			<th><?php echo $details_label; ?></th>
-			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
-			<th class="num"><?php _e( 'Future Featured Image', $this->plugin_slug ); ?></th>
+			<th class="num"><?php echo $label_number; ?></th>
+			<th><?php echo $label_details; ?></th>
+			<th class="num"><?php echo $label_current_fi; ?></th>
+			<th class="num"><?php echo $label_future_fi; ?></th>
 		</tr>
 	</thead>
 	<tbody>
 <?php
 	$c = 1;
-	$no_image_text = 'No Image';
-	$no_image_label = __( $no_image_text );
 	foreach ( $results as $result ) {
 		// check if no featured image for the post, else add default
-		$current_img = $result[ 4 ] ? $result[ 4 ] : $current_img = $no_image_label;
-		$future_img = $result[ 5 ] ? $result[ 5 ] : $future_img = $no_image_label;
+		$current_img = $result[ 4 ] ? $result[ 4 ] : $label_no_image;
+		$future_img = $result[ 5 ] ? $result[ 5 ] : $label_no_image;
 		// alternating row colors: if $c is divisible by 2 (so the modulo is 0) then set 'alt'-class
 		$class_attrib = 0 == $c % 2 ? ' class="alt"' : '';
 		// print the table row
@@ -63,12 +61,13 @@ if ( $results ) {
 		$c++;
 	}
 ?>
+	</tbody>
 	<tfoot>
 		<tr>
-			<th class="num"><?php _e( 'No.', $this->plugin_slug ); ?></th>
-			<th><?php echo $details_label; ?></th>
-			<th class="num"><?php _e( 'Current Featured Image', $this->plugin_slug ); ?></th>
-			<th class="num"><?php _e( 'Future Featured Image', $this->plugin_slug ); ?></th>
+			<th class="num"><?php echo $label_number; ?></th>
+			<th><?php echo $label_details; ?></th>
+			<th class="num"><?php echo $label_current_fi; ?></th>
+			<th class="num"><?php echo $label_future_fi; ?></th>
 		</tr>
 	</tfoot>
 </table>

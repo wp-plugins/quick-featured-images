@@ -1,6 +1,6 @@
 <h3><?php _e( 'Your selection', $this->plugin_slug ); ?></h3>
 <?php
-if ( $this->selected_image_id ) {
+if ( in_array( $this->selected_action, array_keys( $this->valid_actions ) ) && $this->selected_image_id ) {
 ?>
 <div class="th_wrapper">
 	<div class="th_w50percent">
@@ -13,7 +13,7 @@ if ( $this->selected_image_id ) {
 	</div><!-- .th_w50percent -->
 	<div class="th_w50percent">
 <?php
-} elseif ( $this->selected_multiple_image_ids ) {
+} elseif ( in_array( $this->selected_action, array_keys( $this->valid_actions_multiple_images ) ) && $this->selected_multiple_image_ids ) {
 ?>
 <div class="th_wrapper">
 	<div class="th_w50percent">

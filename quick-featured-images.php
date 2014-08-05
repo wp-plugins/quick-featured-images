@@ -9,8 +9,8 @@
  * @wordpress-plugin
  * Plugin Name:       Quick Featured Images
  * Plugin URI:        http://wordpress.org/plugins/quick-featured-images
- * Description:       Bulk set, replace and remove featured images
- * Version:           7.0
+ * Description:       Your time-saving Swiss Army Knife for featured images: Set, replace and delete them in bulk, set default images, get overview lists.
+ * Version:           8.0
  * Author:            Martin Stehle
  * Author URI:        http://stehle-internet.de
  * Text Domain:       quick-featured-images
@@ -57,6 +57,13 @@ if ( is_admin() ) {
 	add_action( 'plugins_loaded', array( 'Quick_Featured_Images_Tools', 'get_instance' ) );
 
 	/*
+	 * since 8.0: Make object instance of default images functions class
+	 *
+	 */
+	require_once( $root . 'admin/class-quick-featured-images-defaults.php' );
+	add_action( 'plugins_loaded', array( 'Quick_Featured_Images_Defaults', 'get_instance' ) );
+
+	/*
 	 * since 7.0: Make object instance of options page class
 	 *
 	 */
@@ -71,15 +78,3 @@ if ( is_admin() ) {
 	add_action( 'plugins_loaded', array( 'Quick_Featured_Images_Columns', 'get_instance' ) );
 
 }
-
-/**
- * For development: Display a var_dump() of the variable; die if true
- *
- * @since    1.0.0
- */
-function pretty_dump ( $v, $die = false ) {
-	print "<pre>";
-	var_dump( $v );
-	print "</pre>";
-	if ( $die ) die();
-} // dump()

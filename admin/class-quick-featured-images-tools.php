@@ -58,17 +58,6 @@ class Quick_Featured_Images_Tools {
 	protected $plugin_slug = null;
 
 	/**
-	 * Headline of the class' page
-	 *
-	 * Use the translation function before displaying it
-	 *
-	 * @since    7.0
-	 *
-	 * @var      string
-	 */
-	protected $page_headline = 'Customize';
-
-	/**
 	 * Unique identifier for the admin page of this class.
 	 *
 	 * @since    7.0
@@ -506,8 +495,8 @@ class Quick_Featured_Images_Tools {
 		$this->selected_step = $this->get_sanitized_step();
 		// print header
 		$this->display_header();
-		#pretty_dump($_REQUEST);
-		#pretty_dump($_SERVER);
+		#dambedei($_REQUEST);
+		#dambedei($_SERVER);
 		/*
 		 * print content
 		 */
@@ -675,11 +664,9 @@ class Quick_Featured_Images_Tools {
 			'filter_parent_page' 		=> __( 'Parent Page Filter', $this->plugin_slug ),
 		);
 		// post types (generic and custom)
-		$posts_label = 'Posts';
-		$pages_label = 'Pages';
 		$this->valid_post_types = array(
-			'post' 		=> __( $posts_label ),
-			'page' 		=> __( $pages_label ),
+			'post' => __( 'Posts', $this->plugin_slug ),
+			'page' => __( 'Pages', $this->plugin_slug ),
 		);
 		$this->valid_custom_post_types = $this->get_registered_custom_post_types();
 		// statuses
@@ -691,11 +678,9 @@ class Quick_Featured_Images_Tools {
 			'private' => __( 'Private: visible only to users who are logged in', $this->plugin_slug )
 		);
 		// time and dates
-		$start_date_label = 'Start Date';
-		$end_date_label = 'End Date';
 		$this->valid_date_queries = array(
-			'after' 	=> __( $start_date_label ),
-			'before'	=> __( $end_date_label ),
+			'after' 	=> __( 'Start Date', $this->plugin_slug ),
+			'before' 	=> __( 'End Date', $this->plugin_slug ),
 			'inclusive'	=> __( 'Include the posts of the selected dates', $this->plugin_slug )
 		);
 		// custom fields
@@ -768,7 +753,7 @@ class Quick_Featured_Images_Tools {
 	 * @since    1.0.0
 	 */
 	private function display_header() {
-		include_once( 'views/section_header.php' );
+		include_once( 'views/section_header_progress.php' );
 	}
 	
 	/**
@@ -793,7 +778,7 @@ class Quick_Featured_Images_Tools {
 		switch ( $reason ) {
 			case 'missing_input_value':
 				$msg = sprintf( __( 'The input field %s is empty.', $this->plugin_slug ), $value_name );
-				$solution = __( 'Type in the input field a value.', $this->plugin_slug );
+				$solution = __( 'Type in a value into the input field.', $this->plugin_slug );
 				break;
 			case 'missing_variable':
 				$msg = sprintf( __( '%s is not defined.', $this->plugin_slug ), $value_name );
@@ -885,8 +870,7 @@ class Quick_Featured_Images_Tools {
 	 * @since    3.0
 	 */
 	private function get_html_empty_option() {
-		$first_option_label = '&mdash; Select &mdash;';
-		return sprintf( '<option value="">%s</option>', __( $first_option_label ) );
+		return sprintf( '<option value="">%s</option>', __( '&mdash; Select &mdash;', $this->plugin_slug ) );
 	}
 
 	/**
@@ -1038,7 +1022,7 @@ class Quick_Featured_Images_Tools {
 				} // switch()
 			} // foreach()
 		} // if()
-		#pretty_dump($args);
+		#dambedei($args);
 		return $args;
 	}
 
@@ -1859,6 +1843,67 @@ class Quick_Featured_Images_Tools {
 	}
 
 	/**
+	 * Check the parameter defined by key and return safe value
+	 * Written to return a single value, e.g. for radio buttons
+	 *
+	 * @access   private
+	 * @since     1.0.0
+     * @updated   2.0: faster with isset()
+	 *
+	 * @return    mixed    the user selected valid value or the default value
+	 */
+	private function get_sanitized_value( $key, $valid_values, $default_value = null ) {
+		$value = isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default_value;
+		if ( in_array( $value, $valid_values ) ) {
+			return $value;            
+		} else {                       
+			return $default_value;          
+		}                             
+	}
+
+	/**
+	 * Check the parameter and return safe values 
+	 * Written to return multiple values, e.g. for checkboxes
+	 *
+	 * @access   private
+	 * @since     1.0.0
+     * @updated   2.0: faster with isset()
+	 *
+	 * @return    array    the user selected valid values or the default values
+	 */
+	private function get_sanitized_array( $key, $valid_array, $default_array = array() ) {
+		if ( isset( $_REQUEST[ $key ] ) and is_array( $_REQUEST[ $key ] ) ) {
+			return $this->get_array_intersect( $_REQUEST[ $key ], $valid_array );
+		} else {
+			return $default_array;
+		}
+	}
+
+	/**
+	 * Check the parameters and return safe values 
+	 * Written to return multiple values associated with key names, e.g. for WP Query
+	 * The function filters out empty strings
+	 *
+	 * @access   private
+	 * @since     1.0.0
+	 * @updated   2.0: added check whether array is empty, added isset() to catch empty values (0, "" etc.)
+	 *
+	 * @return    array    the user selected valid values or the default values
+	 */
+	private function get_sanitized_associated_array( $key, $valid_array, $default_array = array() ) {
+		$queries = array();
+		$arr = isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default_array;
+		if ( ! empty( $arr ) && is_array( $arr ) ) {
+			foreach ( array_keys( $valid_array ) as $key ) {
+				if ( array_key_exists( $key, $arr ) and isset( $arr[ $key ] ) ) {
+					$queries[ $key ] = $arr[ $key ];
+				}
+			}
+		}
+		return $queries;
+	}
+
+	/**
 	 * Define parameters and return registered custom post types
 	 *
 	 * @access   private
@@ -1926,22 +1971,6 @@ class Quick_Featured_Images_Tools {
 	}
 
 	/**
-	 * Return registered post dates
-	 *
-	 * @access   private
-	 * @since    4.0
-	 *
-	 * @return    array    the values of the registered post dates
-	 */
-	private function get_registered_post_dates() {
-		global $wpdb;
-		$post_types = implode( "', '", array_merge( array_keys( $this->valid_post_types ), $this->valid_custom_post_types ) );
-		$post_statuses = implode( "', '" , array_keys( $this->valid_statuses ) );
-		$query = "SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month FROM $wpdb->posts WHERE post_type IN ( '" . $post_types . "' ) AND post_status IN ( '" . $post_statuses . "' ) ORDER BY post_date DESC";
-		return $wpdb->get_results( $query );
-	}
-
-	/**
 	 * Return registered custom taxonomies with their labels
 	 *
 	 * @access   private
@@ -1965,64 +1994,19 @@ class Quick_Featured_Images_Tools {
 	}
 
 	/**
-	 * Check the parameter defined by key and return safe value
-	 * Written to return a single value, e.g. for radio buttons
+	 * Return registered post dates
 	 *
 	 * @access   private
-	 * @since     1.0.0
-     * @updated   2.0: faster with isset()
+	 * @since    4.0
 	 *
-	 * @return    mixed    the user selected valid value or the default value
+	 * @return    array    the values of the registered post dates
 	 */
-	private function get_sanitized_value( $key, $valid_values, $default_value = null ) {
-		$value = isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default_value;
-		if ( in_array( $value, $valid_values ) ) {
-			return $value;            
-		} else {                       
-			return $default_value;          
-		}                             
-	}
-
-	/**
-	 * Check the parameter and return safe values 
-	 * Written to return multiple values, e.g. for checkboxes
-	 *
-	 * @access   private
-	 * @since     1.0.0
-     * @updated   2.0: faster with isset()
-	 *
-	 * @return    array    the user selected valid values or the default values
-	 */
-	private function get_sanitized_array( $key, $valid_array, $default_array = array() ) {
-		if ( isset( $_REQUEST[ $key ] ) and is_array( $_REQUEST[ $key ] ) ) {
-			return $this->get_array_intersect( $_REQUEST[ $key ], $valid_array );
-		} else {
-			return $default_array;
-		}
-	}
-
-	/**
-	 * Check the parameters and return safe values 
-	 * Written to return multiple values associated with key names, e.g. for WP Query
-	 * The function filters out empty strings
-	 *
-	 * @access   private
-	 * @since     1.0.0
-	 * @updated   2.0: added check whether array is empty, added isset() to catch empty values (0, "" etc.)
-	 *
-	 * @return    array    the user selected valid values or the default values
-	 */
-	private function get_sanitized_associated_array( $key, $valid_array, $default_array = array() ) {
-		$queries = array();
-		$arr = isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $default_array;
-		if ( ! empty( $arr ) && is_array( $arr ) ) {
-			foreach ( array_keys( $valid_array ) as $key ) {
-				if ( array_key_exists( $key, $arr ) and isset( $arr[ $key ] ) ) {
-					$queries[ $key ] = $arr[ $key ];
-				}
-			}
-		}
-		return $queries;
+	private function get_registered_post_dates() {
+		global $wpdb;
+		$post_types = implode( "', '", array_merge( array_keys( $this->valid_post_types ), $this->valid_custom_post_types ) );
+		$post_statuses = implode( "', '" , array_keys( $this->valid_statuses ) );
+		$query = "SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month FROM $wpdb->posts WHERE post_type IN ( '" . $post_types . "' ) AND post_status IN ( '" . $post_statuses . "' ) ORDER BY post_date DESC";
+		return $wpdb->get_results( $query );
 	}
 
 	/**
@@ -2263,7 +2247,18 @@ class Quick_Featured_Images_Tools {
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( $this->page_headline );
+		return __( 'Set, replace, remove', $this->plugin_slug );
+	}
+
+	/**
+	 * Return the page description.
+	 *
+	 * @since    8.0
+	 *
+	 *@return    page description variable.
+	 */
+	public function get_page_description() {
+		return __( 'Bulk set, replace and remove featured images for existing posts', $this->plugin_slug );
 	}
 
 	/**
@@ -2347,7 +2342,7 @@ class Quick_Featured_Images_Tools {
 	public function add_plugin_admin_menu() {
 
 		// get translated string of the menu label and page headline
-		$label = __( $this->page_headline );
+		$label = $this->get_page_headline();
 		
 		/*
 		 * Add the top level menu page of this plugin
