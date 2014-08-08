@@ -426,6 +426,7 @@ class Quick_Featured_Images_Defaults {
 	* Check and return correct values for the settings
 	*
 	* @since   8.0
+	 * @updated  8.1: add first image handling
 	*
 	* @param   array    $input    Options and their values after submitting the form
 	* 
@@ -441,6 +442,11 @@ class Quick_Featured_Images_Defaults {
 			// checkboxes
 			if ( 'use_first_image_as_default' == $key ) {
 				$sanitized_input[ $key ] = isset( $input[ $key ] ) ? '1' : '0' ;
+				continue;
+			}
+			// radio buttons
+			if ( 'first_image_handling' == $key ) {
+				$sanitized_input[ $key ] = ( in_array( $input[ $key ], array( 'always', 'use_if_no_img' ) ) ? $input[ $key ] : 'always' );
 				continue;
 			}
 			// positive integers
@@ -520,6 +526,7 @@ class Quick_Featured_Images_Defaults {
 	 *
 	 * @access   private
 	 * @since    8.0
+	 * @updated  8.1: add first image handling, small refactoring
 	 */
 	public function add_featured_image( $post_id, $post, $is_update ) {
 		// get out if no update context
@@ -546,18 +553,21 @@ class Quick_Featured_Images_Defaults {
 		 * 3. matched tag
 		 * 4. matched category
 		 * 5. matched post type
-		 * // too much 6. general default image
 		 */
 		$thumb_id = 0;
 		// 1. Image by first embedded content image
 		if ( isset( $settings[ 'use_first_image_as_default' ] ) ) {
-			// get first content image
+			// get out if user wishes the first image as featured if there is none and post has already a featured image
+			if ( 'use_if_no_img' == $settings[ 'first_image_handling' ] and has_post_thumbnail( $post_id ) ) {
+				return;
+			}
+			// else get first content image
 			$thumb_id = $this->get_image_id_by_url( $post->post_content );
 			if ( ! wp_attachment_is_image( $thumb_id ) ) {
 				$thumb_id = 0;
 			}
 		} // if(use_first_image_as_default)
-		// determine post's matched with specified rules
+		// determine post's properties matched with specified rules
 		if ( ! $thumb_id && isset( $settings[ 'rules' ] ) ) {
 			$args = array( 'fields' => 'ids' );
 			// 2. Image by matched custom taxonomy
@@ -575,7 +585,7 @@ class Quick_Featured_Images_Defaults {
 			if ( ! $thumb_id ) {
 				foreach ( $settings[ 'rules' ] as $rule ) {
 					if ( 'post_tag' != $rule[ 'taxonomy' ] ) {
-						continue; // ommit non-post-type rules here
+						continue; // ommit non-post-tag rules here
 					}
 					$thumb_id = $this->get_thumb_id( $post_id, $rule );
 					if ( $thumb_id ) {
@@ -587,7 +597,7 @@ class Quick_Featured_Images_Defaults {
 			if ( ! $thumb_id ) {
 				foreach ( $settings[ 'rules' ] as $rule ) {
 					if ( 'category' != $rule[ 'taxonomy' ] ) {
-						continue; // ommit non-post-type rules here
+						continue; // ommit non-post-category rules here
 					}
 					$thumb_id = $this->get_thumb_id( $post_id, $rule );
 					if ( $thumb_id ) {
@@ -606,8 +616,6 @@ class Quick_Featured_Images_Defaults {
 					}
 					if ( wp_attachment_is_image( $rule[ 'id' ] ) ) {
 						$thumb_id = $rule[ 'id' ];
-					}
-					if ( $thumb_id ) {
 						break;
 					}
 				} // foreach()
@@ -626,9 +634,9 @@ class Quick_Featured_Images_Defaults {
 			$success = set_post_thumbnail( $post_id, $thumb_id );
 		}
 		// set admin notice
-		if ( $success ) {
+		/*if ( $success ) {
 		} else {
-		}
+		}*/
 	}
 
 	/**
