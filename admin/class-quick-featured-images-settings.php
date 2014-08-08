@@ -159,10 +159,8 @@ class Quick_Featured_Images_Settings {
 		add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'add_action_links' ) );
 
 		/*
-		 * Define custom functionality.
+		 * Add registering options
 		 *
-		 * Read more about actions and filters:
-		 * http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		 */
 		add_action( 'admin_init', array( $this, 'register_options' ) );
 
@@ -204,7 +202,7 @@ class Quick_Featured_Images_Settings {
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( 'Settings', $this->plugin_slug );
+		return __( 'Image Columns', $this->plugin_slug );
 	}
 
 	/**

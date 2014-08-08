@@ -64,10 +64,10 @@ if ( $custom_taxonomies ) {
 <script type="text/javascript">
 jQuery( document ).ready( function( $ ){
 
-	/*
-	 * build arrays of options
-	 */
-	 var options = new Array();
+/*
+ * build arrays of options
+ */
+ var options = new Array();
 <?php
 $key = 'post_type';
 printf( 'options[ \'%s\' ] = new Array();', $key );
@@ -79,7 +79,7 @@ print "\n";
 printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, 'page', $page_label );
 print "\n";
 foreach ( $posttypes as $name => $label ) {
-	printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, $name, $label );
+	printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, esc_attr( $name ), esc_html( $label ) );
 	print "\n";
 }
 
@@ -89,7 +89,7 @@ print "\n";
 printf( 'options[ \'%s\' ].push( \'<option value="">%s</option>\' );', $key, $first_option_label ); 
 print "\n";
 foreach ( $tags as $tag ) {
-	printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, $tag->term_id, $tag->name );
+	printf( 'options[ \'%s\' ].push( \'<option value="%d">%s</option>\' );', $key, absint( $tag->term_id ), esc_html( $tag->name ) );
 	print "\n";
 }
 
@@ -99,7 +99,7 @@ print "\n";
 printf( 'options[ \'%s\' ].push( \'<option value="">%s</option>\' );', $key, $first_option_label );
 print "\n";
 foreach ( $categories as $category ) {
-	printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, $category->term_id, $category->name );
+	printf( 'options[ \'%s\' ].push( \'<option value="%d">%s</option>\' );', $key, absint( $category->term_id ), esc_html( $category->name ) );
 	print "\n";
 }
 if ( $custom_taxonomies_terms ) {
@@ -109,7 +109,7 @@ if ( $custom_taxonomies_terms ) {
 		printf( 'options[ \'%s\' ].push( \'<option value="">%s</option>\' );', $key, $first_option_label );
 		print "\n";
  		foreach ( $custom_taxonomies_terms[ $key ] as $term_id => $term_name ) {
-			printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, $term_id, $term_name );
+			printf( 'options[ \'%s\' ].push( \'<option value="%d">%s</option>\' );', $key, absint( $term_id ), esc_html( $term_name ) );
 			print "\n";
 		}
 	}
@@ -161,8 +161,18 @@ if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 			<tr id="row_1">
 				<td class="num">1</td>
 				<td><?php _e( 'First content image', $this->plugin_slug ); ?></td>
-				<td><p class="description"><?php _e( 'If activated the rule is used automatically at saving if the post has content images. The first content image will become the featured image. If the post has no content images the next rules will be applied.', $this->plugin_slug ); ?></p></td>
-				<td><label for="use_first_image_as_default"><input type="checkbox" <?php checked( isset( $this->selected_rules[ 'use_first_image_as_default' ] ) ); ?> value="1" id="use_first_image_as_default" name="use_first_image_as_default"><?php _e( 'Always use first content image as featured image', $this->plugin_slug ); ?></label></td>
+				<td>
+<?php
+$stored_value = isset( $this->selected_rules[ 'first_image_handling' ] ) ? esc_attr( $this->selected_rules[ 'first_image_handling' ] ) : 'always';
+?>
+				<fieldset>
+					<legend class="screen-reader-text"><span><?php _e( 'How to use the first content image', $this->plugin_slug ); ?></span></legend>
+					<label for="always"><input type="radio" name="first_image_handling" value="always" id="always"<?php checked( 'always' == $stored_value ); ?>> <span><?php _e( 'Always use first content image as featured image', $this->plugin_slug ); ?></span></label><br />
+					<label for="use_if_no_img"><input type="radio" name="first_image_handling" value="use_if_no_img" id="use_if_no_img"<?php checked( 'use_if_no_img' == $stored_value ); ?>> <span><?php _e( 'Use first content image as featured image, only if there is no featured image', $this->plugin_slug ); ?></span></label><br />
+					<p class="description"><?php _e( 'If activated the rule is used automatically at saving if the post has content images. If the post has no content images the next rules will be applied.', $this->plugin_slug ); ?></p>
+				</fieldset>
+				</td>
+				<td><label for="use_first_image_as_default"><input type="checkbox" <?php checked( isset( $this->selected_rules[ 'use_first_image_as_default' ] ) ); ?> value="1" id="use_first_image_as_default" name="use_first_image_as_default"><?php _e( 'Activate to use first content image', $this->plugin_slug ); ?></label></td>
 			</tr>
 <?php
 if ( isset( $this->selected_rules[ 'rules' ] ) ) {
@@ -178,12 +188,13 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 		} else {
 			$class = '';
 		}
+		$r_id = absint( $rule[ 'id' ] );
 ?>
 			<tr id="row_<?php echo $c; ?>"<?php echo $class; ?>>
 				<td class="num"><?php echo $c; ?></td>
 				<td>
-					<input type="hidden" value="<?php echo $rule[ 'id' ]; ?>" name="rules[<?php echo $c; ?>][id]" id="image_id_<?php echo $c; ?>">
-					<img src="<?php echo wp_get_attachment_thumb_url( intval( $rule[ 'id' ] ) ); ?>" alt="<?php echo $feat_img_label; ?>" id="selected_image_<?php echo $c; ?>" class="attachment-thumbnail" style="width:80px; display: block;">
+					<input type="hidden" value="<?php echo $r_id; ?>" name="rules[<?php echo $c; ?>][id]" id="image_id_<?php echo $c; ?>">
+					<img src="<?php echo wp_get_attachment_thumb_url( $r_id ); ?>" alt="<?php echo $feat_img_label; ?>" id="selected_image_<?php echo $c; ?>" class="attachment-thumbnail" style="width:80px; display: block;">
 				</td>
 				<td>
 					<input type="button" name="upload_image_<?php echo $c; ?>" value="<?php echo $choose_image_label; ?>" class="button imageupload" id="upload_image_<?php echo $c; ?>"><br />
@@ -200,8 +211,10 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 		print "\n";
 		if ( $custom_taxonomies_terms ) {
 			foreach ( $custom_taxonomies as $key => $label ) {
-				printf( '<option value="%s"%s>%s</option>', $key, selected( $key == $rule[ 'taxonomy' ], true, false ), $label );
-				print "\n";
+				if ( $key and $label ) { // ommit empty or false values
+					printf( '<option value="%s"%s>%s</option>', esc_attr( $key ), selected( $key == $rule[ 'taxonomy' ], true, false ), esc_html( $label ) );
+					print "\n";
+				}
 			}
 		}
 ?>
@@ -218,26 +231,26 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 				printf( '<option value="%s"%s>%s</option>', 'page', selected( 'page' == $rule[ 'matchterm' ], true, false ), $page_label );
 				print "\n";
 				foreach ( $posttypes as $key => $label ) {
-					printf( '<option value="%s"%s>%s</option>', $key, selected( $key == $rule[ 'matchterm' ], true, false ), $label );
+					printf( '<option value="%s"%s>%s</option>', esc_attr( $key ), selected( $key == $rule[ 'matchterm' ], true, false ), esc_html( $label ) );
 					print "\n";
 				}
 				break;
 			case 'post_tag':
 				foreach ( $tags as $tag ) {
-					printf( '<option value="%s"%s>%s</option>', $tag->term_id, selected( $tag->term_id == $rule[ 'matchterm' ], true, false ), $tag->name );
+					printf( '<option value="%d"%s>%s</option>', absint( $tag->term_id ), selected( $tag->term_id == $rule[ 'matchterm' ], true, false ), esc_html( $tag->name ) );
 					print "\n";
 				}
 				break;
 			case 'category':
 				foreach ( $categories as $category ) {
-					printf( '<option value="%s"%s>%s</option>', $category->term_id, selected( $category->term_id == $rule[ 'matchterm' ], true, false ), $category->name );
+					printf( '<option value="%d"%s>%s</option>', absint( $category->term_id ), selected( $category->term_id == $rule[ 'matchterm' ], true, false ), esc_html( $category->name ) );
 					print "\n";
 				}
 				break;
 			default: // custom taxonomy
 				if ( $custom_taxonomies_terms ) {
 					foreach ( $custom_taxonomies_terms[ $rule[ 'taxonomy' ] ] as $term_id => $term_name ) {
-						printf( '<option value="%s"%s>%s</option>', $term_id, selected( $term_id == $rule[ 'matchterm' ] ), $term_name );
+						printf( '<option value="%d"%s>%s</option>', absint( $term_id ), selected( $term_id == $rule[ 'matchterm' ] ), esc_html( $term_name ) );
 						print "\n";
 					}
 				}
@@ -265,7 +278,7 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 					<select name="rules[2][taxonomy]" id="taxonomy_2" class="selection_rules">
 						<option value=""><?php echo $first_option_label; ?></option>
 <?php
-		$key = $rule[ 'taxonomy' ];
+		$key = esc_attr( $rule[ 'taxonomy' ] );
 		printf( '<option value="%s"%s>%s</option>', 'post_type', selected( 'post_type' == $key, true, false ), $post_type_label );
 		print "\n";
 		printf( '<option value="%s"%s>%s</option>', 'category', selected( 'category' == $key, true, false ), $category_label );
@@ -274,8 +287,10 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 		print "\n";
 		if ( $custom_taxonomies_terms ) {
 			foreach ( $custom_taxonomies as $key => $label ) {
-				printf( '<option value="%s"%s>%s</option>', $key, selected( $key == $rule[ 'taxonomy' ], true, false ), $label );
-				print "\n";
+				if ( $key and $label ) { // ommit empty or false values
+					printf( '<option value="%s"%s>%s</option>', esc_attr( $key ), selected( $key == $rule[ 'taxonomy' ], true, false ), esc_html( $label ) );
+					print "\n";
+				}
 			}
 		}
 ?>
@@ -308,8 +323,10 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 <?php
 if ( $custom_taxonomies_terms ) {
 	foreach ( $custom_taxonomies as $key => $label ) {
-		printf( '<option value="%s">%s</option>', $key, $label );
-		print "\n";
+		if ( $key and $label ) { // ommit empty or false values
+			printf( '<option value="%s">%s</option>', esc_attr( $key ), esc_html( $label ) );
+			print "\n";
+		}
 	}
 }
 ?>

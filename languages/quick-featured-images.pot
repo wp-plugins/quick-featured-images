@@ -4,9 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-08-05 00:39+0100\n"
-"PO-Revision-Date: 2014-08-05 00:39+0100\n"
-"Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
+"POT-Creation-Date: 2014-08-07 13:37+0100\n"
+"PO-Revision-Date: 2014-08-07 13:37+0100\n"
 "Language-Team:  <m.stehle@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,38 +66,37 @@ msgstr ""
 msgid "Set default featured images for future posts"
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:207
-#: admin/views/filter_image_size.php:5
-msgid "Settings"
+#: admin/class-quick-featured-images-settings.php:205
+msgid "Image Columns"
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:218
+#: admin/class-quick-featured-images-settings.php:216
 msgid "Helpful options for managing featured images"
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:387
+#: admin/class-quick-featured-images-settings.php:385
 msgid "Columns for featured images in posts lists"
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:395
+#: admin/class-quick-featured-images-settings.php:393
 msgid "Show additional column for featured images in lists of"
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:478
+#: admin/class-quick-featured-images-settings.php:476
 #: admin/class-quick-featured-images-tools.php:668
 msgid "Posts"
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:479
+#: admin/class-quick-featured-images-settings.php:477
 #: admin/class-quick-featured-images-tools.php:669
 msgid "Pages"
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:505
+#: admin/class-quick-featured-images-settings.php:503
 msgid "Activate the checkboxes at each post type to show the extra columns in the post lists."
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:515
+#: admin/class-quick-featured-images-settings.php:513
 msgid "The additional columns give you a quick overview about all used featured images for every post."
 msgstr ""
 
@@ -409,6 +407,10 @@ msgstr ""
 
 #: admin/views/filter_image_size.php:3
 msgid "For example you can search for posts with too small featured images."
+msgstr ""
+
+#: admin/views/filter_image_size.php:5
+msgid "Settings"
 msgstr ""
 
 #: admin/views/filter_image_size.php:5
@@ -832,55 +834,67 @@ msgstr ""
 msgid "First content image"
 msgstr ""
 
-#: admin/views/section_defaults.php:164
-msgid "If activated the rule is used automatically at saving if the post has content images. The first content image will become the featured image. If the post has no content images the next rules will be applied."
+#: admin/views/section_defaults.php:169
+msgid "How to use the first content image"
 msgstr ""
 
-#: admin/views/section_defaults.php:165
+#: admin/views/section_defaults.php:170
 msgid "Always use first content image as featured image"
 msgstr ""
 
-#: admin/views/section_defaults.php:336
-msgid "Add rule"
+#: admin/views/section_defaults.php:171
+msgid "Use first content image as featured image, only if there is no featured image"
 msgstr ""
 
-#: admin/views/section_defaults.php:341
-msgid "How the rules work"
+#: admin/views/section_defaults.php:172
+msgid "If activated the rule is used automatically at saving if the post has content images. If the post has no content images the next rules will be applied."
 msgstr ""
 
-#: admin/views/section_defaults.php:342
-msgid "Every time you save a post the post get the featured image if one of the following rules match a property of the post. You can also set rules for pages and all other current post types which support featured images."
-msgstr ""
-
-#: admin/views/section_defaults.php:343
-msgid "Regardless of the order in the list the rules are applied in the following order until a rule and a property of the post fit together:"
-msgstr ""
-
-#: admin/views/section_defaults.php:345
-msgid "found first content image. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:346
-msgid "matched custom taxonomy. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:347
-msgid "matched tag. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:348
-msgid "matched category. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:349
-msgid "matched post type. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:351
-msgid "no featured image."
+#: admin/views/section_defaults.php:175
+msgid "Activate to use first content image"
 msgstr ""
 
 #: admin/views/section_defaults.php:353
+msgid "Add rule"
+msgstr ""
+
+#: admin/views/section_defaults.php:358
+msgid "How the rules work"
+msgstr ""
+
+#: admin/views/section_defaults.php:359
+msgid "Every time you save a post the post get the featured image if one of the following rules match a property of the post. You can also set rules for pages and all other current post types which support featured images."
+msgstr ""
+
+#: admin/views/section_defaults.php:360
+msgid "Regardless of the order in the list the rules are applied in the following order until a rule and a property of the post fit together:"
+msgstr ""
+
+#: admin/views/section_defaults.php:362
+msgid "found first content image. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:363
+msgid "matched custom taxonomy. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:364
+msgid "matched tag. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:365
+msgid "matched category. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:366
+msgid "matched post type. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:368
+msgid "no featured image."
+msgstr ""
+
+#: admin/views/section_defaults.php:370
 msgid "Bear in mind that if two or more rules with the same taxonomy would fit to the post it is unforeseeable which image will become the featured image."
 msgstr ""
 
@@ -896,56 +910,56 @@ msgstr ""
 msgid "Solution"
 msgstr ""
 
-#: admin/views/section_footer.php:23
+#: admin/views/section_footer.php:52
 msgid "Credits and informations"
 msgstr ""
 
-#: admin/views/section_footer.php:25 admin/views/section_results.php:61
+#: admin/views/section_footer.php:54 admin/views/section_results.php:61
 msgid "Do you like the plugin?"
 msgstr ""
 
-#: admin/views/section_footer.php:25 admin/views/section_results.php:62
+#: admin/views/section_footer.php:54 admin/views/section_results.php:62
 msgid "Please rate it at wordpress.org!"
 msgstr ""
 
-#: admin/views/section_footer.php:26
-msgid "Do you need support or have an idea for the plugin?"
-msgstr ""
-
-#: admin/views/section_footer.php:26
-msgid "Post your questions and ideas about Quick Featured Images in the forum at wordpress.org!"
-msgstr ""
-
-#: admin/views/section_footer.php:27
+#: admin/views/section_footer.php:55
 msgid "The plugin is for free. But the plugin author would be delighted to your small contribution."
 msgstr ""
 
-#: admin/views/section_footer.php:27
+#: admin/views/section_footer.php:55
 msgid "Donation Button"
 msgstr ""
 
-#: admin/views/section_footer.php:27
+#: admin/views/section_footer.php:55
 msgid "Donate by PayPal"
 msgstr ""
 
-#: admin/views/section_footer.php:28
+#: admin/views/section_footer.php:56
+msgid "Do you need support or have an idea for the plugin?"
+msgstr ""
+
+#: admin/views/section_footer.php:56
+msgid "Post your questions and ideas about Quick Featured Images in the forum at wordpress.org!"
+msgstr ""
+
+#: admin/views/section_footer.php:57
 msgid "Let the thumbnails appear in the widget of the most recent posts with this fast plugin"
 msgstr ""
 
-#: admin/views/section_footer.php:28 admin/views/section_footer.php:31
+#: admin/views/section_footer.php:57 admin/views/section_footer.php:60
 #, php-format
 msgid "Download plugin %s at %s!"
 msgstr ""
 
-#: admin/views/section_footer.php:29
+#: admin/views/section_footer.php:58
 msgid "Special thanks for the great and time-saving boilerplate go to"
 msgstr ""
 
-#: admin/views/section_footer.php:30
+#: admin/views/section_footer.php:59
 msgid "Special thanks for the fine frontend style of the plugin go to"
 msgstr ""
 
-#: admin/views/section_footer.php:31
+#: admin/views/section_footer.php:60
 msgid "Slim down your navigation menus and make them faster to load"
 msgstr ""
 
