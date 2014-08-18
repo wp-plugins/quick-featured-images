@@ -395,7 +395,7 @@ class Quick_Featured_Images_Settings {
 			// form field name for use in the 'id' attribute of tags
 			'column_toggles',
 			// title of the form field
-			$title . sprintf( '<br />&nbsp;<br /><img src="%s" alt="Screenshot" />', plugins_url( 'assets/images/posts_list_w_image_column.gif' , __FILE__ ) ),
+			$title . sprintf( '<br />&nbsp;<br /><img src="%s" alt="%s" width="200" height="104" />', plugins_url( 'assets/images/posts_list_w_image_column.gif' , __FILE__ ), __( 'Posts list with image column', $this->plugin_slug ) ),
 			// callback function to print the form field
 			array( $this, 'print_columns_options' ),
 			// menu page on which to display this field for do_settings_section()
@@ -447,7 +447,7 @@ class Quick_Featured_Images_Settings {
 	 * Render the header of the admin page
 	 *
 	 * @access   private
-	 * @since    1.0.0
+	 * @since    7.0
 	 */
 	private function display_header() {
 		include_once( 'views/section_header.php' );
@@ -458,7 +458,7 @@ class Quick_Featured_Images_Settings {
 	 * Render the footer of the admin page
 	 *
 	 * @access   private
-	 * @since    1.0.0
+	 * @since    7.0
 	 */
 	private function display_footer() {
 		include_once( 'views/section_footer.php' );
@@ -472,9 +472,11 @@ class Quick_Featured_Images_Settings {
 	*/
 	public function print_columns_options ( $args ) {
 		// define the form sections, order by appereance, with headlines, and options
+		$label_posts = 'Posts';
+		$label_pages = 'Pages';
 		$post_types = array(
-			'show_posts_images' => __( 'Posts', $this->plugin_slug ),
-			'show_pages_images' => __( 'Pages', $this->plugin_slug ),
+			'show_posts_images' => _x( $label_posts, 'post type general name' ),
+			'show_pages_images' => _x( $label_pages, 'post type general name' ),
 		);
 		// get the registered custom post types as objects
         $custom_post_types = get_post_types( array( '_builtin' => false ), 'objects' );

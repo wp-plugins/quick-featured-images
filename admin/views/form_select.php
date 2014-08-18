@@ -152,5 +152,14 @@ if ( $this->selected_multiple_image_ids ) {
 		<input type="submit" class="button" value="<?php _e( 'Next', $this->plugin_slug ); ?>" />
 	</p>
 </form>
+<h4><?php _e( 'If you encounter a white, blank page, read this', $this->plugin_slug ); ?></h4>
+<p><?php _e( 'Facing a white blank page while trying to treat thousands of posts is the effect of limited memory capacities on the website server. Instead of treating a huge amount of posts in one single go try to treat small amounts of posts multiple times successively. To achieve that do:', $this->plugin_slug ); ?></p>
+<ol>
+<li><?php _e( 'add the time filter,', $this->plugin_slug ); ?></li>
+<li><?php _e( 'set a small time range,', $this->plugin_slug ); ?></li>
+<li><?php _e( 'do the process', $this->plugin_slug ); ?></li>
+<li><?php _e( 'and repeat it with the next time range as often as needed.', $this->plugin_slug ); ?></li>
+</ol>
+<p><?php _e( 'This way is not as fast as one single run, but still much faster than setting the images for each post manually.', $this->plugin_slug ); ?></p>
 <?php
 } // if( 'replace' == action )
