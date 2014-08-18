@@ -164,7 +164,13 @@ class Quick_Featured_Images_Defaults {
 
 		// Auto set featured image on saving a post
 		add_action('save_post', array( $this, 'add_featured_image' ), 10 , 3 );
-
+		
+		/*
+		// check whether the query parameter 'qfi_notice' is in the URL; if yes, show admin notice
+		if ( isset( $_REQUEST[ 'qfi_notice' ] ) ) {
+			add_action( 'admin_notices', array( $this, 'display_qfi_notice' ) );
+		}
+		*/
 	}
 
 	/**
@@ -396,7 +402,7 @@ class Quick_Featured_Images_Defaults {
 		$url = sprintf( 'admin.php?page=%s-defaults', $this->plugin_slug );
 		return array_merge(
 			array(
-				'defaults' => sprintf( '<a href="%s">%s</a>', admin_url( $url ), $this->getpage_headline() )
+				'defaults' => sprintf( '<a href="%s">%s</a>', admin_url( $url ), $this->get_page_headline() )
 			),
 			$links
 		);
@@ -441,7 +447,7 @@ class Quick_Featured_Images_Defaults {
 			}
 			// checkboxes
 			if ( 'use_first_image_as_default' == $key ) {
-				$sanitized_input[ $key ] = isset( $input[ $key ] ) ? '1' : '0' ;
+				$sanitized_input[ $key ] = isset( $input[ $key ] ) ? '1' : '0';
 				continue;
 			}
 			// radio buttons
@@ -459,7 +465,7 @@ class Quick_Featured_Images_Defaults {
 				$c = 1;
 				foreach ( $value as $rules ) {
 					// ignored only partially defined rule
-					if ( ! $rules[ 'id'] or ! $rules[ 'taxonomy' ] or ! $rules[ 'matchterm' ] ) {
+					if ( ! $rules[ 'id' ] or ! $rules[ 'taxonomy' ] or ! $rules[ 'matchterm' ] ) {
 						continue;
 					}
 					// clean complete rule
@@ -527,17 +533,13 @@ class Quick_Featured_Images_Defaults {
 	 * @access   private
 	 * @since    8.0
 	 * @updated  8.1: add first image handling, small refactoring
+	 * @updated  8.2: added user (author) rule
 	 */
 	public function add_featured_image( $post_id, $post, $is_update ) {
-		// get out if no update context
-		if ( ! $is_update ) return;
-		// get out if post is a newly created post, with no content
-		if ( 'auto-draft' == get_post_status( $post_id ) ) return;
 		// get out if post is autosave type
 		if ( wp_is_post_autosave( $post_id ) ) return;
 		// get out if post is revision
 		if ( wp_is_post_revision( $post_id ) ) return;
-		// get out if post has already a featured image: if ( has_post_thumbnail( $post_id ) ) return;
 		// get post object if not valid
 		if ( ! $post ) {
 			$post = get_post( $post_id );
@@ -552,7 +554,8 @@ class Quick_Featured_Images_Defaults {
 		 * 2. matched custom taxonomy
 		 * 3. matched tag
 		 * 4. matched category
-		 * 5. matched post type
+		 * 5. matched user
+		 * 6. matched post type
 		 */
 		$thumb_id = 0;
 		// 1. Image by first embedded content image
@@ -568,7 +571,7 @@ class Quick_Featured_Images_Defaults {
 			}
 		} // if(use_first_image_as_default)
 		// determine post's properties matched with specified rules
-		if ( ! $thumb_id && isset( $settings[ 'rules' ] ) ) {
+		if ( ! $thumb_id and isset( $settings[ 'rules' ] ) ) {
 			$args = array( 'fields' => 'ids' );
 			// 2. Image by matched custom taxonomy
 			$skipped_taxonomies = array( 'post_type', 'post_tag', 'category' );
@@ -605,11 +608,26 @@ class Quick_Featured_Images_Defaults {
 					}
 				} // foreach()
 			} // if(no thumb)
-			// 5. Image by post type
+			// 5. Image by matched user
+			if ( ! $thumb_id ) {
+				foreach ( $settings[ 'rules' ] as $rule ) {
+					if ( 'user' != $rule[ 'taxonomy' ] ) {
+						continue; // ommit non-post-author rules here
+					}
+					if ( $post->post_author != $rule[ 'matchterm' ] ) {
+						continue;
+					}
+					if ( wp_attachment_is_image( $rule[ 'id' ] ) ) {
+						$thumb_id = $rule[ 'id' ];
+						break;
+					}
+				} // foreach()
+			} // if(no thumb)
+			// 6. Image by post type
 			if ( ! $thumb_id ) {
 				foreach ( $settings[ 'rules' ] as $rule ) {
 					if ( 'post_type' != $rule[ 'taxonomy' ] ) {
-						continue;
+						continue; // ommit non-post-type rules here
 					}
 					if ( $post->post_type != $rule[ 'matchterm' ] ) {
 						continue;
@@ -621,13 +639,6 @@ class Quick_Featured_Images_Defaults {
 				} // foreach()
 			} // if(no thumb)
 		} // if(rules)
-		// 6. General default image
-		/*if ( ! $thumb_id && isset( $settings[ 'default_image_id' ] ) ) {
-			$thumb_id = $settings[ 'default_image_id' ];
-			if ( ! wp_attachment_is_image( $thumb_id ) ) {
-				$thumb_id = 0;
-			}
-		}// if(default_image_id)*/
 		// set image as featured image to post
 		$success = false;
 		if ( $thumb_id ) {
@@ -635,10 +646,23 @@ class Quick_Featured_Images_Defaults {
 		}
 		// set admin notice
 		/*if ( $success ) {
+			add_filter( 'redirect_post_location', array( $this, 'add_qfi_param' ) );
 		} else {
 		}*/
 	}
+/*
+	function add_qfi_param( $loc ) {
+		return add_query_arg( 'qfi_notice', 1, $loc );
+	}
 
+	function display_qfi_notice() {
+		if ( 1 == $_REQUEST[ 'qfi_notice' ] ) {
+			printf( '<div class="updated"><p>%s</p></div>', __( 'Changed featured image successfully.', $this->plugin-slug ) );
+		} else {
+			#printf( '<div class="error"><p>%s</p></div>', __( 'Featured image not changed.', $this->plugin-slug ) );
+		}
+	}
+*/	
 	/**
 	 *
 	 * Test term and image id

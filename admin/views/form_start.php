@@ -52,7 +52,7 @@ if ( $this->selected_image_id ) {
 }
 ?>
 					<input type="hidden" id="image_id" name="image_id" value="<?php echo $this->selected_image_id; ?>">
-					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php _e( 'Featured Image', $this->plugin_slug ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
+					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php $text = 'Featured Image'; _e( $text ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
 					<input type="button" id="upload_image_button" class="button th_select_image" value="<?php _e( 'Choose Image', $this->plugin_slug ); ?>" />
 				</p>
 			</div>

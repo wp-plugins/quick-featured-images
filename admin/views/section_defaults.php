@@ -16,18 +16,31 @@ $no_thumb_url = includes_url() . 'images/blank.gif';
 $matches_label      = __( 'matches', $this->plugin_slug );
 $number_label       = __( 'No.', $this->plugin_slug );
 $post_type_label    = __( 'Post type', $this->plugin_slug );
-$action_label 	    = __( 'Action', $this->plugin_slug );
-$description_label  = __( 'Description', $this->plugin_slug );
-$image_label 	    = __( 'Image', $this->plugin_slug );
 $taxonomy_label 	= __( 'Taxonomy', $this->plugin_slug );
-$category_label 	= __( 'Category', $this->plugin_slug );
-$tag_label 			= __( 'Tag', $this->plugin_slug );
-$value_label 	    = __( 'Value', $this->plugin_slug );
-$post_label 	    = __( 'Post', $this->plugin_slug );
-$page_label 	    = __( 'Page', $this->plugin_slug );
-$feat_img_label 	= __( 'Featured Image', $this->plugin_slug );
-$first_option_label = __( '&mdash; Select &mdash;', $this->plugin_slug );
 $choose_image_label = __( 'Choose Image', $this->plugin_slug );
+// WP core strings
+$text = 'Action';
+$action_label 	    = __( $text );
+$text = 'Description';
+$description_label  = __( $text );
+$text = 'Image';
+$image_label 	    = __( $text );
+$text = 'Value';
+$value_label 	    = __($text );
+$text = 'Author';
+$user_label 	    = __($text );
+$text = '&mdash; Select &mdash;';
+$first_option_label = __( $text );
+$text = 'Featured Image';
+$feat_img_label 	= __( $text );
+$text = 'Category';
+$category_label 	= _x( $text, 'taxonomy singular name' );
+$text = 'Tag';
+$tag_label 			= _x( $text, 'taxonomy singular name' );
+$text = 'Post';
+$post_label 	    = _x( $text, 'post type singular name' );
+$text = 'Page';
+$page_label 	    = _x( $text, 'post type singular name' );
 
 $args = array( 
 	'orderby'       => 'name', 
@@ -37,7 +50,8 @@ $args = array(
  );
 $tags = get_tags( $args );
 $categories = get_categories( $args );
-$posttypes = $this->get_custom_post_types_labels();
+$users = get_users( array( 'orderby' => 'display_name' ) );
+$post_types = $this->get_custom_post_types_labels();
 $custom_taxonomies = $this->get_custom_taxonomies_labels();
 $custom_taxonomies_terms = array();
 if ( $custom_taxonomies ) {
@@ -69,6 +83,7 @@ jQuery( document ).ready( function( $ ){
  */
  var options = new Array();
 <?php
+// build post type options
 $key = 'post_type';
 printf( 'options[ \'%s\' ] = new Array();', $key );
 print "\n";
@@ -78,11 +93,12 @@ printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, '
 print "\n";
 printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, 'page', $page_label );
 print "\n";
-foreach ( $posttypes as $name => $label ) {
+foreach ( $post_types as $name => $label ) {
 	printf( 'options[ \'%s\' ].push( \'<option value="%s">%s</option>\' );', $key, esc_attr( $name ), esc_html( $label ) );
 	print "\n";
 }
 
+// build tag options
 $key = 'post_tag';
 printf( 'options[ \'%s\' ] = new Array();', $key );
 print "\n";
@@ -93,6 +109,7 @@ foreach ( $tags as $tag ) {
 	print "\n";
 }
 
+// build category options
 $key = 'category';
 printf( 'options[ \'%s\' ] = new Array();', $key );
 print "\n";
@@ -102,6 +119,8 @@ foreach ( $categories as $category ) {
 	printf( 'options[ \'%s\' ].push( \'<option value="%d">%s</option>\' );', $key, absint( $category->term_id ), esc_html( $category->name ) );
 	print "\n";
 }
+
+// build custom taxonomy options
 if ( $custom_taxonomies_terms ) {
 	foreach ( array_keys( $custom_taxonomies_terms ) as $key ) {
 		printf( 'options[ \'%s\' ] = new Array();', $key );
@@ -115,6 +134,16 @@ if ( $custom_taxonomies_terms ) {
 	}
 } // if ( custom_taxonomies_terms )
 
+// build user options
+$key = 'user';
+printf( 'options[ \'%s\' ] = new Array();', $key );
+print "\n";
+printf( 'options[ \'%s\' ].push( \'<option value="">%s</option>\' );', $key, $first_option_label );
+print "\n";
+foreach ( $users as $user ) {
+	printf( 'options[ \'%s\' ].push( \'<option value="%d">%s</option>\' );', $key, absint( $user->ID ), esc_html( $user->display_name ) );
+	print "\n";
+}
 ?>
 	 /*
 	 * Options changes
@@ -143,7 +172,7 @@ if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 }
 ?>
 <h3><?php _e( 'Default featured images for future posts', $this->plugin_slug ); ?></h3>
-<p><?php echo $this->get_page_description();?>. <?php _e( 'Define the rules to use images as default featured images automatically every time a post is saved.', $this->plugin_slug ); ?></p>
+<p><?php echo $this->get_page_description(); ?>. <?php _e( 'Define the rules to use images as default featured images automatically every time a post is saved.', $this->plugin_slug ); ?></p>
 <p><?php _e( 'To use a rule choose the image and set both the taxonomy and the value. A rule which is defined only partially will be ignored.', $this->plugin_slug ); ?></p>
 <form method="post" action="">
 	<input type="hidden" id="placeholder_url" name="placeholder_url" value="<?php echo $no_thumb_url; ?>" />
@@ -160,7 +189,10 @@ if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 		<tbody>
 			<tr id="row_1">
 				<td class="num">1</td>
-				<td><?php _e( 'First content image', $this->plugin_slug ); ?></td>
+				<td>
+					<?php printf( '<img src="%s" alt="%s" width="80" height="80" />', plugins_url( 'assets/images/first-content-image.gif' , dirname( __FILE__ ) ), __( 'Text with images in WordPress editor', $this->plugin_slug ) ); ?><br />
+					<p class="description"><?php _e( 'First content image', $this->plugin_slug ); ?></p>
+				</td>
 				<td>
 <?php
 $stored_value = isset( $this->selected_rules[ 'first_image_handling' ] ) ? esc_attr( $this->selected_rules[ 'first_image_handling' ] ) : 'always';
@@ -172,7 +204,7 @@ $stored_value = isset( $this->selected_rules[ 'first_image_handling' ] ) ? esc_a
 					<p class="description"><?php _e( 'If activated the rule is used automatically at saving if the post has content images. If the post has no content images the next rules will be applied.', $this->plugin_slug ); ?></p>
 				</fieldset>
 				</td>
-				<td><label for="use_first_image_as_default"><input type="checkbox" <?php checked( isset( $this->selected_rules[ 'use_first_image_as_default' ] ) ); ?> value="1" id="use_first_image_as_default" name="use_first_image_as_default"><?php _e( 'Activate to use first content image', $this->plugin_slug ); ?></label></td>
+				<td><label for="use_first_image_as_default"><input type="checkbox" <?php checked( isset( $this->selected_rules[ 'use_first_image_as_default' ] ) ); ?> value="1" id="use_first_image_as_default" name="use_first_image_as_default"><?php _e( 'Activate to use first content image as featured image', $this->plugin_slug ); ?></label></td>
 			</tr>
 <?php
 if ( isset( $this->selected_rules[ 'rules' ] ) ) {
@@ -209,6 +241,8 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 		print "\n";
 		printf( '<option value="%s"%s>%s</option>', 'post_tag', selected( 'post_tag' == $key, true, false ), $tag_label );
 		print "\n";
+		printf( '<option value="%s"%s>%s</option>', 'user', selected( 'user' == $key, true, false ), $user_label );
+		print "\n";
 		if ( $custom_taxonomies_terms ) {
 			foreach ( $custom_taxonomies as $key => $label ) {
 				if ( $key and $label ) { // ommit empty or false values
@@ -230,7 +264,7 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 				print "\n";
 				printf( '<option value="%s"%s>%s</option>', 'page', selected( 'page' == $rule[ 'matchterm' ], true, false ), $page_label );
 				print "\n";
-				foreach ( $posttypes as $key => $label ) {
+				foreach ( $post_types as $key => $label ) {
 					printf( '<option value="%s"%s>%s</option>', esc_attr( $key ), selected( $key == $rule[ 'matchterm' ], true, false ), esc_html( $label ) );
 					print "\n";
 				}
@@ -244,6 +278,12 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 			case 'category':
 				foreach ( $categories as $category ) {
 					printf( '<option value="%d"%s>%s</option>', absint( $category->term_id ), selected( $category->term_id == $rule[ 'matchterm' ], true, false ), esc_html( $category->name ) );
+					print "\n";
+				}
+				break;
+			case 'user':
+				foreach ( $users as $user ) {
+					printf( '<option value="%d"%s>%s</option>', absint( $user->ID ), selected( $user->ID == $rule[ 'matchterm' ], true, false ), esc_html( $user->display_name ) );
 					print "\n";
 				}
 				break;
@@ -266,7 +306,7 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 } else {
 	// show default taxonomy rule row
 ?>
-			<tr id="row_2">
+			<tr id="row_2" class="alt">
 				<td class="num">2</td>
 				<td>
 					<input type="hidden" value="0" name="rules[2][id]" id="image_id_2">
@@ -284,6 +324,8 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 		printf( '<option value="%s"%s>%s</option>', 'category', selected( 'category' == $key, true, false ), $category_label );
 		print "\n";
 		printf( '<option value="%s"%s>%s</option>', 'post_tag', selected( 'post_tag' == $key, true, false ), $tag_label );
+		print "\n";
+		printf( '<option value="%s"%s>%s</option>', 'user', selected( 'user' == $key, true, false ), $user_label );
 		print "\n";
 		if ( $custom_taxonomies_terms ) {
 			foreach ( $custom_taxonomies as $key => $label ) {
@@ -320,6 +362,7 @@ if ( isset( $this->selected_rules[ 'rules' ] ) ) {
 						<option value="post_type"><?php echo $post_type_label; ?></option>
 						<option value="category"><?php echo $category_label; ?></option>
 						<option value="post_tag"><?php echo $tag_label; ?></option>
+						<option value="user"><?php echo $user_label; ?></option>
 <?php
 if ( $custom_taxonomies_terms ) {
 	foreach ( $custom_taxonomies as $key => $label ) {
@@ -363,6 +406,7 @@ wp_nonce_field( 'save_default_images', 'knlk235rf' );
 	<li><?php _e( 'matched custom taxonomy. If not then...', $this->plugin_slug ); ?></li>
 	<li><?php _e( 'matched tag. If not then...', $this->plugin_slug ); ?></li>
 	<li><?php _e( 'matched category. If not then...', $this->plugin_slug ); ?></li>
+	<li><?php _e( 'matched author. If not then...', $this->plugin_slug ); ?></li>
 	<li><?php _e( 'matched post type. If not then...', $this->plugin_slug ); ?></li>
 <?php /*	?>					<li><?php _e( 'default image for any post. If not then...', $this->plugin_slug ); ?></li><?php */ ?> 
 	<li><?php _e( 'no featured image.', $this->plugin_slug ); ?></li>

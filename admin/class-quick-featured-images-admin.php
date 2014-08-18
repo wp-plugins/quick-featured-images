@@ -19,7 +19,7 @@
 	 *
 	 * @var     string
 	 */
-	protected $plugin_version = '8.1';
+	protected $plugin_version = '8.2';
 
 	/**
 	 * Instance of this class.
@@ -466,7 +466,8 @@
 	 */
 	public function display_activation_message () {
 		$url  = admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) );
-		$link = sprintf( '<a href="%s">%s</a>', $url, __( 'Featured Images', $this->plugin_slug ) );
+		$text = 'Featured Images';
+		$link = sprintf( '<a href="%s">%s</a>', $url, __( $text ) );
 		$msg  = sprintf( __( 'Welcome to %s! You can find the plugin at %s.', $this->plugin_slug ), $this->plugin_name, $link );
 		$html = sprintf( '<div class="updated"><p>%s</p></div>', $msg );
 		print $html;
@@ -485,6 +486,8 @@
 		$label = $this->get_page_headline();
 		
 		$page_title = sprintf( '%s: %s', $this->plugin_name, $label );
+		$text = 'Featured Images';
+		$menu_title = __( $text );
 		$function = array( $this, 'main' ); // to execute when loading this page
 
 		/*
@@ -493,7 +496,7 @@
 		 */
 		$this->plugin_screen_hook_suffix = add_menu_page(
 			$page_title,
-			__( 'Featured Images', $this->plugin_slug ), // menu_title
+			$menu_title, // menu_title
 			$this->required_user_cap, // capability to use the following function
 			$this->page_slug,
 			$function,

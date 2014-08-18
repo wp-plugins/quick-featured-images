@@ -1,10 +1,10 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
-Tags: add, assign, associate, attach, author, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update
+Tags: add, assign, associate, attach, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user
 Requires at least: 3.8
-Tested up to: 3.9.1
-Stable tag: 8.1
+Tested up to: 3.9.2
+Stable tag: 8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,9 +78,10 @@ You can define the rules based on
 1. always the first content image.
 2. post categories
 3. post tags
-4. standard post types 'Post' and 'Page'
-5. all other custom post types supporting featured images
-6. all other custom taxonomies supporting featured images
+4. post authors
+5. standard post types 'Post' and 'Page'
+6. all other custom post types supporting featured images
+7. all other custom taxonomies supporting featured images
 
 The rules are easy to set: choose an image, a taxonomy, a value and save the settings. That's it. **You do not need to code.**
 
@@ -91,7 +92,6 @@ You can add, change and delete every rule whenever you want. So you get an **uml
 Quick Featured Images adds a column in posts lists. The additional column shows the currently assigned featured image of each post. With that you can get a **quick overview about all used images**. You can also see posts with no featured image at a glance.
 
 Under **'Featured Images'** &gt; **'Settings'** you can switch on and off the additional image column for every single post type, even custom post types if they support thumbnails.
-
 
 = Your idea to improve the plugin is welcome =
 
@@ -212,6 +212,14 @@ If you want to contribute a translation of the plugin in your language it would 
 7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 8.2 =
+* Added in 'Preset Featured Images': author as taxonomy
+* Added in 'Set, replace, remove' a help text for the case of a white blank page while treating thousands of posts
+* Improved in 'Preset Featured Images': featured image is set when a new post is created, so the rules work with auto-posting / auto-blogging plugins (aggregators)
+* Improved uninstall routine
+* Tested successfully with WordPress 3.9.2
+* Updated *.pot file and german translation
 
 = 8.1 =
 * Added option to use the first content image as featured image only if there is no featured image
@@ -356,6 +364,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 8.2 =
+Improved presets, improved uninstall routine, tested with WordPress 3.9.2
 
 = 8.1 =
 Added option to use the first content image as featured image only if there is no featured image; more robust and secure code for page 'Preset Featured Images'

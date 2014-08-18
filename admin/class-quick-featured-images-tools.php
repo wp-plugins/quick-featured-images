@@ -664,9 +664,11 @@ class Quick_Featured_Images_Tools {
 			'filter_parent_page' 		=> __( 'Parent Page Filter', $this->plugin_slug ),
 		);
 		// post types (generic and custom)
+		$label_posts = 'Posts';
+		$label_pages = 'Pages';
 		$this->valid_post_types = array(
-			'post' => __( 'Posts', $this->plugin_slug ),
-			'page' => __( 'Pages', $this->plugin_slug ),
+			'post' => _x( $label_posts, 'post type general name' ),
+			'page' => _x( $label_pages, 'post type general name' ),
 		);
 		$this->valid_custom_post_types = $this->get_registered_custom_post_types();
 		// statuses
@@ -870,7 +872,8 @@ class Quick_Featured_Images_Tools {
 	 * @since    3.0
 	 */
 	private function get_html_empty_option() {
-		return sprintf( '<option value="">%s</option>', __( '&mdash; Select &mdash;', $this->plugin_slug ) );
+		$text = '&mdash; Select &mdash;';
+		return sprintf( '<option value="">%s</option>', __( $text ) );
 	}
 
 	/**

@@ -226,7 +226,8 @@ class Quick_Featured_Images_Columns {
 	 * @return    null    
 	 */
     public function add_thumbnail_column( $cols ) {
-        $cols[ $this->column_name ] = __( 'Featured Image', $this->plugin_slug );
+		$text = 'Featured Image';
+        $cols[ $this->column_name ] = __( $text );
         return $cols;
     }
 	
@@ -256,7 +257,7 @@ class Quick_Featured_Images_Columns {
 			if ( $thumbnail_id ) {
 				echo wp_get_attachment_image( $thumbnail_id, array( $width, $height ) );
 			} else {
-				echo __( 'No Image', $this->plugin_slug );
+				echo __( 'No Image' );
 			}
 		}
     }

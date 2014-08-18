@@ -3,7 +3,7 @@
 if ( $results ) {
 	// translate once for multiple usage and improve performance
 	$label_details 	  = __( 'Details', $this->plugin_slug );
-	$label_no_image   = __( 'No Image', $this->plugin_slug );
+	$label_no_image   = __( 'No Image' );
 	$label_current_fi = __( 'Current Featured Image', $this->plugin_slug );
 	$label_number 	  = __( 'No.', $this->plugin_slug );
 	$label_success 	  = __( 'Changed successfully', $this->plugin_slug );
