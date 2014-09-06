@@ -19,7 +19,7 @@
 	 *
 	 * @var     string
 	 */
-	protected $plugin_version = '8.2';
+	protected $plugin_version = '8.2.1';
 
 	/**
 	 * Instance of this class.
@@ -187,7 +187,8 @@
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( 'Overview', $this->plugin_slug );
+		$text = 'Overview';
+		return __( $text );
 	}
 
 	/**

@@ -3,8 +3,8 @@ Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
 Tags: add, assign, associate, attach, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user
 Requires at least: 3.8
-Tested up to: 3.9.2
-Stable tag: 8.2
+Tested up to: 4.0
+Stable tag: 8.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,16 +16,17 @@ Your time-saving Swiss Army Knife for featured images: Set, replace and delete t
 
 The plugin 'Quick Featured Images' helps you bulk managing featured images, setting automatic default featured images to save your time. 
 
-1. It **sets, replaces and removes featured images for hundreds of posts, pages and custom post types** in one go. You can run it over all posts or let it work only to desired posts by using flexible filters.
+1. It **sets, replaces and removes featured images for hundreds of posts, pages and custom post types in one go**. You can run it over all contens or let it work only to desired contents by using flexible filters.
 2. It displays assigned features images in an **extra image column in lists of posts, pages and custom post types** if they support thumbnails. So you get a quick overview about used thumbnails of all posts and pages.
-3. It enables you to **define presets for automatic default featured images** for future posts as many as you need. You can set accurate **rules based on post type, category, tag, custom post type, custom taxonomy or the first content image**.
+3. It enables you to **define presets for automatic default featured images** for future posts as many as you need. You can set **accurate rules based on post properties**.
 
 = What users said =
 
+* **"Literally 5 minutes changed over 300 posts! Brilliant!!!!"** by Bob on September 4, 2014
+* **"It's a life saver ... and is ridiculously fast!"** by Orlof on August 26, 2014
 * **"Finally! It's about time somebody got it right!"** by yallways on August 3, 2014
 * **"Sooo damn convenient!"** by Benbodhi on July 2, 2014
 * **"With one word, it is 'great'"** by Can on June 25, 2014
-* **"Easy and effective"** by manuamaro on June 10, 2014
 * **"You've saved me a lot of time!"** by Celebrianne on May 31, 2014
 
 See more comments under [Reviews](http://wordpress.org/support/view/plugin-reviews/quick-featured-images).
@@ -33,7 +34,7 @@ See more comments under [Reviews](http://wordpress.org/support/view/plugin-revie
 = Access =
 
 1. You will find the plugin under the own **menu item 'Featured Images'** 
-2. You can select an image in the media library (menu item: 'Media') with its new **action link 'Bulk set as featured image'**. Click on it and you can go on with the plugin.
+2. You can select an image in the media library with the **action link 'Bulk set as featured image'**. Click on it and you can go on with the plugin.
 
 = Set, replace, remove: Actions =
 
@@ -71,27 +72,27 @@ The implemented filters allow you to narrow down the action to only the posts an
 
 = Automatic Default Featured Images =
 
-**You can set rules for default featured images of new posts easily.** Every time you save a post Quick Featured Images will look for a rule to add the preset featured image to the saved post. 
+**You can set rules for default featured images of posts easily.** Every time you insert a new post or save an existing post Quick Featured Images will look for a rule to add and to change the preset featured image to the saved post. 
 
 You can define the rules based on
 
-1. always the first content image.
-2. post categories
-3. post tags
-4. post authors
-5. standard post types 'Post' and 'Page'
-6. all other custom post types supporting featured images
-7. all other custom taxonomies supporting featured images
+1. always the **first content image**
+2. post **categories**
+3. post **tags**
+4. post **authors**
+5. **standard post types** 'Post' and 'Page'
+6. all other **custom post types** supporting featured images
+7. all other **custom taxonomies** supporting featured images
 
 The rules are easy to set: choose an image, a taxonomy, a value and save the settings. That's it. **You do not need to code.**
 
-You can add, change and delete every rule whenever you want. So you get an **umlimited and precise set of rules** for automatic default featured images in your website.
+You can add, change and delete every rule whenever you want. So you get an **unlimited and precise set of rules** for automatic default featured images in your website.
 
 = Additional columns in posts lists =
 
 Quick Featured Images adds a column in posts lists. The additional column shows the currently assigned featured image of each post. With that you can get a **quick overview about all used images**. You can also see posts with no featured image at a glance.
 
-Under **'Featured Images'** &gt; **'Settings'** you can switch on and off the additional image column for every single post type, even custom post types if they support thumbnails.
+Under **'Featured Images'** &gt; **'Image Columns'** you can switch on and off the additional image column for every single post type, even custom post types if they support thumbnails.
 
 = Your idea to improve the plugin is welcome =
 
@@ -212,6 +213,11 @@ If you want to contribute a translation of the plugin in your language it would 
 7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 8.2.1 =
+* Successfully tested with WordPress 4.0
+* Added icons for plugin search
+* Changed order of links for this plugin on plugin list
 
 = 8.2 =
 * Added in 'Preset Featured Images': author as taxonomy
@@ -364,6 +370,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 8.2.1 =
+Successfully tested with WordPress 4.0, added icons for plugin search
 
 = 8.2 =
 Improved presets, improved uninstall routine, tested with WordPress 3.9.2

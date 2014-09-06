@@ -401,10 +401,10 @@ class Quick_Featured_Images_Defaults {
 	public function add_action_links( $links ) {
 		$url = sprintf( 'admin.php?page=%s-defaults', $this->plugin_slug );
 		return array_merge(
+			$links,
 			array(
 				'defaults' => sprintf( '<a href="%s">%s</a>', admin_url( $url ), $this->get_page_headline() )
-			),
-			$links
+			)
 		);
 
 	}
