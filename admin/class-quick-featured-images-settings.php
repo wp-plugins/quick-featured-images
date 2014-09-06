@@ -309,10 +309,10 @@ class Quick_Featured_Images_Settings {
 	public function add_action_links( $links ) {
 		$url = sprintf( 'admin.php?page=%s-settings', $this->plugin_slug );
 		return array_merge(
+			$links,
 			array(
 				'settings' => sprintf( '<a href="%s">%s</a>', admin_url( $url ), $this->get_page_headline() )
-			),
-			$links
+			)
 		);
 
 	}
