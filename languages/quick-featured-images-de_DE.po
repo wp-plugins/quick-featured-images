@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-08-15 14:41+0100\n"
-"PO-Revision-Date: 2014-08-15 14:51+0100\n"
+"POT-Creation-Date: 2014-10-21 18:01+0100\n"
+"PO-Revision-Date: 2014-11-18 21:51+0100\n"
 "Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
 "Language-Team:  <m.stehle@gmx.de>\n"
 "Language: de_DE\n"
@@ -19,11 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-quick-featured-images-admin.php:190
-msgid "Overview"
-msgstr "Übersicht"
-
-#: admin/class-quick-featured-images-admin.php:201
+#: admin/class-quick-featured-images-admin.php:202
 msgid ""
 "Your time-saving Swiss Army Knife for featured images: Set, replace and "
 "delete them in bulk, set default images, get overview lists."
@@ -31,7 +27,7 @@ msgstr ""
 "Dein Schweizer Taschenmesser für Beitragsbilder: Setze, ersetze und lösche "
 "sie massenhaft, definiere Standard-Bilder, erhalte Übersichtslisten."
 
-#: admin/class-quick-featured-images-admin.php:265
+#: admin/class-quick-featured-images-admin.php:266
 #, php-format
 msgid ""
 "The plugin requires WordPress version %s or higher. Therefore, WordPress did "
@@ -42,7 +38,7 @@ msgstr ""
 "es nicht aktiviert. Falls du dieses Plugin nutzen willst, aktualisiere die "
 "WordPress-Dateien auf die neueste Version."
 
-#: admin/class-quick-featured-images-admin.php:471
+#: admin/class-quick-featured-images-admin.php:472
 #, php-format
 msgid "Welcome to %s! You can find the plugin at %s."
 msgstr "Willkommen zu %s! Du kannst das Plugin finden unter %s."
@@ -52,19 +48,19 @@ msgstr "Willkommen zu %s! Du kannst das Plugin finden unter %s."
 msgid "No Image"
 msgstr "Kein Bild"
 
-#: admin/class-quick-featured-images-defaults.php:184
+#: admin/class-quick-featured-images-defaults.php:191
 msgid "Changes saved."
 msgstr "Änderungen gespeichert."
 
-#: admin/class-quick-featured-images-defaults.php:187
+#: admin/class-quick-featured-images-defaults.php:194
 msgid "No changes were saved."
 msgstr "Keine Änderungen gespeichert."
 
-#: admin/class-quick-featured-images-defaults.php:224
+#: admin/class-quick-featured-images-defaults.php:231
 msgid "Preset Featured Images"
 msgstr "Voreingestellte Beitragsbilder"
 
-#: admin/class-quick-featured-images-defaults.php:235
+#: admin/class-quick-featured-images-defaults.php:242
 msgid "Set default featured images for future posts"
 msgstr "Stelle vorgegebene Beitragsbilder für zukünftige Inhalte ein"
 
@@ -438,15 +434,7 @@ msgstr ""
 msgid "For example you can search for posts with too small featured images."
 msgstr "Suche z.B. nach Beiträgen mit zu kleinen Beitragsbildern."
 
-#: admin/views/filter_image_size.php:5
-msgid "Settings"
-msgstr "Einstellungen"
-
-#: admin/views/filter_image_size.php:5
-msgid "Media"
-msgstr "Medien"
-
-#: admin/views/filter_image_size.php:12
+#: admin/views/filter_image_size.php:16
 #, php-format
 msgid ""
 "Only positive integers from %d to %d are allowed. By default the thumbnail "
@@ -743,43 +731,43 @@ msgstr ""
 
 #: admin/views/form_select.php:97
 msgid ""
-" Search by several statuses (published, draft, private etc.). By default all "
+"Search by several statuses (published, draft, private etc.). By default all "
 "statuses will be affected."
 msgstr ""
 "Suchen nach Status (veröffentlicht, Entwurf, privat usw.). Standardmäßig "
 "werden alle Statusse berücksichtigt."
 
 #: admin/views/form_select.php:100
-msgid " Search by search term"
+msgid "Search by search term"
 msgstr "Suchen mit einem Suchbegriff"
 
 #: admin/views/form_select.php:103
-msgid " Search by time specifications"
+msgid "Search by time specifications"
 msgstr "Suchen mit Zeitangaben"
 
 #: admin/views/form_select.php:106
-msgid " Search by author"
+msgid "Search by author"
 msgstr "Suchen nach Autor"
 
 #: admin/views/form_select.php:112
-msgid " Search by other taxonomies like plugin categories etc."
+msgid "Search by other taxonomies like plugin categories etc."
 msgstr ""
 "Suchen nach weiteren Klassifikationen suchen, z.B. Kategorien eines Plugins"
 
 #: admin/views/form_select.php:115
-msgid " Search by original dimensions of added featured image"
+msgid "Search by original dimensions of added featured image"
 msgstr "Suchen nach Abmessungen des hinzugefügten Beitragsbildes"
 
 #: admin/views/form_select.php:118
-msgid " Search posts by category"
+msgid "Search posts by category"
 msgstr "Suchen nach Kategorie"
 
 #: admin/views/form_select.php:121
-msgid " Search posts by tag"
+msgid "Search posts by tag"
 msgstr "Suchen nach Schlagwort"
 
 #: admin/views/form_select.php:124
-msgid " Search child pages by parent page"
+msgid "Search child pages by parent page"
 msgstr "Suchen nach untergeordneten Seiten einer übergeordneten Seite"
 
 #: admin/views/form_select.php:138
@@ -988,51 +976,60 @@ msgid "Are you sure to remove this rule?"
 msgstr "Willst du diese Regel wirklich löschen?"
 
 #: admin/views/section_defaults.php:193
+msgid "An image overwrites an existing image"
+msgstr "Ein Bild überschreibt ein bestehendes Bild"
+
+#: admin/views/section_defaults.php:196
+msgid ""
+"If activated the rule is used automatically while saving a post to overwrite "
+"an existing featured image with the new one based on the following rules. Do "
+"not use this if you want to keep manually set featured images."
+msgstr ""
+"Falls aktiviert, wird die Regel automatisch beim Speichern eines Beitrags "
+"angewandt, um ein bestehendes Beitragsbild mit einem neuen auf Grundlage der "
+"folgenden Regeln zu überschreiben. Verwende diese Option nicht, wenn du "
+"manuell gesetzte Beitragsbilder beibehalten willst."
+
+#: admin/views/section_defaults.php:202
+msgid ""
+"Activate to automatically overwrite an existing featured image while saving "
+"a post"
+msgstr ""
+"Überschreibe ein bestehendes Beitragsbild automatisch beim Speichern eines "
+"Beitrags"
+
+#: admin/views/section_defaults.php:209
 msgid "Text with images in WordPress editor"
 msgstr "Text mit Bildern im WordPress-Editor"
 
-#: admin/views/section_defaults.php:194
-msgid "First content image"
-msgstr "Erstes Bild im Inhalt"
-
-#: admin/views/section_defaults.php:201
-msgid "How to use the first content image"
-msgstr "Wie das erste Bild im Inhalt verwendet wird"
-
-#: admin/views/section_defaults.php:202
-msgid "Always use first content image as featured image"
-msgstr "Nutze immer das erste Bild im Beitrag als Beitragsbild"
-
-#: admin/views/section_defaults.php:203
+#: admin/views/section_defaults.php:212
 msgid ""
-"Use first content image as featured image, only if there is no featured image"
+"If activated the rule is used automatically while saving a post to set the "
+"first content image as the featured image of the post. If the post has no "
+"content images the next rules will be applied."
 msgstr ""
-"Nutze das erste Bild im Inhalt als Beitragsbild, falls es noch kein "
-"Beitragsbild gibt"
+"Falls aktiviert, wird die Regel beim Speichern eines Beitrags automatisch "
+"angewandt, um das erste Bild im Inhalt als Beitragsbild des Beitrags zu "
+"setzen. Sollte der Inhalt kein Bild enthalten, werden die nächsten Regeln "
+"angewandt."
 
-#: admin/views/section_defaults.php:204
+#: admin/views/section_defaults.php:218
 msgid ""
-"If activated the rule is used automatically at saving if the post has "
-"content images. If the post has no content images the next rules will be "
-"applied."
+"Activate to automatically use the first content image as featured image "
+"while saving a post"
 msgstr ""
-"Falls aktiviert, wird  die Regel beim Speichern automatisch angewandt, falls "
-"der Inhalt Bilder enthält. Sollte der Inhalt kein Bild enthalten, werden die "
-"nächsten Regeln angewandt."
+"Verwende erstes Inhaltsbild als Beitragsbild automatisch beim Speichern "
+"eines Beitrags"
 
-#: admin/views/section_defaults.php:207
-msgid "Activate to use first content image as featured image"
-msgstr "Aktivieren, um erstes Inhaltsbild als Beitragsbild zu verwenden"
-
-#: admin/views/section_defaults.php:396
+#: admin/views/section_defaults.php:409
 msgid "Add rule"
 msgstr "Regel hinzufügen"
 
-#: admin/views/section_defaults.php:401
+#: admin/views/section_defaults.php:414
 msgid "How the rules work"
 msgstr "Wie die Regeln funktionieren"
 
-#: admin/views/section_defaults.php:402
+#: admin/views/section_defaults.php:415
 msgid ""
 "Every time you save a post the post get the featured image if one of the "
 "following rules match a property of the post. You can also set rules for "
@@ -1043,7 +1040,7 @@ msgstr ""
 "zutrifft. Du kannst die Regeln auch für Seiten und alle anderen "
 "Inhaltstypen, die Beitragsbilder unterstützen, setzen."
 
-#: admin/views/section_defaults.php:403
+#: admin/views/section_defaults.php:416
 msgid ""
 "Regardless of the order in the list the rules are applied in the following "
 "order until a rule and a property of the post fit together:"
@@ -1052,35 +1049,35 @@ msgstr ""
 "Reihenfolge angewandt, bis eine Regel und eine Eigenschaft des Beitrags "
 "übereinstimmen:"
 
-#: admin/views/section_defaults.php:405
+#: admin/views/section_defaults.php:418
 msgid "found first content image. If not then..."
 msgstr "erstes gefundenes Bild im Beitrag. Wenn nicht, dann..."
 
-#: admin/views/section_defaults.php:406
+#: admin/views/section_defaults.php:419
 msgid "matched custom taxonomy. If not then..."
 msgstr "passende eigene Taxonomie. Wenn nicht, dann..."
 
-#: admin/views/section_defaults.php:407
+#: admin/views/section_defaults.php:420
 msgid "matched tag. If not then..."
 msgstr "passendes Schlagwort. Wenn nicht, dann..."
 
-#: admin/views/section_defaults.php:408
+#: admin/views/section_defaults.php:421
 msgid "matched category. If not then..."
 msgstr "passende Kategorie. Wenn nicht, dann..."
 
-#: admin/views/section_defaults.php:409
+#: admin/views/section_defaults.php:422
 msgid "matched author. If not then..."
 msgstr "passender Autor. Wenn nicht, dann..."
 
-#: admin/views/section_defaults.php:410
+#: admin/views/section_defaults.php:423
 msgid "matched post type. If not then..."
 msgstr "passender Inhaltstyp. Wenn nicht, dann..."
 
-#: admin/views/section_defaults.php:412
+#: admin/views/section_defaults.php:424
 msgid "no featured image."
 msgstr "kein Beitragsbild."
 
-#: admin/views/section_defaults.php:414
+#: admin/views/section_defaults.php:426
 msgid ""
 "Bear in mind that if two or more rules with the same taxonomy would fit to "
 "the post it is unforeseeable which image will become the featured image."
@@ -1270,3 +1267,28 @@ msgstr "Nicht geändert"
 #: admin/views/section_results.php:56
 msgid "No matches found."
 msgstr "Keine Treffer gefunden."
+
+#~ msgid "Overview"
+#~ msgstr "Übersicht"
+
+#~ msgid "Settings"
+#~ msgstr "Einstellungen"
+
+#~ msgid "Media"
+#~ msgstr "Medien"
+
+#~ msgid "First content image"
+#~ msgstr "Erstes Bild im Inhalt"
+
+#~ msgid "How to use the first content image"
+#~ msgstr "Wie das erste Bild im Inhalt verwendet wird"
+
+#~ msgid "Always use first content image as featured image"
+#~ msgstr "Nutze immer das erste Bild im Beitrag als Beitragsbild"
+
+#~ msgid ""
+#~ "Use first content image as featured image, only if there is no featured "
+#~ "image"
+#~ msgstr ""
+#~ "Nutze das erste Bild im Inhalt als Beitragsbild, falls es noch kein "
+#~ "Beitragsbild gibt"

@@ -4,9 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-08-15 14:41+0100\n"
-"PO-Revision-Date: 2014-08-15 14:41+0100\n"
-"Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
+"POT-Creation-Date: 2014-10-21 18:01+0100\n"
+"PO-Revision-Date: 2014-10-21 18:01+0100\n"
 "Language-Team:  <m.stehle@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,25 +17,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-quick-featured-images-admin.php:190
-msgid "Overview"
+#: admin/class-quick-featured-images-admin.php:202
+msgid "Your time-saving Swiss Army Knife for featured images: Set, replace and delete them in bulk, set default images, get overview lists."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:201
-msgid ""
-"Your time-saving Swiss Army Knife for featured images: Set, replace and "
-"delete them in bulk, set default images, get overview lists."
-msgstr ""
-
-#: admin/class-quick-featured-images-admin.php:265
+#: admin/class-quick-featured-images-admin.php:266
 #, php-format
-msgid ""
-"The plugin requires WordPress version %s or higher. Therefore, WordPress did "
-"not activate it. If you want to use this plugin update the Wordpress files "
-"to the latest version."
+msgid "The plugin requires WordPress version %s or higher. Therefore, WordPress did not activate it. If you want to use this plugin update the Wordpress files to the latest version."
 msgstr ""
 
-#: admin/class-quick-featured-images-admin.php:471
+#: admin/class-quick-featured-images-admin.php:472
 #, php-format
 msgid "Welcome to %s! You can find the plugin at %s."
 msgstr ""
@@ -46,19 +36,19 @@ msgstr ""
 msgid "No Image"
 msgstr ""
 
-#: admin/class-quick-featured-images-defaults.php:184
+#: admin/class-quick-featured-images-defaults.php:191
 msgid "Changes saved."
 msgstr ""
 
-#: admin/class-quick-featured-images-defaults.php:187
+#: admin/class-quick-featured-images-defaults.php:194
 msgid "No changes were saved."
 msgstr ""
 
-#: admin/class-quick-featured-images-defaults.php:224
+#: admin/class-quick-featured-images-defaults.php:231
 msgid "Preset Featured Images"
 msgstr ""
 
-#: admin/class-quick-featured-images-defaults.php:235
+#: admin/class-quick-featured-images-defaults.php:242
 msgid "Set default featured images for future posts"
 msgstr ""
 
@@ -83,15 +73,11 @@ msgid "Posts list with image column"
 msgstr ""
 
 #: admin/class-quick-featured-images-settings.php:505
-msgid ""
-"Activate the checkboxes at each post type to show the extra columns in the "
-"post lists."
+msgid "Activate the checkboxes at each post type to show the extra columns in the post lists."
 msgstr ""
 
 #: admin/class-quick-featured-images-settings.php:515
-msgid ""
-"The additional columns give you a quick overview about all used featured "
-"images for every post."
+msgid "The additional columns give you a quick overview about all used featured images for every post."
 msgstr ""
 
 #: admin/class-quick-featured-images-tools.php:526
@@ -352,21 +338,15 @@ msgid "Select the custom field to find the associated posts/pages."
 msgstr ""
 
 #: admin/views/filter_custom_field.php:52
-msgid ""
-"Optional: Type in the value which will be compared with the value of the "
-"selected custom field."
+msgid "Optional: Type in the value which will be compared with the value of the selected custom field."
 msgstr ""
 
 #: admin/views/filter_custom_field.php:53
-msgid ""
-"Leave it empty if you just want to test the existence of the custom field "
-"per post/page."
+msgid "Leave it empty if you just want to test the existence of the custom field per post/page."
 msgstr ""
 
 #: admin/views/filter_custom_field.php:63
-msgid ""
-"Optional: Change the operator of the comparison. The default is to compare "
-"equality with the value you type in the 'value' field."
+msgid "Optional: Change the operator of the comparison. The default is to compare equality with the value you type in the 'value' field."
 msgstr ""
 
 #: admin/views/filter_custom_field.php:76
@@ -388,11 +368,7 @@ msgid "Strange search result with custom taxonomies?"
 msgstr ""
 
 #: admin/views/filter_custom_taxonomies.php:53
-msgid ""
-"The search for custom taxonomy terms could lead to surprising results. The "
-"reason is custom taxonomies can be used in many different ways. It is not "
-"possible to catch them all in one single code expression. If you should be "
-"unsatisfied with the result try other filters to get the result you want."
+msgid "The search for custom taxonomy terms could lead to surprising results. The reason is custom taxonomies can be used in many different ways. It is not possible to catch them all in one single code expression. If you should be unsatisfied with the result try other filters to get the result you want."
 msgstr ""
 
 #: admin/views/filter_custom_taxonomies.php:57
@@ -400,28 +376,16 @@ msgid "There are no custom taxonomies."
 msgstr ""
 
 #: admin/views/filter_image_size.php:2
-msgid ""
-"The search will find posts with an already added featured image which its "
-"original image file is smaller than one of the given dimensions."
+msgid "The search will find posts with an already added featured image which its original image file is smaller than one of the given dimensions."
 msgstr ""
 
 #: admin/views/filter_image_size.php:3
 msgid "For example you can search for posts with too small featured images."
 msgstr ""
 
-#: admin/views/filter_image_size.php:5
-msgid "Settings"
-msgstr ""
-
-#: admin/views/filter_image_size.php:5
-msgid "Media"
-msgstr ""
-
-#: admin/views/filter_image_size.php:12
+#: admin/views/filter_image_size.php:16
 #, php-format
-msgid ""
-"Only positive integers from %d to %d are allowed. By default the thumbnail "
-"dimensions as defined in %s are used."
+msgid "Only positive integers from %d to %d are allowed. By default the thumbnail dimensions as defined in %s are used."
 msgstr ""
 
 #: admin/views/filter_parent_page.php:8
@@ -469,9 +433,7 @@ msgid "To define a time segment select both the start date and the end date."
 msgstr ""
 
 #: admin/views/filter_time.php:4
-msgid ""
-"You can also define a time period by selecting only one date as the limiting "
-"value of the period."
+msgid "You can also define a time period by selecting only one date as the limiting value of the period."
 msgstr ""
 
 #: admin/views/filter_time.php:5
@@ -483,9 +445,7 @@ msgid "Select filters and options again"
 msgstr ""
 
 #: admin/views/form_back_to_selection.php:3
-msgid ""
-"If you want to change your former selection just go back by clicking on this "
-"button."
+msgid "If you want to change your former selection just go back by clicking on this button."
 msgstr ""
 
 #: admin/views/form_back_to_selection.php:42
@@ -497,15 +457,11 @@ msgid "Should the selected image be set as featured image to all listed posts?"
 msgstr ""
 
 #: admin/views/form_confirm.php:7
-msgid ""
-"Should the selected images be set randomly as featured images to all listed "
-"posts?"
+msgid "Should the selected images be set randomly as featured images to all listed posts?"
 msgstr ""
 
 #: admin/views/form_confirm.php:10
-msgid ""
-"Should the current set featured image be replaced by the selected image at "
-"all listed posts?"
+msgid "Should the current set featured image be replaced by the selected image at all listed posts?"
 msgstr ""
 
 #: admin/views/form_confirm.php:13
@@ -547,9 +503,7 @@ msgid "Future Featured Image"
 msgstr ""
 
 #: admin/views/form_confirm.php:34 admin/views/section_results.php:12
-msgid ""
-"You can take a view to the post in a new window by clicking on its link in "
-"the list."
+msgid "You can take a view to the post in a new window by clicking on its link in the list."
 msgstr ""
 
 #: admin/views/form_confirm.php:74
@@ -586,8 +540,7 @@ msgid "Refine filters"
 msgstr ""
 
 #: admin/views/form_refine.php:9
-msgid ""
-"Now you can find posts and pages by matching parameters. Refine them here."
+msgid "Now you can find posts and pages by matching parameters. Refine them here."
 msgstr ""
 
 #: admin/views/form_refine.php:10
@@ -599,9 +552,7 @@ msgid "Preview filtering"
 msgstr ""
 
 #: admin/views/form_refine.php:47
-msgid ""
-"There are no selected filters. Modify your filter selection or just go on by "
-"clicking on the next button."
+msgid "There are no selected filters. Modify your filter selection or just go on by clicking on the next button."
 msgstr ""
 
 #: admin/views/form_select.php:11 admin/views/form_start.php:4
@@ -610,9 +561,7 @@ msgid "Notice"
 msgstr ""
 
 #: admin/views/form_select.php:13
-msgid ""
-"You did not have selected an image from the list below. To go on select at "
-"least one image you want to replace by the selected image."
+msgid "You did not have selected an image from the list below. To go on select at least one image you want to replace by the selected image."
 msgstr ""
 
 #: admin/views/form_select.php:18
@@ -656,65 +605,55 @@ msgid "Select filters"
 msgstr ""
 
 #: admin/views/form_select.php:88
-msgid ""
-"If you want select one of the following filters to narrow down the set of "
-"concerned posts and pages."
+msgid "If you want select one of the following filters to narrow down the set of concerned posts and pages."
 msgstr ""
 
 #: admin/views/form_select.php:89
-msgid ""
-"You can select multiple filters. They will return an intersection of their "
-"results."
+msgid "You can select multiple filters. They will return an intersection of their results."
 msgstr ""
 
 #: admin/views/form_select.php:94
-msgid ""
-"Search by post type. By default all posts, pages and custom post types will "
-"be affected."
+msgid "Search by post type. By default all posts, pages and custom post types will be affected."
 msgstr ""
 
 #: admin/views/form_select.php:97
-msgid ""
-" Search by several statuses (published, draft, private etc.). By default all "
-"statuses will be affected."
+msgid "Search by several statuses (published, draft, private etc.). By default all statuses will be affected."
 msgstr ""
 
 #: admin/views/form_select.php:100
-msgid " Search by search term"
+msgid "Search by search term"
 msgstr ""
 
 #: admin/views/form_select.php:103
-msgid " Search by time specifications"
+msgid "Search by time specifications"
 msgstr ""
 
 #: admin/views/form_select.php:106
-msgid " Search by author"
+msgid "Search by author"
 msgstr ""
 
 #: admin/views/form_select.php:112
-msgid " Search by other taxonomies like plugin categories etc."
+msgid "Search by other taxonomies like plugin categories etc."
 msgstr ""
 
 #: admin/views/form_select.php:115
-msgid " Search by original dimensions of added featured image"
+msgid "Search by original dimensions of added featured image"
 msgstr ""
 
 #: admin/views/form_select.php:118
-msgid " Search posts by category"
+msgid "Search posts by category"
 msgstr ""
 
 #: admin/views/form_select.php:121
-msgid " Search posts by tag"
+msgid "Search posts by tag"
 msgstr ""
 
 #: admin/views/form_select.php:124
-msgid " Search child pages by parent page"
+msgid "Search child pages by parent page"
 msgstr ""
 
 #: admin/views/form_select.php:138
-msgid ""
-"On the next page you can refine the filters. If you did not select any "
-"filter you will go to the preview list directly."
+msgid "On the next page you can refine the filters. If you did not select any filter you will go to the preview list directly."
 msgstr ""
 
 #: admin/views/form_select.php:152 admin/views/form_start.php:112
@@ -726,11 +665,7 @@ msgid "If you encounter a white, blank page, read this"
 msgstr ""
 
 #: admin/views/form_select.php:156
-msgid ""
-"Facing a white blank page while trying to treat thousands of posts is the "
-"effect of limited memory capacities on the website server. Instead of "
-"treating a huge amount of posts in one single go try to treat small amounts "
-"of posts multiple times successively. To achieve that do:"
+msgid "Facing a white blank page while trying to treat thousands of posts is the effect of limited memory capacities on the website server. Instead of treating a huge amount of posts in one single go try to treat small amounts of posts multiple times successively. To achieve that do:"
 msgstr ""
 
 #: admin/views/form_select.php:158
@@ -750,16 +685,11 @@ msgid "and repeat it with the next time range as often as needed."
 msgstr ""
 
 #: admin/views/form_select.php:163
-msgid ""
-"This way is not as fast as one single run, but still much faster than "
-"setting the images for each post manually."
+msgid "This way is not as fast as one single run, but still much faster than setting the images for each post manually."
 msgstr ""
 
 #: admin/views/form_start.php:6 admin/views/section_defaults.php:169
-msgid ""
-"The current theme does not support featured images. Anyway you can use this "
-"plugin. The effects are stored and will be visible in a theme which supports "
-"featured images."
+msgid "The current theme does not support featured images. Anyway you can use this plugin. The effects are stored and will be visible in a theme which supports featured images."
 msgstr ""
 
 #: admin/views/form_start.php:12
@@ -767,9 +697,7 @@ msgid "What do you want to do?"
 msgstr ""
 
 #: admin/views/form_start.php:13
-msgid ""
-"Here you can add, replace and delete featured images to your posts. Select "
-"one of the following actions and, if necessary, one or more images."
+msgid "Here you can add, replace and delete featured images to your posts. Select one of the following actions and, if necessary, one or more images."
 msgstr ""
 
 #: admin/views/form_start.php:14
@@ -793,9 +721,7 @@ msgid "This will also replace already added featured images."
 msgstr ""
 
 #: admin/views/form_start.php:35
-msgid ""
-"Select the image you want to add to, replace or delete from posts and pages "
-"by clicking on the following button."
+msgid "Select the image you want to add to, replace or delete from posts and pages by clicking on the following button."
 msgstr ""
 
 #: admin/views/form_start.php:56 admin/views/section_defaults.php:20
@@ -807,16 +733,11 @@ msgid "If the button does not work, read this:"
 msgstr ""
 
 #: admin/views/form_start.php:61
-msgid ""
-"Some users reported that this button would not work in some WordPress "
-"installations. If this should be the case you can take another way:"
+msgid "Some users reported that this button would not work in some WordPress installations. If this should be the case you can take another way:"
 msgstr ""
 
 #: admin/views/form_start.php:62
-msgid ""
-"1. Go to the media library. 2. Move the mouse over the desired image. "
-"Further links are appearing, among them the link &quot;Bulk set as featured "
-"image&quot;. 3. After a click on it you can move on in this plugin."
+msgid "1. Go to the media library. 2. Move the mouse over the desired image. Further links are appearing, among them the link &quot;Bulk set as featured image&quot;. 3. After a click on it you can move on in this plugin."
 msgstr ""
 
 #: admin/views/form_start.php:66
@@ -824,14 +745,11 @@ msgid "Actions with multiple selected images"
 msgstr ""
 
 #: admin/views/form_start.php:67
-msgid ""
-"These actions require at least one selected image with the following button."
+msgid "These actions require at least one selected image with the following button."
 msgstr ""
 
 #: admin/views/form_start.php:79
-msgid ""
-"To select multiple images click on the button and use the CTRL key while "
-"clicking on the images."
+msgid "To select multiple images click on the button and use the CTRL key while clicking on the images."
 msgstr ""
 
 #: admin/views/form_start.php:81
@@ -863,15 +781,11 @@ msgid "Default featured images for future posts"
 msgstr ""
 
 #: admin/views/section_defaults.php:175
-msgid ""
-"Define the rules to use images as default featured images automatically "
-"every time a post is saved."
+msgid "Define the rules to use images as default featured images automatically every time a post is saved."
 msgstr ""
 
 #: admin/views/section_defaults.php:176
-msgid ""
-"To use a rule choose the image and set both the taxonomy and the value. A "
-"rule which is defined only partially will be ignored."
+msgid "To use a rule choose the image and set both the taxonomy and the value. A rule which is defined only partially will be ignored."
 msgstr ""
 
 #: admin/views/section_defaults.php:179
@@ -879,90 +793,75 @@ msgid "Are you sure to remove this rule?"
 msgstr ""
 
 #: admin/views/section_defaults.php:193
-msgid "Text with images in WordPress editor"
+msgid "An image overwrites an existing image"
 msgstr ""
 
-#: admin/views/section_defaults.php:194
-msgid "First content image"
-msgstr ""
-
-#: admin/views/section_defaults.php:201
-msgid "How to use the first content image"
+#: admin/views/section_defaults.php:196
+msgid "If activated the rule is used automatically while saving a post to overwrite an existing featured image with the new one based on the following rules. Do not use this if you want to keep manually set featured images."
 msgstr ""
 
 #: admin/views/section_defaults.php:202
-msgid "Always use first content image as featured image"
+msgid "Activate to automatically overwrite an existing featured image while saving a post"
 msgstr ""
 
-#: admin/views/section_defaults.php:203
-msgid ""
-"Use first content image as featured image, only if there is no featured image"
+#: admin/views/section_defaults.php:209
+msgid "Text with images in WordPress editor"
 msgstr ""
 
-#: admin/views/section_defaults.php:204
-msgid ""
-"If activated the rule is used automatically at saving if the post has "
-"content images. If the post has no content images the next rules will be "
-"applied."
+#: admin/views/section_defaults.php:212
+msgid "If activated the rule is used automatically while saving a post to set the first content image as the featured image of the post. If the post has no content images the next rules will be applied."
 msgstr ""
 
-#: admin/views/section_defaults.php:207
-msgid "Activate to use first content image as featured image"
-msgstr ""
-
-#: admin/views/section_defaults.php:396
-msgid "Add rule"
-msgstr ""
-
-#: admin/views/section_defaults.php:401
-msgid "How the rules work"
-msgstr ""
-
-#: admin/views/section_defaults.php:402
-msgid ""
-"Every time you save a post the post get the featured image if one of the "
-"following rules match a property of the post. You can also set rules for "
-"pages and all other current post types which support featured images."
-msgstr ""
-
-#: admin/views/section_defaults.php:403
-msgid ""
-"Regardless of the order in the list the rules are applied in the following "
-"order until a rule and a property of the post fit together:"
-msgstr ""
-
-#: admin/views/section_defaults.php:405
-msgid "found first content image. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:406
-msgid "matched custom taxonomy. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:407
-msgid "matched tag. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:408
-msgid "matched category. If not then..."
+#: admin/views/section_defaults.php:218
+msgid "Activate to automatically use the first content image as featured image while saving a post"
 msgstr ""
 
 #: admin/views/section_defaults.php:409
-msgid "matched author. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:410
-msgid "matched post type. If not then..."
-msgstr ""
-
-#: admin/views/section_defaults.php:412
-msgid "no featured image."
+msgid "Add rule"
 msgstr ""
 
 #: admin/views/section_defaults.php:414
-msgid ""
-"Bear in mind that if two or more rules with the same taxonomy would fit to "
-"the post it is unforeseeable which image will become the featured image."
+msgid "How the rules work"
+msgstr ""
+
+#: admin/views/section_defaults.php:415
+msgid "Every time you save a post the post get the featured image if one of the following rules match a property of the post. You can also set rules for pages and all other current post types which support featured images."
+msgstr ""
+
+#: admin/views/section_defaults.php:416
+msgid "Regardless of the order in the list the rules are applied in the following order until a rule and a property of the post fit together:"
+msgstr ""
+
+#: admin/views/section_defaults.php:418
+msgid "found first content image. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:419
+msgid "matched custom taxonomy. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:420
+msgid "matched tag. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:421
+msgid "matched category. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:422
+msgid "matched author. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:423
+msgid "matched post type. If not then..."
+msgstr ""
+
+#: admin/views/section_defaults.php:424
+msgid "no featured image."
+msgstr ""
+
+#: admin/views/section_defaults.php:426
+msgid "Bear in mind that if two or more rules with the same taxonomy would fit to the post it is unforeseeable which image will become the featured image."
 msgstr ""
 
 #: admin/views/section_errormsg.php:1
@@ -990,9 +889,7 @@ msgid "Please rate it at wordpress.org!"
 msgstr ""
 
 #: admin/views/section_footer.php:55
-msgid ""
-"The plugin is for free. But the plugin author would be delighted to your "
-"small contribution."
+msgid "The plugin is for free. But the plugin author would be delighted to your small contribution."
 msgstr ""
 
 #: admin/views/section_footer.php:55
@@ -1008,15 +905,11 @@ msgid "Do you need support or have an idea for the plugin?"
 msgstr ""
 
 #: admin/views/section_footer.php:56
-msgid ""
-"Post your questions and ideas about Quick Featured Images in the forum at "
-"wordpress.org!"
+msgid "Post your questions and ideas about Quick Featured Images in the forum at wordpress.org!"
 msgstr ""
 
 #: admin/views/section_footer.php:57
-msgid ""
-"Let the thumbnails appear in the widget of the most recent posts with this "
-"fast plugin"
+msgid "Let the thumbnails appear in the widget of the most recent posts with this fast plugin"
 msgstr ""
 
 #: admin/views/section_footer.php:57 admin/views/section_footer.php:60
@@ -1097,9 +990,7 @@ msgid "Bulk set, replace and remove featured images"
 msgstr ""
 
 #: admin/views/section_overview.php:33
-msgid ""
-"You have not the privileges to edit others posts. If you want to use this "
-"page ask your WordPress administrator."
+msgid "You have not the privileges to edit others posts. If you want to use this page ask your WordPress administrator."
 msgstr ""
 
 #: admin/views/section_overview.php:49
@@ -1107,9 +998,7 @@ msgid "Set default featured images"
 msgstr ""
 
 #: admin/views/section_overview.php:50 admin/views/section_overview.php:67
-msgid ""
-"You have not the privileges to manage options. If you want to use this page "
-"ask your WordPress administrator."
+msgid "You have not the privileges to manage options. If you want to use this page ask your WordPress administrator."
 msgstr ""
 
 #: admin/views/section_overview.php:66
@@ -1131,3 +1020,28 @@ msgstr ""
 #: admin/views/section_results.php:56
 msgid "No matches found."
 msgstr ""
+
+#~ msgid "Overview"
+#~ msgstr ""
+
+#~ msgid "Settings"
+#~ msgstr ""
+
+#~ msgid "Media"
+#~ msgstr ""
+
+#~ msgid "First content image"
+#~ msgstr ""
+
+#~ msgid "How to use the first content image"
+#~ msgstr ""
+
+#~ msgid "Always use first content image as featured image"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Use first content image as featured image, only if there is no featured "
+#~ "image"
+#~ msgstr ""
+#~ "Nutze das erste Bild im Inhalt als Beitragsbild, falls es noch kein "
+#~ "Beitragsbild gibt"

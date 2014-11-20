@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 8.2.2
+Stable tag: 8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,7 +72,7 @@ The implemented filters allow you to narrow down the action to only the posts an
 9. Filter by **tag**: Search posts by tag
 10. Filter by **parent page**: Search child pages by parent page
 
-= Automatic Default Featured Images =
+= Automatic Default Featured Images: Rules =
 
 **You can set rules for default featured images of posts easily.** Every time you insert a new post or save an existing post Quick Featured Images will look for a rule to add and to change the preset featured image to the saved post. 
 
@@ -89,6 +89,15 @@ You can define the rules based on
 The rules are easy to set: choose an image, a taxonomy, a value and save the settings. That's it. **You do not need to code.**
 
 You can add, change and delete every rule whenever you want. So you get an **unlimited and precise set of rules** for automatic default featured images in your website.
+
+= Automatic Default Featured Images: Options =
+
+You can switch between 
+
+1. **overwriting existing featured images** or 
+2. **keeping them unchanged**. 
+
+The latter setting is the default. The option is used every time a post is saved.
 
 = Additional columns in posts lists =
 
@@ -216,9 +225,17 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 8.3 =
+* Fixed bug in 'Preset Featured Images' which prevented to recognize the first content image
+* Improved algorithm for better detection of the id of the first content image
+* Improved SQL performance in 'Set, replace, delete'
+* Improved security by changing `(int)` to `absint()` for ID variables
+* Fixed typo in german translation
+
 = 8.2.2 =
 * Added rule at the presets to overwrite existing featured images or to keep them by default
 * Fixed bug at the presets where a rule based on a user could be ignored
+* Updated *.pot file and german translation
 
 = 8.2.1 =
 * Successfully tested with WordPress 4.0
@@ -376,6 +393,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 8.3 =
+Bugfixung and improvements for detecting the first image in post contents
 
 = 8.2.2 =
 Added rule at the presets to keep existing featured images. Please refine your preset rules if you use the "first content image rule"!
