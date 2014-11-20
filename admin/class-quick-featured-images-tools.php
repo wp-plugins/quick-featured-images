@@ -886,12 +886,14 @@ class Quick_Featured_Images_Tools {
 	 * @updated  3.0.2: corrected case filter_search
 	 * @updated  3.1: changed replace case, set merge of post types and custom post types as default
 	 * @updated  4.0: new filter_time
+	 * @updated  8.3: added argument 'no_found_rows' to speed up SQL query performance
 	 *
 	 * @return    array    the args
 	 */
 	private function get_query_args() {
 		// define default params
-		$args[ 'posts_per_page' ] =  -1; // find all matching posts, not only 10
+		$args[ 'posts_per_page' ] =  -1; // do not use pagination, return whole result at once
+		$args[ 'no_found_rows' ] = true; // since no pagination: tell WordPress not to run SQL_CALC_FOUND_ROWS on the SQL query; drastically speeding the query
 		$args[ 'orderby' ] = 'title';
 		$args[ 'order' ] = 'ASC';
 		$args[ 'ignore_sticky_posts' ] = true;
@@ -1052,7 +1054,7 @@ class Quick_Featured_Images_Tools {
 	 * @updated   4.0: improved performance with cache array
 	 * @updated   5.0: added action "assign_first_img"
 	 * @updated   5.1: added future image as column value for preview list
-	 * @updated   5.1.1: refactored lines around $this->get_image_id_by_url()
+	 * @updated   5.1.1: refactored lines around $this->get_first_content_image_id()
 	 * @updated   6.0: added action "assign_randomly"
 	 *
 	 * @return    array    affected posts
@@ -1066,7 +1068,7 @@ class Quick_Featured_Images_Tools {
 			absint( $this->used_thumbnail_height / 2 ) 
 		);
 		$attr = array( 'class' => 'attachment-thumbnail' );
-		// define caching arrays for better performance of calculating attachment images
+		// define caching arrays for better performance while calculating attachment images
 		$false_id = 'false_id'; // something to use as an array key
 		$current_featured_images = array();
 		$future_featured_images = array();
@@ -1148,7 +1150,7 @@ class Quick_Featured_Images_Tools {
 							// check if there is an existing featured image
 							$current_thumb_id = get_post_thumbnail_id( $post_id );
 							// search post content for embedded images and take the first found image
-							$future_thumb_id = $this->get_image_id_by_url( get_the_content() );
+							$future_thumb_id = $this->get_first_content_image_id( get_the_content() );
 							// if old thumb 
 							if ( $current_thumb_id ) {
 								// if new thumb + overwrite old thumb => new thumb
@@ -1344,7 +1346,7 @@ class Quick_Featured_Images_Tools {
 								}
 								if ( in_array( 'overwrite', $this->selected_options ) ) {
 									// preview old thumb + new thumb
-									$future_thumb_id = $this->get_image_id_by_url( get_the_content() );
+									$future_thumb_id = $this->get_first_content_image_id( get_the_content() );
 									if ( $future_thumb_id ) {
 										if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
 											// get the html code for featured image once
@@ -1364,7 +1366,7 @@ class Quick_Featured_Images_Tools {
 								// preview no old thumb + new thumb
 								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 								// try to get html of future thumbnail
-								$future_thumb_id = $this->get_image_id_by_url( get_the_content() );
+								$future_thumb_id = $this->get_first_content_image_id( get_the_content() );
 								if ( $future_thumb_id ) {
 									if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
 										// get the html code for featured image once
@@ -1468,50 +1470,59 @@ class Quick_Featured_Images_Tools {
 	}
 	
 	/**
-	 * Returns the post id of an uploaded image, else 0
-	 * Looks for internal images only, i.e. images from the 
-	 * media library and not images embedded by URL from 
-	 * external servers
+	 * Returns the id of the first image in the content, else 0
 	 *
 	 * @access   private
 	 * @since     5.0
 	 * @updated   5.1.1: refactored
 	 * @updated   7.0: improved performance by changing intval() to (int)
+	 * @updated   8.3: deleted detection for site url, added detection for id in img's class attribute
+	 * @updated   8.3: improved security by changing (int) to absint()
 	 *
 	 * @return    integer    the post id of the image
 	 */
-	private function get_image_id_by_url ( $content ) {
+	private function get_first_content_image_id ( $content ) {
 		// set variables
 		global $wpdb;
-		$thumb_id = 0;
-		$pat_find_img_src = '/<img.*?src=[\'"]([^\'"]+)[\'"][^>]*>/i';
 		// look for images in HTML code
-		preg_match_all( $pat_find_img_src, $content, $matches );
-		// if img elements found: try to get the first image's ID
-		if ( isset( $matches ) and 0 < count( $matches ) ) {
-			foreach ( $matches[ 1 ] as $url ) {
-				preg_match( '|' . get_site_url() . '|i', $url, $matches );
-				// if site-owned image
-				if ( isset( $matches ) and 0 < count( $matches ) ) {
+		preg_match_all( '/<img[^>]+>/i', $content, $all_img_tags );
+		if ( $all_img_tags ) {
+			foreach ( $all_img_tags[ 0 ] as $img_tag ) {
+				// find class attribute and catch its value
+				preg_match( '/<img.*?class\s*=\s*[\'"]([^\'"]+)[\'"][^>]*>/i', $img_tag, $img_class );
+				if ( $img_class ) {
+					// Look for the WP image id
+					preg_match( '/wp-image-([\d]+)/i', $img_class[ 1 ], $found_id );
+					// if first image id found: check whether is image
+					if ( $found_id ) {
+						$img_id = absint( $found_id[ 1 ] );
+						// if is image: return its id
+						if ( wp_get_attachment_image_src( $img_id ) ) {
+							return $img_id;
+						}
+					} // if(found_id)
+				} // if(img_class)
+				
+				// else: try to catch image id by its url as stored in the database
+				// find src attribute and catch its value
+				preg_match( '/<img.*?src\s*=\s*[\'"]([^\'"]+)[\'"][^>]*>/i', $img_tag, $img_src );
+				if ( $img_src ) {
 					// delete optional query string in img src
-					$url = preg_replace( '/([^?]+).*/', '\1', $url );
+					$url = preg_replace( '/([^?]+).*/', '\1', $img_src[ 1 ] );
 					// delete image dimensions data in img file name, just take base name and extension
 					$guid = preg_replace( '/(.+)-\d+x\d+\.(\w+)/', '\1.\2', $url );
 					// look up its ID in the db
-					$img_id = $wpdb->get_var( $wpdb->prepare( "SELECT `ID` FROM $wpdb->posts WHERE `guid` = '%s'", $guid ) );
-					// if it is available take its ID as new thumb id
-					if ( $img_id ) {
-						// finally we have an id
-						$thumb_id = (int) $img_id ;
-					}
-				} // if $matches
-				// stop loop, because we want only the first matching image of a post
-				if ( $thumb_id ) {
-					break;
-				}
-			} // foreach( $url )
-		} // if $matches
-		return $thumb_id;
+					$found_id = $wpdb->get_var( $wpdb->prepare( "SELECT `ID` FROM $wpdb->posts WHERE `guid` = '%s'", $guid ) );
+					// if first image id found: return it
+					if ( $found_id ) {
+						return absint( $found_id );
+					} // if(found_id)
+				} // if(img_src)
+			} // foreach(img_tag)
+		} // if(all_img_tags)
+		
+		// if nothing found: return 0
+		return 0;
 	}
 
 	/**
@@ -1572,6 +1583,7 @@ class Quick_Featured_Images_Tools {
 	 * @access   private
 	 * @since     1.0.0
 	 * @updated   7.0: improved performance by changing intval() to (int)
+	 * @updated   8.3: improved security by changing (int) to absint()
 	 *
 	 * @return    array    the post ids assigned with the thumbnail
 	 */
@@ -1583,7 +1595,7 @@ class Quick_Featured_Images_Tools {
 		// flatten results
 		if ( $results ) {
 			foreach ( $results as $r ) {
-				$post_ids[] = (int) $r[ 0 ] ;
+				$post_ids[] = absint( $r[ 0 ] );
 			}
 		}
 		if ( empty( $post_ids ) ) {
@@ -1609,7 +1621,7 @@ class Quick_Featured_Images_Tools {
 		// flatten results
 		if ( $results ) {
 			foreach ( $results as $r ) {
-				$post_ids[] = (int) $r[ 0 ] ;
+				$post_ids[] = absint( $r[ 0 ] );
 			}
 		}
 		return $post_ids;
@@ -1622,6 +1634,7 @@ class Quick_Featured_Images_Tools {
 	 * @since     2.0
 	 * @updated   2.0.2: revised SQL statement to more general expression with $wpdb
 	 * @updated   7.0: improved performance by changing intval() to (int)
+	 * @updated   8.3: improved security by changing (int) to absint()
 	 *
 	 * @return    array    the post ids assigned to given featured images
 	 */
@@ -1634,7 +1647,7 @@ class Quick_Featured_Images_Tools {
 			// flatten results
 			if ( $results ) {
 				foreach ( $results as $r ) {
-					$post_ids[] = (int) $r[ 0 ] ;
+					$post_ids[] = absint( $r[ 0 ] );
 				}
 			}
 		} // foreach()
@@ -1649,6 +1662,7 @@ class Quick_Featured_Images_Tools {
 	 * @updated   2.0: added intval()
 	 * @updated   3.1: do not return selected image if it is a featured image
 	 * @updated   7.0: improved performance by changing intval() to (int)
+	 * @updated   8.3: improved security by changing (int) to absint()
  	 *
 	 * @return    array    the image ids assigned to posts as featured images
 	 */
@@ -1660,7 +1674,7 @@ class Quick_Featured_Images_Tools {
 		// flatten results
 		if ( $results ) {
 			foreach ( $results as $r ) {
-				$image_ids[] = (int) $r[ 0 ] ;
+				$image_ids[] = absint( $r[ 0 ] );
 			}
 		}
 		return $image_ids;
@@ -2057,7 +2071,7 @@ class Quick_Featured_Images_Tools {
 	 * @return    integer    the id or 0
 	 */
 	private function get_sanitized_id( $key, $default = 0 ) {
-		if ( ( ! isset( $_REQUEST[ $key ] ) ) or empty( $_REQUEST[ $key ] ) or 0 > (int) $_REQUEST[ $key ]  ) {
+		if ( ( ! isset( $_REQUEST[ $key ] ) ) or empty( $_REQUEST[ $key ] ) or 0 > absint( $_REQUEST[ $key ] ) ) {
 			return $default;
 		} else {
 			return absint( sanitize_text_field( $_REQUEST[ $key ]  ) );
