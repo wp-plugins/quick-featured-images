@@ -97,6 +97,8 @@ class Quick_Featured_Images_Columns {
 	 * settings page and menu.
 	 *
 	 * @since     7.0
+	 *
+	 * @updated 8.3.1: sanitized recognition of key names, fixed bug on displaying undesired columns
 	 */
 	private function __construct() {
 
@@ -107,9 +109,8 @@ class Quick_Featured_Images_Columns {
 		$this->plugin_version = $plugin->get_plugin_version();
 		$this->settings_db_slug = $plugin->get_settings_db_slug();
 
-		// Load admin style sheet and JavaScript.
+		// Load admin style sheet
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
-		#add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 		// add featured image columns if desired
 		$filter_function = array( $this, 'add_thumbnail_column' );
@@ -118,42 +119,31 @@ class Quick_Featured_Images_Columns {
 		$this->stored_settings = get_option( $this->settings_db_slug, array() );
 
 		foreach ( $this->stored_settings as $key => $value ) {
-			if ( preg_match('/^show_(.+)_images$/', $key, $matches ) ) {
-				if ( '1' == $value ) {
+			if ( '1' == $value ) {
+				if ( preg_match('/^column_thumb_([a-z0-9_\-]+)$/', $key, $matches ) ) {
 					// make the following lines more readable
 					$post_type = $matches[ 1 ];
-					// add filter and action functions to show the additional column with images
-					// check with has_filter() to prevent multiple images in a column row
-					if ( 'posts' == $post_type or 'pages' == $post_type ) {
-						// use hooks for WP standard post types
-						$hook = sprintf( 'manage_%s_columns', $post_type );
-						if ( ! has_filter( $hook, $filter_function ) ) {
-							add_filter( $hook, $filter_function );
-						}
-						$hook = sprintf( 'manage_%s_custom_column', $post_type );
-						if ( ! has_action( $hook, $action_function ) ) {
-							add_action( $hook, $action_function, 10, 2 );
-						}
-					} else {
-						// use hooks for custom post types
-						$hook = sprintf( 'manage_%s_posts_columns', $post_type );
-						if ( ! has_filter( $hook, $filter_function ) ) {
-							add_filter( $hook, $filter_function );
-						}
-						if ( is_post_type_hierarchical( $post_type ) ) {
-							$hook = 'manage_pages_custom_column';
-							if ( ! has_action( $hook, $action_function ) ) {
-								add_action( $hook, $action_function, 10, 2 );
-							}
-						} else {
-							$hook = sprintf( 'manage_%s_posts_custom_column', $post_type );
-							if ( ! ( has_action( 'manage_posts_custom_column', $action_function ) or has_action( $hook, $action_function ) ) ) {
-								add_action( $hook, $action_function, 10, 2 );
-							}
-						} // if ( is_post_type_hierarchical )
-					} // if ( post type )
-				} // if ( value == 1 )
-			} // if ( preg_match() )
+					
+					// get the hook name for the columns filter
+					$hook = sprintf( 'manage_%s_posts_columns', $post_type );
+					
+					// add a column to list of desired post type
+					// sanitizing: check with has_filter() to prevent multiple columns in a row
+					if ( ! has_filter( $hook, $filter_function ) ) {
+						add_filter( $hook, $filter_function );
+					}
+					
+					// get the hook name for the column action
+					$hook = sprintf( 'manage_%s_posts_custom_column', $post_type );
+					
+					// add thumbnail in column per post
+					// sanitizing: check with has_filter() to prevent multiple contents in a column
+					if ( ! has_action( $hook, $action_function ) ) {
+						add_action( $hook, $action_function, 10, 2 );
+					}
+					
+				} // if ( preg_match() )
+			} // if ( value == 1 )
 		} // foreach( stored_settings )
 
 		// style for thumbnail column
@@ -223,11 +213,11 @@ class Quick_Featured_Images_Columns {
 	 *
 	 * @since     7.0
 	 *
-	 * @return    null    
+	 * @return    array	list of columns    
 	 */
     public function add_thumbnail_column( $cols ) {
 		$text = 'Featured Image';
-        $cols[ $this->column_name ] = __( $text );
+		$cols[ $this->column_name ] = __( $text );
         return $cols;
     }
 	
@@ -236,7 +226,7 @@ class Quick_Featured_Images_Columns {
 	 *
 	 * @since     7.0
 	 *
-	 * @return    null    
+	 * @return    extended list of columns    
 	 */
     public function display_thumbnail_in_column( $column_name, $post_id ) {
 		/*
@@ -257,7 +247,8 @@ class Quick_Featured_Images_Columns {
 			if ( $thumbnail_id ) {
 				echo wp_get_attachment_image( $thumbnail_id, array( $width, $height ) );
 			} else {
-				echo __( 'No Image' );
+				$text = 'No Image';
+				echo __( $text );
 			}
 		}
     }
