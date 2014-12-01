@@ -14,7 +14,7 @@ if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 	<p><?php _e( 'Whatever you select: You can refine your choice on the next page.', $this->plugin_slug ); ?></p>
 	<fieldset>
 		<legend class="screen-reader-text"><span><?php _e( 'Select action', $this->plugin_slug ); ?></span></legend>
-		<h4><?php _e( 'Actions with a selected image', $this->plugin_slug ); ?></h4>
+		<h4><?php _e( 'Actions with a single image', $this->plugin_slug ); ?></h4>
 		<p><?php _e( 'These actions require to select an image with the following button.', $this->plugin_slug ); ?></p>
 <?php 
 foreach ( $this->valid_actions as $name => $label ) {
@@ -63,7 +63,7 @@ if ( $this->selected_image_id ) {
 			</div>
 		</div>
 
-		<h4><?php _e( 'Actions with multiple selected images', $this->plugin_slug ); ?></h4>
+		<h4><?php _e( 'Actions with multiple images', $this->plugin_slug ); ?></h4>
 		<p><?php _e( 'These actions require at least one selected image with the following button.', $this->plugin_slug ); ?></p>
 <?php
 foreach ( $this->valid_actions_multiple_images as $name => $label ) {
@@ -94,7 +94,7 @@ if ( $this->selected_multiple_image_ids ) {
 <?php
 } // if ( $this->selected_multiple_image_ids )
 ?>
-		<h4><?php _e( 'Actions without a selected image', $this->plugin_slug ); ?></h4>
+		<h4><?php _e( 'Actions without any image', $this->plugin_slug ); ?></h4>
 		<p><?php _e( 'These actions do not require a selected image.', $this->plugin_slug ); ?></p>
 <?php
 foreach ( $this->valid_actions_without_image as $name => $label ) {

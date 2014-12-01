@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-10-21 18:01+0100\n"
-"PO-Revision-Date: 2014-10-21 18:01+0100\n"
+"POT-Creation-Date: 2014-11-29 00:29+0100\n"
+"PO-Revision-Date: 2014-11-29 00:30+0100\n"
 "Language-Team:  <m.stehle@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -709,7 +709,7 @@ msgid "Select action"
 msgstr ""
 
 #: admin/views/form_start.php:17
-msgid "Actions with a selected image"
+msgid "Actions with a single image"
 msgstr ""
 
 #: admin/views/form_start.php:18
@@ -741,7 +741,7 @@ msgid "1. Go to the media library. 2. Move the mouse over the desired image. Fur
 msgstr ""
 
 #: admin/views/form_start.php:66
-msgid "Actions with multiple selected images"
+msgid "Actions with multiple images"
 msgstr ""
 
 #: admin/views/form_start.php:67
@@ -757,7 +757,7 @@ msgid "Choose Images"
 msgstr ""
 
 #: admin/views/form_start.php:97
-msgid "Actions without a selected image"
+msgid "Actions without any image"
 msgstr ""
 
 #: admin/views/form_start.php:98

@@ -3,8 +3,8 @@ Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
 Tags: add, assign, associate, attach, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user
 Requires at least: 3.8
-Tested up to: 4.0
-Stable tag: 8.3
+Tested up to: 4.0.1
+Stable tag: 8.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,13 +22,13 @@ The plugin 'Quick Featured Images' helps you bulk managing featured images, sett
 
 = What users said =
 
+* **The Best Plugin I ever saw - I would like to rate it 10/5** by MovieMagia on November 25, 2014
 * **Number 2** in [Top 5 WordPress plugins van de maand september](http://webtalis.nl/top-5-wordpress-plugins-van-de-maand-september/) by Webtalis on September 5, 2014
 * **"Literally 5 minutes changed over 300 posts! Brilliant!!!!"** by Bob on September 4, 2014
 * **"It's a life saver ... and is ridiculously fast!"** by Orlof on August 26, 2014
 * **Number 6** in [Best 10 Free WordPress Plugins of the August 2014](https://managewp.com/best-free-wordpress-plugins-august-2014) by Manage WP Blog on August 18, 2014
 * **"Finally! It's about time somebody got it right!"** by yallways on August 3, 2014
 * **"Sooo damn convenient!"** by Benbodhi on July 2, 2014
-* **"With one word, it is 'great'"** by Can on June 25, 2014
 * **"You've saved me a lot of time!"** by Celebrianne on May 31, 2014
 
 See more comments under [Reviews](http://wordpress.org/support/view/plugin-reviews/quick-featured-images).
@@ -225,6 +225,12 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 8.3.1 =
+* Fixed bug which displayed undesired thumbnail columns. Please reset your image column settings.
+* Tested successfully with WordPress 4.0.1
+* Revised headlines in start page of 'Set, replace, remove' for better comprehension
+* Updated *.pot file and german translation
+
 = 8.3 =
 * Fixed bug in 'Preset Featured Images' which prevented to recognize the first content image
 * Improved algorithm for better detection of the id of the first content image
@@ -394,8 +400,11 @@ Fixed an insufficient security check which prevented to set a featured image
 
 == Upgrade Notice ==
 
+= 8.3.1 =
+Tiny text revision and fixed bug which displayed undesired thumbnail columns. Please reset your image column settings.
+
 = 8.3 =
-Bugfixung and improvements for detecting the first image in post contents
+Bugfixing and improvements for detecting the first image in post contents
 
 = 8.2.2 =
 Added rule at the presets to keep existing featured images. Please refine your preset rules if you use the "first content image rule"!

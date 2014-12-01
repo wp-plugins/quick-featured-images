@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2014-10-21 18:01+0100\n"
-"PO-Revision-Date: 2014-11-18 21:51+0100\n"
+"POT-Creation-Date: 2014-11-29 00:29+0100\n"
+"PO-Revision-Date: 2014-11-29 00:30+0100\n"
 "Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
 "Language-Team:  <m.stehle@gmx.de>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.7\n"
+"X-Generator: Poedit 1.6.10\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
 "esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
 "X-Poedit-Basepath: ../\n"
@@ -42,11 +42,6 @@ msgstr ""
 #, php-format
 msgid "Welcome to %s! You can find the plugin at %s."
 msgstr "Willkommen zu %s! Du kannst das Plugin finden unter %s."
-
-#: admin/class-quick-featured-images-columns.php:260
-#: admin/views/form_confirm.php:29 admin/views/section_results.php:6
-msgid "No Image"
-msgstr "Kein Bild"
 
 #: admin/class-quick-featured-images-defaults.php:191
 msgid "Changes saved."
@@ -84,7 +79,7 @@ msgstr "Zeige die zusätzliche Spalte für Beitragsbilder in Übersichten der"
 msgid "Posts list with image column"
 msgstr "Inhaltsliste mit Bildspalte"
 
-#: admin/class-quick-featured-images-settings.php:505
+#: admin/class-quick-featured-images-settings.php:507
 msgid ""
 "Activate the checkboxes at each post type to show the extra columns in the "
 "post lists."
@@ -92,7 +87,7 @@ msgstr ""
 "Aktiviere die Checkboxen bei jedem Inhaltstyp um die zusätzliche Spalte in "
 "den Beitragsübersichten anzuzeigen."
 
-#: admin/class-quick-featured-images-settings.php:515
+#: admin/class-quick-featured-images-settings.php:517
 msgid ""
 "The additional columns give you a quick overview about all used featured "
 "images for every post."
@@ -298,33 +293,33 @@ msgstr "Gebe einen gültigen Wert in das Eingabefeld ein."
 msgid "Type in values stored by WordPress."
 msgstr "Gebe von WordPress gespeicherte Werte ein."
 
-#: admin/class-quick-featured-images-tools.php:1294
-#: admin/class-quick-featured-images-tools.php:1326
-#: admin/class-quick-featured-images-tools.php:1383
-#: admin/class-quick-featured-images-tools.php:1430
-#: admin/class-quick-featured-images-tools.php:1455
+#: admin/class-quick-featured-images-tools.php:1296
+#: admin/class-quick-featured-images-tools.php:1328
+#: admin/class-quick-featured-images-tools.php:1385
+#: admin/class-quick-featured-images-tools.php:1432
+#: admin/class-quick-featured-images-tools.php:1457
 msgid "written on"
 msgstr "geschrieben am"
 
-#: admin/class-quick-featured-images-tools.php:1295
-#: admin/class-quick-featured-images-tools.php:1327
-#: admin/class-quick-featured-images-tools.php:1384
-#: admin/class-quick-featured-images-tools.php:1431
-#: admin/class-quick-featured-images-tools.php:1456
+#: admin/class-quick-featured-images-tools.php:1297
+#: admin/class-quick-featured-images-tools.php:1329
+#: admin/class-quick-featured-images-tools.php:1386
+#: admin/class-quick-featured-images-tools.php:1433
+#: admin/class-quick-featured-images-tools.php:1458
 msgid "by"
 msgstr "von"
 
-#: admin/class-quick-featured-images-tools.php:2253
+#: admin/class-quick-featured-images-tools.php:2267
 msgid "Set, replace, remove"
 msgstr "Setzen, tauschen, löschen"
 
-#: admin/class-quick-featured-images-tools.php:2264
+#: admin/class-quick-featured-images-tools.php:2278
 msgid "Bulk set, replace and remove featured images for existing posts"
 msgstr ""
 "Massenweises Hinzufügen, Ersetzen und Entfernen von Beitragsbildern für "
 "bestehende Inhalte"
 
-#: admin/class-quick-featured-images-tools.php:2380
+#: admin/class-quick-featured-images-tools.php:2394
 msgid "Bulk set as featured image"
 msgstr "Als Beitragsbild setzen"
 
@@ -569,6 +564,10 @@ msgstr "%d Treffer gefunden"
 #: admin/views/form_confirm.php:28 admin/views/section_results.php:5
 msgid "Details"
 msgstr "Details"
+
+#: admin/views/form_confirm.php:29 admin/views/section_results.php:6
+msgid "No Image"
+msgstr "Kein Bild"
 
 #: admin/views/form_confirm.php:30 admin/views/section_defaults.php:17
 #: admin/views/section_results.php:8
@@ -859,8 +858,8 @@ msgid "Select action"
 msgstr "Aktion auswählen"
 
 #: admin/views/form_start.php:17
-msgid "Actions with a selected image"
-msgstr "Aktionen mit einem ausgewähltem Bild"
+msgid "Actions with a single image"
+msgstr "Aktionen mit einem einzelnen Bild"
 
 #: admin/views/form_start.php:18
 msgid "These actions require to select an image with the following button."
@@ -909,8 +908,8 @@ msgstr ""
 "setzen&quot;. 3. Nach Klick darauf kannst du im Plugin fortfahren."
 
 #: admin/views/form_start.php:66
-msgid "Actions with multiple selected images"
-msgstr "Aktionen mit mehreren ausgewählten Bildern"
+msgid "Actions with multiple images"
+msgstr "Aktionen mit mehreren Bildern"
 
 #: admin/views/form_start.php:67
 msgid ""
@@ -932,8 +931,8 @@ msgid "Choose Images"
 msgstr "Bilder auswählen"
 
 #: admin/views/form_start.php:97
-msgid "Actions without a selected image"
-msgstr "Aktionen ohne ein ausgewähltes Bild"
+msgid "Actions without any image"
+msgstr "Aktionen ohne Bild"
 
 #: admin/views/form_start.php:98
 msgid "These actions do not require a selected image."
