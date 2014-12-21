@@ -514,7 +514,7 @@ class Quick_Featured_Images_Settings {
 	* @since   7.0
 	*/
 	public function print_section_1st_section () {
-		printf( "<p>%s</p>\n", __( 'The additional columns give you a quick overview about all used featured images for every post.', $this->plugin_slug ) );
+		printf( "<p>%s</p>\n", __( 'The additional columns give you a quick overview about all used featured images for every post. The Featured Image column is sortable.', $this->plugin_slug ) );
 	}
 
 }
