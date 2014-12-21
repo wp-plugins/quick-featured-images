@@ -6,8 +6,10 @@ if ( $results ) {
 	$label_no_image   = __( 'No Image' );
 	$label_current_fi = __( 'Current Featured Image', $this->plugin_slug );
 	$label_number 	  = __( 'No.', $this->plugin_slug );
-	$label_success 	  = __( 'Changed successfully', $this->plugin_slug );
+	$label_changed 	  = __( 'Changed successfully', $this->plugin_slug );
 	$label_unchanged  = sprintf( '<span class="failure">%s</span>', __( 'Unchanged', $this->plugin_slug ) );
+	$label_removed 	  = __( 'Image removed successfully from post', $this->plugin_slug );
+	$label_unremoved  = sprintf( '<span class="failure">%s</span>', __( 'Image not removed from post', $this->plugin_slug ) );
 ?> 
 <p><?php _e( 'You can take a view to the post in a new window by clicking on its link in the list.', $this->plugin_slug ); ?></p>
 <table class="widefat">
@@ -25,7 +27,11 @@ if ( $results ) {
 		// check if no featured image for the post, else add default
 		$img = $result[ 2 ] ? $result[ 2 ] : $label_no_image;
 		// get the result message per post
-		$msg = $result[ 3 ] ? $label_success : $label_unchanged;
+		$msg = $result[ 3 ] ? $label_changed : $label_unchanged;
+		/*if ( isset( $result[ 4 ] ) ) {
+			$msg .= '<br />';
+			$msg .= $result[ 4 ] ? $label_removed : $label_unremoved;
+		}*/
 		// alternating row colors with error class if error
 		$classname = $result[ 3 ] ? '' : 'form-invalid';
 		if ( 0 == $c % 2 ) { // if $c is divisible by 2 (so the modulo is 0)

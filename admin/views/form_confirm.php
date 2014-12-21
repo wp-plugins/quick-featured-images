@@ -101,6 +101,11 @@ foreach ( $this->selected_post_types as $v ) {
 		<input type="hidden" name="post_types[]" value="<?php echo $v; ?>" />
 <?php 
 }
+foreach ( $this->selected_mime_types as $v ) {
+?>
+		<input type="hidden" name="mime_types[]" value="<?php echo $v; ?>" />
+<?php 
+}
 if ( $this->selected_custom_post_types ) {
 	foreach ( $this->selected_custom_post_types as $v ) {
 ?>

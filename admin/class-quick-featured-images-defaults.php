@@ -575,7 +575,9 @@ class Quick_Featured_Images_Defaults {
 		// 1. Image by first embedded content image
 		if ( isset( $settings[ 'use_first_image_as_default' ] ) ) {
 			// get first content image
-			$thumb_id = $this->get_first_content_image_id( $post->post_content );
+			#if ( in_array( $post->post_type, $settings[ 'allowed_post_types' ] ) {
+				$thumb_id = $this->get_first_content_image_id( $post->post_content );
+			#}
 		} // if(use_first_image_as_default)
 		// determine post's properties matched with specified rules
 		if ( ! $thumb_id and isset( $settings[ 'rules' ] ) ) {

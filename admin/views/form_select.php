@@ -65,17 +65,35 @@ if ( 'replace' == $this->selected_action ) {
 		<legend><span><?php _e( 'Process Options', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'You can control the process with the following options.', $this->plugin_slug ); ?></p>
 <?php 
-		$key = 'overwrite';
-		$label = $this->valid_options[ $key ];
-		$desc = __( 'Overwrite existing featured images with new ones', $this->plugin_slug );
-		//foreach ( $this->valid_options as $key => $label ) {
+			$key = 'overwrite';
+			$label = $this->valid_options[ $key ];
+			$desc = __( 'Overwrite existing featured images with new ones', $this->plugin_slug );
+?>
+		<p>
+			<input type="checkbox" id="<?php printf( 'th_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
+			<label for="<?php printf( 'th_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
+		</p>
+<?php 
+			$key = 'orphans_only';
+			$label = $this->valid_options[ $key ];
+			$desc = __( 'Posts with featured images will be ignored, even if the Overwrite option is checked ', $this->plugin_slug );
 ?>
 		<p>
 			<input type="checkbox" id="<?php printf( 'th_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
 			<label for="<?php printf( 'th_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
 		</p>
 <?php
-		//} // foreach()
+			/*if ( 'assign_first_img' == $this->selected_action ) {
+				$key = 'remove_first_img';
+				$label = $this->valid_options[ $key ];
+				$desc = __( 'Remove the first image from the post content after this image was set as featured image', $this->plugin_slug );
+?>
+		<p>
+			<input type="checkbox" id="<?php printf( 'th_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
+			<label for="<?php printf( 'th_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
+		</p>
+<?php
+			} */ // if(remove_first_img)
 ?>
 	</fieldset>
 <?php
@@ -92,6 +110,9 @@ if ( 'replace' == $this->selected_action ) {
 		switch ( $key ) {
 			case 'filter_post_types':
 				$desc = __( 'Search by post type. By default all posts, pages and custom post types will be affected.', $this->plugin_slug );
+				break;
+			case 'filter_mime_types':
+				$desc = __( 'Search for audios and videos. This filter will ignore all other post types automatically.', $this->plugin_slug );
 				break;
 			case 'filter_status':
 				$desc = __( 'Search by several statuses (published, draft, private etc.). By default all statuses will be affected.', $this->plugin_slug );

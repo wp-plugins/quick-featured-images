@@ -1,10 +1,10 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
-Tags: add, assign, associate, attach, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user
+Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, mime, multimedia, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
 Requires at least: 3.8
-Tested up to: 4.0.1
-Stable tag: 8.3.1
+Tested up to: 4.1
+Stable tag: 9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,13 +16,14 @@ Your time-saving Swiss Army Knife for featured images: Set, replace and delete t
 
 The plugin 'Quick Featured Images' helps you bulk managing featured images, setting automatic default featured images to save your time. 
 
-1. It **sets, replaces and removes featured images for hundreds of posts, pages and custom post types in one go**. You can run it over all contens or let it work only to desired contents by using flexible filters.
-2. It displays assigned features images in an **extra image column in lists of posts, pages and custom post types** if they support thumbnails. So you get a quick overview about used thumbnails of all posts and pages.
+1. It **sets, replaces and removes featured images for hundreds of posts, pages, audios, videos and custom post types in one go**. You can run it over all contens or let it work only to desired contents by using flexible filters.
+2. It displays assigned features images in an **additional sortable image column in lists of posts, pages and custom post types** if they support thumbnails. So you get a quick overview about used thumbnails of all posts and pages.
 3. It enables you to **define presets for automatic default featured images** for future posts as many as you need. You can set **accurate rules based on post properties**.
 
 = What users said =
 
-* **The Best Plugin I ever saw - I would like to rate it 10/5** by MovieMagia on November 25, 2014
+* **"You can tell that a lot of hard work went into this high quality plugin."** by dfitek on December 8, 2014
+* **"The Best Plugin I ever saw - I would like to rate it 10/5"** by MovieMagia on November 25, 2014
 * **Number 2** in [Top 5 WordPress plugins van de maand september](http://webtalis.nl/top-5-wordpress-plugins-van-de-maand-september/) by Webtalis on September 5, 2014
 * **"Literally 5 minutes changed over 300 posts! Brilliant!!!!"** by Bob on September 4, 2014
 * **"It's a life saver ... and is ridiculously fast!"** by Orlof on August 26, 2014
@@ -62,15 +63,16 @@ If there would be no filters Quick Featured Images would affect all posts and pa
 The implemented filters allow you to narrow down the action to only the posts and pages you want to modify. The built-in filters are:
 
 1. Filter by **post type**: Search by post types. By **default all** posts, pages and custom post types will be affected
-2. Filter by **status**: Search by several statuses (published, draft, private etc.). By **default all** statuses will be affected
-3. Filter by **search**: Search by search term
-4. Filter by **time**: Search by time specifications
-5. Filter by **author**: Search by author
-6. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
-7. Filter by **featured image size**: Search for small featured images below a given size
-8. Filter by **category**: Search posts by category
-9. Filter by **tag**: Search posts by tag
-10. Filter by **parent page**: Search child pages by parent page
+2. Filter by **multimedia type**: Search for audio and video files
+3. Filter by **status**: Search by several statuses (published, draft, private etc.). By **default all** statuses will be affected
+4. Filter by **search**: Search by search term
+5. Filter by **time**: Search by time specifications
+6. Filter by **author**: Search by author
+7. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
+8. Filter by **featured image size**: Search for small featured images below a given size
+9. Filter by **category**: Search posts by category
+10. Filter by **tag**: Search posts by tag
+11. Filter by **parent page**: Search child pages by parent page
 
 = Automatic Default Featured Images: Rules =
 
@@ -99,9 +101,11 @@ You can switch between
 
 The latter setting is the default. The option is used every time a post is saved.
 
-= Additional columns in posts lists =
+= Additional sortable image column in posts lists =
 
-Quick Featured Images adds a column in posts lists. The additional column shows the currently assigned featured image of each post. With that you can get a **quick overview about all used images**. You can also see posts with no featured image at a glance.
+Quick Featured Images adds a new column in posts lists. The additional column shows the currently assigned featured image of each post. The new column called 'Featured Image' is sortable by the image ID.
+
+With that column you can get a **quick overview about all used images**. You can also see posts with no featured image at a glance.
 
 Under **'Featured Images'** &gt; **'Image Columns'** you can switch on and off the additional image column for every single post type, even custom post types if they support thumbnails.
 
@@ -225,8 +229,20 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 9.0 =
+* Tested successfully with WP 4.1, especially the improved queries
+* Added in 'Set, replace, remove': new filter 'Multimedia File Filter' for audio and video file types
+* Added in 'Set, replace, remove': option to ignore posts with featured images and consider only posts without any featured image
+* Added in posts lists: Featured Image columns in posts lists are now sortable by image
+* Fixed in 'Set, replace, remove': if no post type was selected in the post type filter all posts were returned as result; now no posts are returned as expected
+* Fixed in 'Set, replace, remove': if a post had no title the link to this post was missing in the result lists; now a link with default '(no title)' is displayed
+* Fixed in 'Set, replace, remove': if an image and the action 'Add first post image' were selected the design on the following pages was destroyed
+* Improved performance in 'Set, replace, remove' for the result lists
+* Changed sidebar content
+* Updated *.pot file and german translation
+
 = 8.3.1 =
-* Fixed bug which displayed undesired thumbnail columns. Please reset your image column settings.
+* Fixed in 'Image Columns': bug which displayed undesired thumbnail columns. Please reset your image column settings.
 * Tested successfully with WordPress 4.0.1
 * Revised headlines in start page of 'Set, replace, remove' for better comprehension
 * Updated *.pot file and german translation
@@ -399,6 +415,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 9.0 =
+Tested successfully with WP 4.1, added filter for audio and video file types in 'Set, replace, remove', made Featured Image column sortable by image, fixed minor bugs.
 
 = 8.3.1 =
 Tiny text revision and fixed bug which displayed undesired thumbnail columns. Please reset your image column settings.
