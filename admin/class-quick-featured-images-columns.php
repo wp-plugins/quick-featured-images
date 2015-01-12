@@ -248,6 +248,7 @@ class Quick_Featured_Images_Columns {
 	 * Print the featured image in the column
 	 *
 	 * @since     7.0
+	 * @updated 9.1: revised label text for WP 4.1
 	 *
 	 * @return    array	extended list of columns    
 	 */
@@ -270,7 +271,7 @@ class Quick_Featured_Images_Columns {
 			if ( $thumbnail_id ) {
 				echo wp_get_attachment_image( $thumbnail_id, array( $width, $height ) );
 			} else {
-				$text = 'No Image';
+				$text = 'No image set';
 				echo __( $text );
 			}
 		}

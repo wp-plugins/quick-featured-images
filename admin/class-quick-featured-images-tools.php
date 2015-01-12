@@ -504,6 +504,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
      * @updated   5.0: added action "take first img", added snippet form_back_to_selection
      * @updated   5.1: added skip of refine page if user has not selected a filter
      * @updated   6.0: refactored if-branches, added selection of multiple images
+     * @updated   9.1: fixed wrong hilited label in process bar when user skips filters (moved display_header())
 	 *
 	 */
 	public function main() {
@@ -511,8 +512,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		$this->set_default_values();
 		// get current step
 		$this->selected_step = $this->get_sanitized_step();
-		// print header
-		$this->display_header();
 		#$this->dambedei($_REQUEST);
 		#$this->dambedei($_SERVER);
 		/*
@@ -520,6 +519,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		 */
 		// no action and image required, just the start page
 		if ( 'start' == $this->selected_step ) {
+			// print header
+			$this->display_header();
 			include_once( 'views/form_start.php' );
 		} else {
 			// get user selected action
@@ -566,6 +567,9 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 						$this->is_skip_refine = true;
 					}
 
+					// print header
+					$this->display_header();
+					// print content based of process
 					switch ( $this->selected_step ) {
 						case 'select':
 							if ( $this->is_error_no_old_image ) {
@@ -653,9 +657,10 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		);
 		// process options
 		$this->valid_options = array(
-			'overwrite'        => __( 'Overwrite featured images', $this->plugin_slug ),
-			'remove_first_img' => __( 'Remove first image from post content', $this->plugin_slug ),
-			'orphans_only'     => __( 'Consider only posts without any featured image', $this->plugin_slug ),
+			'overwrite'         => __( 'Overwrite featured images', $this->plugin_slug ),
+			'remove_first_img'  => __( 'Remove first image from post content', $this->plugin_slug ),
+			'orphans_only'      => __( 'Consider only posts without any featured image', $this->plugin_slug ),
+			'gallery_first_img' => __( 'Take first gallery image if no content image found', $this->plugin_slug ),
 		);
 		// actions
 		$this->valid_actions = array(
@@ -699,12 +704,22 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 			'video' => __( 'Video files', $this->plugin_slug ),
 		);
 		// statuses
+		$text             = 'Private';
+		$label_private    = _x( $text, 'post' );
+		$text             = 'Published';
+		$label_publish    = _x( $text, 'post' );
+		$text             = 'Scheduled';
+		$label_future     = _x( $text, 'post' );
+		$text             = 'Pending';
+		$label_pending    = _x( $text, 'post' );
+		$text             = 'Draft';
+		$label_draft      = _x( $text, 'post' );
 		$this->valid_statuses = array(
-			'publish' => __( 'Published: already published', $this->plugin_slug ),
-			'pending' => __( 'Pending review: waiting for reviews', $this->plugin_slug ),
-			'draft'   => __( 'Draft: saved as draft', $this->plugin_slug ),
-			'future'  => __( 'Scheduled: will be published in the future', $this->plugin_slug ),
-			'private' => __( 'Private: visible only to users who are logged in', $this->plugin_slug )
+			'publish' => $label_publish,
+			'pending' => $label_pending,
+			'draft'   => $label_draft,
+			'future'  => $label_future,
+			'private' => $label_private
 		);
 		// time and dates
 		$this->valid_date_queries = array(
@@ -804,8 +819,12 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 *
 	 * @access   private
 	 * @since    1.0.0
-}	 */
+     * @updated   9.1: added header to fixed bug in process bar when user skips filters
+	 */
 	private function display_error( $reason, $value_name ) {	
+		// print header
+		$this->display_header();
+		// print error message
 		switch ( $reason ) {
 			case 'missing_input_value':
 				$msg = sprintf( __( 'The input field %s is empty.', $this->plugin_slug ), $value_name );
@@ -1112,10 +1131,11 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 * @updated   5.1: added future image as column value for preview list
 	 * @updated   5.1.1: refactored lines around $this->get_first_content_image_id()
 	 * @updated   6.0: added action "assign_randomly"
-	 * @updated   9.0: fixed case of empty post title with default title
 	 * @updated   9.0: change call of get_first_content_image_id() to get_first_image_id()
 	 * @updated   9.0: improved performance by calling in_array() only once
 	 * @updated   9.0: added option 'orphans_only'
+	 * @updated   9.1: added post type and post status for preview list
+	 * @updated   9.1: a bit more performance in preview loops by moving translations to form_confirm.php
 	 *
 	 * @return    array    affected posts
 	 */
@@ -1134,9 +1154,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		$future_featured_images = array();
 		$current_featured_images[ $false_id ] = false;
 		$future_featured_images[ $false_id ] = false;
-		// define default post title
-		$default_title = '(no title)';
-		$default_title = __( $default_title );
 		// The Query
 		$the_query = new WP_Query( $this->get_query_args() );
 		//printf( '<p>%s</p>', $the_query->request ); // just for debugging
@@ -1166,6 +1183,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// do the task
 								$success = set_post_thumbnail( $post_id, $thumb_id );
 							}
+							// get html for featured image for check
+							$thumb_id = get_post_thumbnail_id( $post_id );
 							// if existing featured image
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
@@ -1176,15 +1195,10 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// nothing changed
 								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
+								get_the_title(),
 								$current_featured_images[ $thumb_id ],
 								$success 
 							);
@@ -1192,8 +1206,9 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 						break;
 					case 'assign_first_img':
 						$do_overwriting = in_array( 'overwrite', $this->selected_options );
-						$do_removal = in_array( 'remove_first_img', $this->selected_options );
+						#$do_removal = in_array( 'remove_first_img', $this->selected_options );
 						$orphans_only = in_array( 'orphans_only', $this->selected_options );
+						$find_gallery_img = in_array( 'gallery_first_img', $this->selected_options );
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
 							$success = false;
@@ -1211,13 +1226,13 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// get the post content once
 								$post_content = get_the_content();
 								// get the id of the first content image, else 0
-								$thumb_id = $this->get_first_image_id( $post_id, $post_content );
+								$thumb_id = $this->get_first_image_id( $post_id, $post_content, $find_gallery_img );
 								// if first image found
 								if ( $thumb_id ) {
 									// do the task
 									$success = set_post_thumbnail( $post_id, $thumb_id );
 									// remove first image from post content if desired and if the featured image was set successfully
-									if ( $success and $do_removal ) {
+									/*if ( $success and $do_removal ) {
 										// get the new content without first image
 										$post_content = $this->remove_first_post_image( $post_content );
 										// store new post content, in case of failure return 0
@@ -1225,9 +1240,11 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 										if ( $returned_id == $post_id ) {
 											$success_update = true;
 										}
-									} // if(success and remove_first_img)
+									} // if(success and remove_first_img)*/
 								} // if(thumb_id)
 							} // if ( ! $thumb_id or $do_overwriting )
+							// get html for featured image for check
+							$thumb_id = get_post_thumbnail_id( $post_id );
 							// if existing featured image
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
@@ -1238,15 +1255,10 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// nothing changed
 								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
+								get_the_title(),
 								$current_featured_images[ $thumb_id ],
 								$success,
 								$success_update
@@ -1275,6 +1287,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// do the task
 								$success = set_post_thumbnail( $post_id, $thumb_id );
 							}
+							// get html for featured image for check
+							$thumb_id = get_post_thumbnail_id( $post_id );
 							// if existing featured image
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
@@ -1285,15 +1299,10 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// nothing changed
 								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
+								get_the_title(),
 								$current_featured_images[ $thumb_id ],
 								$success 
 							);
@@ -1307,7 +1316,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							$post_id = get_the_ID();
 							// do the task
 							$success = set_post_thumbnail( $post_id, $this->selected_image_id );
-							// get new featured image (this is also a test of successful setting the featured image)
+							// get html for featured image for check
 							$thumb_id = get_post_thumbnail_id( $post_id );
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
@@ -1318,15 +1327,10 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// nothing changed
 								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
+								get_the_title(),
 								$current_featured_images[ $thumb_id ],
 								$success 
 							);
@@ -1351,15 +1355,10 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// nothing changed
 								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
+								get_the_title(),
 								$current_featured_images[ $thumb_id ],
 								$success
 							);
@@ -1410,25 +1409,23 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 								}
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, post date, post author, current image html, future image html
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
-								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
-								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								get_the_title(),
+								get_the_date(),
+								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
 								$future_featured_images[ $future_thumb_id ],
+								get_post_status(),
+								get_post_type(),
 							);
 						} // while()
 						break;
 					case 'assign_first_img':
 						$do_overwriting = in_array( 'overwrite', $this->selected_options );
 						$orphans_only = in_array( 'orphans_only', $this->selected_options );
+						$find_gallery_img = in_array( 'gallery_first_img', $this->selected_options );
 						while ( $the_query->have_posts() ) {
 							$the_query->the_post();
 							// get the post id once
@@ -1446,7 +1443,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								}
 								if ( $do_overwriting ) {
 									// preview old thumb + new thumb
-									$future_thumb_id = $this->get_first_image_id( $post_id, get_the_content() );
+									$future_thumb_id = $this->get_first_image_id( $post_id, get_the_content(), $find_gallery_img );
 									if ( $future_thumb_id ) {
 										// get thumbnail html if not yet got
 										if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
@@ -1466,7 +1463,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// preview no old thumb + new thumb
 								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 								// try to get html of future thumbnail
-								$future_thumb_id = $this->get_first_image_id( $post_id, get_the_content() );
+								$future_thumb_id = $this->get_first_image_id( $post_id, get_the_content(), $find_gallery_img );
 								if ( $future_thumb_id ) {
 									// get thumbnail html if not yet got
 									if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
@@ -1478,19 +1475,16 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
 								} // if $future_thumb_id
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, post date, post author, current image html, future image html
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
-								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
-								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								get_the_title(),
+								get_the_date(),
+								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
 								$future_featured_images[ $future_thumb_id ],
+								get_post_status(),
+								get_post_type(),
 							);
 						} // while()
 						break;
@@ -1536,19 +1530,16 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 								}
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, post date, post author, current image html, future image html
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
-								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
-								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								get_the_title(),
+								get_the_date(),
+								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
 								$future_featured_images[ $future_thumb_id ],
+								get_post_status(),
+								get_post_type(),
 							);
 						} // while()
 						break;
@@ -1573,19 +1564,16 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
 								$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, post date, post author, current image html, future image html
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
-								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
-								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								get_the_title(),
+								get_the_date(),
+								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
 								$future_featured_images[ $future_thumb_id ],
+								get_post_status(),
+								get_post_type(),
 							);
 						} // while()
 						break;
@@ -1603,19 +1591,16 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							} else {
 								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 							}
-							// get title, else default title
-							$post_title = get_the_title();
-							if ( ! $post_title ) {
-								$post_title = $default_title;
-							}
 							// store edit link, post title, post date, post author, current image html, future image html
 							$results[] = array( 
 								get_edit_post_link(), 
-								$post_title,
-								sprintf( '%s %s', __( 'written on', $this->plugin_slug ), get_the_date() ),
-								sprintf( '%s %s', __( 'by', $this->plugin_slug ), get_the_author() ),
+								get_the_title(),
+								get_the_date(),
+								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
 								false,
+								get_post_status(),
+								get_post_type(),
 							);
 						} // while()
 				} // switch()
@@ -1746,14 +1731,14 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 *
 	 * @return    integer    the post id of the image
 	 */
-	private function get_first_image_id ( $post_id, $content ) {
+	private function get_first_image_id ( $post_id, $content, $find_gallery_image ) {
 		// first try to look for img elements
 		$id = $this->get_first_content_image_id( $content );
 		// else try to look for galleries
-		/*if ( ! $id ) {
+		if ( ! $id and $find_gallery_image ) {
 			$id = $this->get_first_gallery_image_id( $content );
 		}
-		// else try to look for attached images
+		/*// else try to look for attached images
 		if ( ! $id ) {
 			$id = $this->get_first_attached_image_id( $post_id );
 		}*/
