@@ -431,8 +431,13 @@ class Quick_Featured_Images_Settings {
 	* @return  array              Options and their sanatized values
 	*
 	* @updated 8.3.1: sanitized recognition of key names
+	* @updated 9.1: Fixed warning if $input = null
 	*/
 	public function sanitize_options ( $input ) {
+		// exit with empty array if no option was checked
+		if ( ! $input ) {
+			return array();
+		}
 		$sanitized_input = array();
 		foreach ( $input as $key => $value ) {
 			// checkboxes

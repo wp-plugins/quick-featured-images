@@ -1,10 +1,10 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
-Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, image, image size, images, mass, media, mime, multimedia, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
+Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 9.0
+Stable tag: 9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,18 +43,17 @@ See more comments under [Reviews](http://wordpress.org/support/view/plugin-revie
 
 With Quick Featured Images you can apply time-saving tasks with many featured images: add, exchange and delete them in bulk.
 
-1. **Adding featured images:** You can select an image or scan for the first post image to set it as the new featured image to hundreds of posts in one go. You can select multiple images to set them randomly as featured images.
+1. **Adding featured images:** You can select an image or scan for the first post image or first gallery image to set it as the new featured image to hundreds of posts in one go. You can select multiple images to set them randomly as featured images.
 2. **Exchanging featured images:** You can replace or update several existing featured images with a selected image in one go.
 3. **Deleting featured images:** You can remove a selected featured image or all existing featured images in one go.
 
 = Set, replace, remove: Options =
 
-You can switch between 
+Based on your selected action you can toggle on and off some options:
 
-1. **overwriting existing featured images** or 
-2. **keeping them unchanged**. 
-
-The latter setting is the default.
+1. **overwrite existing featured images** or **keeping them unchanged**. The latter setting is the default.
+2. **consider only posts without a featured image**. This will hide posts with featured images in the results list and will speed up the process.
+3. **take first gallery image** if no content image was found.
 
 = Set, replace, remove: Filters =
 
@@ -229,14 +228,25 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 9.1 =
+* Added in 'Set, replace, remove': Option to find first image in WP galleries
+* Added in 'Set, replace, remove': Informations about type and status of each post in preview list
+* Fixed in 'Set, replace, remove': Only some assigned featured images were displayed; now all assigned images are displayed
+* Fixed in 'Set, replace, remove': Hilited wrong step in process bar when user skips filters; now correct hilite
+* Fixed in 'Image Columns': No more warning if no option was checked
+* Slight design improvement on the post type filter
+* Improved performance of preview list
+* Adopted new core strings of WP 4.1
+* Updated *.pot file and german translation
+
 = 9.0 =
 * Tested successfully with WP 4.1, especially the improved queries
-* Added in 'Set, replace, remove': new filter 'Multimedia File Filter' for audio and video file types
-* Added in 'Set, replace, remove': option to ignore posts with featured images and consider only posts without any featured image
+* Added in 'Set, replace, remove': New filter 'Multimedia File Filter' for audio and video file types
+* Added in 'Set, replace, remove': Option to ignore posts with featured images and consider only posts without any featured image
 * Added in posts lists: Featured Image columns in posts lists are now sortable by image
-* Fixed in 'Set, replace, remove': if no post type was selected in the post type filter all posts were returned as result; now no posts are returned as expected
-* Fixed in 'Set, replace, remove': if a post had no title the link to this post was missing in the result lists; now a link with default '(no title)' is displayed
-* Fixed in 'Set, replace, remove': if an image and the action 'Add first post image' were selected the design on the following pages was destroyed
+* Fixed in 'Set, replace, remove': If no post type was selected in the post type filter all posts were returned as result; now no posts are returned as expected
+* Fixed in 'Set, replace, remove': If a post had no title the link to this post was missing in the result lists; now a link with default '(no title)' is displayed
+* Fixed in 'Set, replace, remove': If an image and the action 'Add first post image' were selected the design on the following pages was destroyed
 * Improved performance in 'Set, replace, remove' for the result lists
 * Changed sidebar content
 * Updated *.pot file and german translation
@@ -415,6 +425,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 9.1 =
+Added option in 'Set, replace, remove' to find first image in galleries, fixed bug and warning, some improvements
 
 = 9.0 =
 Tested successfully with WP 4.1, added filter for audio and video file types in 'Set, replace, remove', made Featured Image column sortable by image, fixed minor bugs.

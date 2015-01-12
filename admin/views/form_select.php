@@ -83,17 +83,25 @@ if ( 'replace' == $this->selected_action ) {
 			<label for="<?php printf( 'th_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
 		</p>
 <?php
-			/*if ( 'assign_first_img' == $this->selected_action ) {
-				$key = 'remove_first_img';
+			if ( 'assign_first_img' == $this->selected_action ) {
+				$key = 'gallery_first_img';
 				$label = $this->valid_options[ $key ];
-				$desc = __( 'Remove the first image from the post content after this image was set as featured image', $this->plugin_slug );
+				$desc = __( 'If no content image could be found in a post try to catch the first image in a gallery', $this->plugin_slug );
 ?>
 		<p>
 			<input type="checkbox" id="<?php printf( 'th_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
 			<label for="<?php printf( 'th_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
 		</p>
 <?php
-			} */ // if(remove_first_img)
+			/*	$key = 'remove_first_img';
+				$label = $this->valid_options[ $key ];
+				$desc = __( 'Remove the first image from the post content after this image was set as featured image', $this->plugin_slug );
+		<p>
+			<input type="checkbox" id="<?php printf( 'th_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
+			<label for="<?php printf( 'th_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
+		</p>
+		*/
+			} // if(assign_first_img)
 ?>
 	</fieldset>
 <?php
@@ -166,11 +174,12 @@ if ( $this->selected_multiple_image_ids ) {
 		<input type="hidden" name="multiple_image_ids" value="<?php echo $v; ?>" />
 <?php
 }
+	$text = 'Next &raquo;';
 ?>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 		<?php wp_nonce_field( 'quickfi_select', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php _e( 'Next', $this->plugin_slug ); ?>" />
+		<input type="submit" class="button" value="<?php _e( $text ); ?>" />
 	</p>
 </form>
 <h4><?php _e( 'If you encounter a white, blank page, read this', $this->plugin_slug ); ?></h4>

@@ -106,7 +106,8 @@ foreach ( $this->valid_actions_without_image as $name => $label ) {
 ?>
 	</fieldset>
 <?php 
-wp_nonce_field( 'quickfi_start', $this->plugin_slug . '_nonce' ); 
-submit_button( __( 'Next', $this->plugin_slug ), 'secondary' );
+wp_nonce_field( 'quickfi_start', $this->plugin_slug . '_nonce' );
+$text = 'Next &raquo;';
+submit_button( __( $text ), 'secondary' );
 ?>
 </form>
