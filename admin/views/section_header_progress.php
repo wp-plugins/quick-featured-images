@@ -37,6 +37,6 @@ foreach ( $this->valid_steps as $key => $label ) {
 	</span>
 </p>
 
-<div class="th_wrapper">
-	<div id="th_main">
-		<div class="th_content">
+<div class="qfi_wrapper">
+	<div id="qfi_main">
+		<div class="qfi_content">

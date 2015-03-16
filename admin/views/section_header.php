@@ -13,7 +13,7 @@
 <div class="wrap">
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 	<?php include_once 'options-head.php'; // print out success or error messages from the Settings API ?>
-	<div class="th_wrapper">
-		<div id="th_main">
-			<div class="th_content">
+	<div class="qfi_wrapper">
+		<div id="qfi_main">
+			<div class="qfi_content">
 			

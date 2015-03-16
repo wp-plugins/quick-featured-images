@@ -641,6 +641,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
      * @updated  5.1.1: changed 'take_first_img' to 'assign_first_img'
      * @updated  6.0: added selection of multiple images
 	 * @updated  9.0: added mime types
+	 * @updated  10.0: removed some filters and options in favour of the premium version
 	 */
 	private function set_default_values() {
 		/*
@@ -655,13 +656,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 			'confirm'	=> __( 'Confirm', $this->plugin_slug ),
 			'perform'	=> __( 'Perform', $this->plugin_slug ),
 		);
-		// process options
-		$this->valid_options = array(
-			'overwrite'         => __( 'Overwrite featured images', $this->plugin_slug ),
-			'remove_first_img'  => __( 'Remove first image from post content', $this->plugin_slug ),
-			'orphans_only'      => __( 'Consider only posts without any featured image', $this->plugin_slug ),
-			'gallery_first_img' => __( 'Take first gallery image if no content image found', $this->plugin_slug ),
-		);
 		// actions
 		$this->valid_actions = array(
 			'assign'			=> __( 'Set the selected image as new featured image', $this->plugin_slug ),
@@ -669,26 +663,21 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 			'remove'			=> __( 'Remove the selected image as featured image', $this->plugin_slug ),
 		);
 		$this->valid_actions_without_image = array(
-			'assign_first_img'	=> __( 'Set the first post image as featured image', $this->plugin_slug ),
 			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug ),
 		);
 		$this->valid_actions_multiple_images = array(
 			'assign_randomly'	=> __( 'Set multiple images randomly as featured images', $this->plugin_slug ),
 		);
+		// process options
+		$this->valid_options = array(
+			'overwrite'         => __( 'Overwrite featured images', $this->plugin_slug ),
+			'orphans_only'      => __( 'Consider only posts without any featured image', $this->plugin_slug ),
+		);
 		// filters
 		$this->valid_filters = array(
 			'filter_post_types' 		=> __( 'Post Type Filter', $this->plugin_slug ),
-			'filter_mime_types' 		=> __( 'Multimedia File Filter', $this->plugin_slug ),
-			'filter_status' 			=> __( 'Status Filter', $this->plugin_slug ),
-			'filter_search' 			=> __( 'Search Filter', $this->plugin_slug ),
-			'filter_time' 				=> __( 'Time Filter', $this->plugin_slug ),
-			'filter_author' 			=> __( 'Author Filter', $this->plugin_slug ),
-			//'filter_custom_field' 		=> __( 'Custom Field Filter', $this->plugin_slug ),
-			'filter_custom_taxonomies'	=> __( 'Custom Taxonomy Filter', $this->plugin_slug ),
-			'filter_image_size' 		=> __( 'Featured Image Size Filter', $this->plugin_slug ),
 			'filter_category' 			=> __( 'Category Filter', $this->plugin_slug ),
 			'filter_tag' 				=> __( 'Tag Filter', $this->plugin_slug ),
-			'filter_parent_page' 		=> __( 'Parent Page Filter', $this->plugin_slug ),
 		);
 		// post types (generic and custom)
 		$label_posts = 'Posts';
@@ -938,6 +927,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 * @updated  4.0: new filter_time
 	 * @updated  8.3: added argument 'no_found_rows' to speed up SQL query performance
 	 * @updated  9.0: added mime types
+	 * @updated  10.0: removed some filters and options in favour of the premium version
 	 *
 	 * @return    array    the args
 	 */
@@ -960,104 +950,17 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		} // switch()
 
 		if ( $this->selected_filters ) {
-			// if search by mime types: ignore post types
-			if ( in_array( 'filter_mime_types', $this->selected_filters ) ) {
-				$this->selected_mime_types = $this->get_sanitized_mime_types();
-				if ( $this->selected_mime_types ) {
-					// add selected mime types to get a desired result
-					$args[ 'post_mime_type' ] = $this->selected_mime_types;
-				} else {
-					// add fictitious mime type to get no result (and not to get a list of all media files)
-					$args[ 'post_mime_type' ] = 'abcdefghi'; // assume there is not and will be never a mime type with this name
+			// set desired post types and statusses
+			if ( in_array( 'filter_post_types', $this->selected_filters ) ) {
+				$this->selected_post_types = $this->get_sanitized_post_types();
+				if ( ! $this->selected_post_types ) {
+					// add a fictitious post type to get no result (and not to get a list of all posts)
+					$args[ 'post_type' ] = 'abcdefghi'; // assume there is not and will be never a post type with this name
 				}
-				// override defaults
-				$args[ 'post_type' ] = 'attachment';
-				$args[ 'post_status' ] = 'inherit';
-			} else {
-				// set desired post types and statusses
-				if ( in_array( 'filter_post_types', $this->selected_filters ) ) {
-					$this->selected_post_types = $this->get_sanitized_post_types();
-					$this->selected_custom_post_types = $this->get_sanitized_custom_post_types();
-					if ( $this->selected_post_types or $this->selected_custom_post_types ) {
-						// add selected post types to get a desired result
-						$args[ 'post_type' ] = array_merge ( $this->selected_post_types, $this->selected_custom_post_types );
-					} else {
-						// add a fictitious post type to get no result (and not to get a list of all posts)
-						$args[ 'post_type' ] = 'abcdefghi'; // assume there is not and will be never a post type with this name
-					}
-				}
-				if ( in_array( 'filter_status', $this->selected_filters ) ) {
-					$this->selected_statuses = $this->get_sanitized_post_statuses();
-					// fictitious post status does not work because the names of post statussses are fixed, so just do:
-					$args[ 'post_status' ] = $this->selected_statuses;
-				}
-			} // if(mime type filter)
+			}
 			// add other user inputs
 			foreach ( $this->selected_filters as $filter ) {
 				switch ( $filter ) {
-					case 'filter_search':
-						$this->selected_search_term = $this->get_search_term();
-						// if there is a search term assign it to the query
-						if ( '' != $this->selected_search_term ) {
-							$args[ 's' ] = $this->selected_search_term;
-						}
-						break;
-					case 'filter_author':
-						$this->selected_author_id = $this->get_sanitized_author_id();
-						// if there is a selected author assign him/her to the query
-						if ( 0 < $this->selected_author_id ) {
-							$args[ 'author' ] = $this->selected_author_id;
-						}
-						break;
-					case 'filter_custom_field':
-						$this->selected_custom_field = $this->get_sanitized_custom_field();
-						$args[ 'meta_query' ] = array( $this->selected_custom_field );
-						break;
-					case 'filter_time':
-						$this->selected_date_queries = $this->get_sanitized_date_queries();
-						// format the input for the query
-						$date_query = array();
-						foreach ( $this->selected_date_queries as $key => $value ) {
-							switch ( $key ) {
-								case 'after':
-								case 'before':
-									// start and end dates
-									$time_data = array();
-									if ( isset( $this->selected_date_queries[ $key ] ) AND  "" != $this->selected_date_queries[ $key ] ) {
-										$time_data[ $key ] = date( 'Y-m', strtotime( $this->selected_date_queries[ $key ] ) );
-										if ( isset( $this->selected_date_queries[ 'inclusive' ] ) AND  "1" === $this->selected_date_queries[ 'inclusive' ] ) {
-											if ( 'before' == $key ) {
-												$time_data[ $key ] .= '+1 month'; // correction because of $default_to_max in WP_Date_Query
-											}
-											$time_data[ 'inclusive' ] = true;
-										} else {
-											if ( 'after' == $key ) {
-												$time_data[ $key ] .= '+1 month'; // correction because of $default_to_max in WP_Date_Query
-											}
-											$time_data[ 'inclusive' ] = false;
-										}
-									}
-									if ( ! empty( $time_data ) ) {
-										$date_query[] = $time_data;
-									}
-									break;
-							} // switch()
-						} // foreach()
-						$args[ 'date_query' ] = $date_query;
-						break;
-					case 'filter_image_size':
-						$this->selected_image_dimensions = $this->get_sanitized_image_dimensions();
-						$post_ids = $this->get_post_ids_of_to_small_thumbnails();
-						// if there are post ids get the intersection with posts ids of to small images, else zero results
-						if ( $post_ids && $this->selected_post_ids ) {
-							$this->selected_post_ids = $this->get_array_intersect( $this->selected_post_ids, $post_ids );
-						} elseif ( $post_ids ) {
-							$this->selected_post_ids = $post_ids;
-						} else {
-							$this->selected_post_ids = array();
-						}
-						$args[ 'post__in' ] = $this->get_id_array_for_query( $this->selected_post_ids );
-						break;
 					case 'filter_category':
 						$this->selected_category_id = $this->get_sanitized_category_id();
 						// if there is a selected category assign it to the query
@@ -1072,33 +975,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							$args[ 'tag_id' ] = $this->selected_tag_id; // todo: user selects more than 1 tag, 'tag__in'
 						}
 						break;
-					case 'filter_custom_taxonomies':
-						$this->selected_custom_taxonomies = $this->get_sanitized_custom_taxonomies();
-						$tax_query = array();
-						// format the input for the query
-						foreach ( $this->selected_custom_taxonomies as $sel_cus_tax => $id ) {
-							if ( "" == $id ) continue; // next loop cycle if not selected
-							$tax_query[] = array(
-								'field' => 'id',
-								'taxonomy' => $sel_cus_tax,
-								'terms' => $id
-							);
-						}
-						// logical relationship between each inner taxonomy array is intersection when there is more than 1 array
-						if ( 1 < sizeof( $tax_query ) ) {
-							$tax_query[ 'relation' ] = 'AND';
-						}
-						// if there are selected terms finally assign them to the query
-						if ( ! empty ( $tax_query ) ) {
-							$args[ 'tax_query' ] = $tax_query;
-						}
-						break;
-					case 'filter_parent_page':
-						$this->selected_parent_page_id = $this->get_sanitized_page_id();
-						// if there is a selected parent page assign it to the query
-						if ( 0 < $this->selected_parent_page_id ) {
-							$args[ 'post_parent' ] =  $this->selected_parent_page_id;
-						}
 				} // switch()
 			} // foreach()
 		} // if()
@@ -1136,6 +1012,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 * @updated   9.0: added option 'orphans_only'
 	 * @updated   9.1: added post type and post status for preview list
 	 * @updated   9.1: a bit more performance in preview loops by moving translations to form_confirm.php
+	 * @updated   10.0: removed action "assign_first_img"
 	 *
 	 * @return    array    affected posts
 	 */
@@ -1201,67 +1078,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								get_the_title(),
 								$current_featured_images[ $thumb_id ],
 								$success 
-							);
-						} // while()
-						break;
-					case 'assign_first_img':
-						$do_overwriting = in_array( 'overwrite', $this->selected_options );
-						#$do_removal = in_array( 'remove_first_img', $this->selected_options );
-						$orphans_only = in_array( 'orphans_only', $this->selected_options );
-						$find_gallery_img = in_array( 'gallery_first_img', $this->selected_options );
-						while ( $the_query->have_posts() ) {
-							$the_query->the_post();
-							$success = false;
-							$success_update = false;
-							// get the post id once
-							$post_id = get_the_ID();
-							// check if there is an existing featured image
-							$thumb_id = get_post_thumbnail_id( $post_id );
-							// if post with featured images should be ignored, jump to next loop
-							if ( $thumb_id and $orphans_only ) {
-								continue;
-							}
-							// if no existing featured image or if permission to overwrite it
-							if ( ! $thumb_id or $do_overwriting ) {
-								// get the post content once
-								$post_content = get_the_content();
-								// get the id of the first content image, else 0
-								$thumb_id = $this->get_first_image_id( $post_id, $post_content, $find_gallery_img );
-								// if first image found
-								if ( $thumb_id ) {
-									// do the task
-									$success = set_post_thumbnail( $post_id, $thumb_id );
-									// remove first image from post content if desired and if the featured image was set successfully
-									/*if ( $success and $do_removal ) {
-										// get the new content without first image
-										$post_content = $this->remove_first_post_image( $post_content );
-										// store new post content, in case of failure return 0
-										$returned_id = wp_update_post( array( 'ID' => $post_id, 'post_content' => $post_content ) );
-										if ( $returned_id == $post_id ) {
-											$success_update = true;
-										}
-									} // if(success and remove_first_img)*/
-								} // if(thumb_id)
-							} // if ( ! $thumb_id or $do_overwriting )
-							// get html for featured image for check
-							$thumb_id = get_post_thumbnail_id( $post_id );
-							// if existing featured image
-							if ( $thumb_id ) {
-								// get thumbnail html if not yet got
-								if ( ! isset( $current_featured_images[ $thumb_id ] ) ) {
-									$current_featured_images[ $thumb_id ] = wp_get_attachment_image( $thumb_id, $size, false, $attr );
-								}
-							} else {
-								// nothing changed
-								$thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
-							}
-							// store edit link, post title, image html, success of action (true or false)
-							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
-								$current_featured_images[ $thumb_id ],
-								$success,
-								$success_update
 							);
 						} // while()
 						break;
@@ -1408,72 +1224,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
 									$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 								}
-							}
-							// store edit link, post title, post date, post author, current image html, future image html
-							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
-								get_the_date(),
-								get_the_author(),
-								$current_featured_images[ $current_thumb_id ],
-								$future_featured_images[ $future_thumb_id ],
-								get_post_status(),
-								get_post_type(),
-							);
-						} // while()
-						break;
-					case 'assign_first_img':
-						$do_overwriting = in_array( 'overwrite', $this->selected_options );
-						$orphans_only = in_array( 'orphans_only', $this->selected_options );
-						$find_gallery_img = in_array( 'gallery_first_img', $this->selected_options );
-						while ( $the_query->have_posts() ) {
-							$the_query->the_post();
-							// get the post id once
-							$post_id = get_the_ID();
-							// get html of current thumbnail
-							$current_thumb_id = get_post_thumbnail_id( $post_id );
-							// if post with featured images should be ignored, jump to next loop
-							if ( $current_thumb_id and $orphans_only ) {
-								continue;
-							}
-							if ( $current_thumb_id ) {
-								if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
-									// get the html code for featured image once
-									$current_featured_images[ $current_thumb_id ] = wp_get_attachment_image( $current_thumb_id, $size, false, $attr );
-								}
-								if ( $do_overwriting ) {
-									// preview old thumb + new thumb
-									$future_thumb_id = $this->get_first_image_id( $post_id, get_the_content(), $find_gallery_img );
-									if ( $future_thumb_id ) {
-										// get thumbnail html if not yet got
-										if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
-											$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
-										}
-									} else {
-										// preview old thumb + old thumb
-										$future_thumb_id = $current_thumb_id;
-										$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
-									}
-								} else {
-									// preview old thumb + old thumb
-									$future_thumb_id = $current_thumb_id;
-									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
-								} // if 'overwrite' option
-							} else {
-								// preview no old thumb + new thumb
-								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
-								// try to get html of future thumbnail
-								$future_thumb_id = $this->get_first_image_id( $post_id, get_the_content(), $find_gallery_img );
-								if ( $future_thumb_id ) {
-									// get thumbnail html if not yet got
-									if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
-										$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
-									}
-								} else {
-									// preview no old thumb + no old thumb
-									$future_thumb_id = $current_thumb_id;
-									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
-								} // if $future_thumb_id
 							}
 							// store edit link, post title, post date, post author, current image html, future image html
 							$results[] = array( 

@@ -165,7 +165,7 @@ foreach ( $users as $user ) {
 if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 ?>
 <h3><?php _e( 'Notice', $this->plugin_slug ); ?></h3>
-<div class="th_content_inside">
+<div class="qfi_content_inside">
 	<p class="failure"><?php _e( 'The current theme does not support featured images. Anyway you can use this plugin. The effects are stored and will be visible in a theme which supports featured images.', $this->plugin_slug ); ?></p>
 </div>
 <?php 

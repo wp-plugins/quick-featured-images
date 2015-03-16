@@ -5,7 +5,7 @@
  * @package   Quick_Featured_Images_Defaults
  * @author    Martin Stehle <m.stehle@gmx.de>
  * @license   GPL-2.0+
- * @link      http://wordpress.org/plugins/quick-featured-images/
+ * @link      http://stehle-internet.de/downloads/quick-featured-images/
  * @copyright 2014 
  */
 

@@ -3,8 +3,8 @@ Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
 Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
 Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 9.1
+Tested up to: 4.1.1
+Stable tag: 10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,14 +14,17 @@ Your time-saving Swiss Army Knife for featured images: Set, replace and delete t
 
 = Manage featured images quickly =
 
-The plugin 'Quick Featured Images' helps you bulk managing featured images, setting automatic default featured images to save your time. 
+The plugin 'Quick Featured Images' helps you bulk managing featured images, setting automatic default featured images to save your time.
 
 1. It **sets, replaces and removes featured images for hundreds of posts, pages, audios, videos and custom post types in one go**. You can run it over all contens or let it work only to desired contents by using flexible filters.
 2. It displays assigned features images in an **additional sortable image column in lists of posts, pages and custom post types** if they support thumbnails. So you get a quick overview about used thumbnails of all posts and pages.
 3. It enables you to **define presets for automatic default featured images** for future posts as many as you need. You can set **accurate rules based on post properties**.
 
-= What users said =
+You get the free version here. If you want to have more options then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
+= What users said =
+* **"brilliantly conceived time-saving plugin" ** by Christopher Greenhough on February 3, 2015
+* **Number 3** in [8 Must have Image Plugins for WordPress](http://www.bestwordpresshosting.org/8-must-image-plugins-wordpress/) by Sadia KOmal on unknown date
 * **"You can tell that a lot of hard work went into this high quality plugin."** by dfitek on December 8, 2014
 * **"The Best Plugin I ever saw - I would like to rate it 10/5"** by MovieMagia on November 25, 2014
 * **Number 2** in [Top 5 WordPress plugins van de maand september](http://webtalis.nl/top-5-wordpress-plugins-van-de-maand-september/) by Webtalis on September 5, 2014
@@ -43,9 +46,11 @@ See more comments under [Reviews](http://wordpress.org/support/view/plugin-revie
 
 With Quick Featured Images you can apply time-saving tasks with many featured images: add, exchange and delete them in bulk.
 
-1. **Adding featured images:** You can select an image or scan for the first post image or first gallery image to set it as the new featured image to hundreds of posts in one go. You can select multiple images to set them randomly as featured images.
+1. **Adding featured images:** You can select an image to set it as the new featured image to hundreds of posts in one go. You can select multiple images to set them randomly as featured images.
 2. **Exchanging featured images:** You can replace or update several existing featured images with a selected image in one go.
 3. **Deleting featured images:** You can remove a selected featured image or all existing featured images in one go.
+
+If you want to **scan for the first content image or the first gallery image** then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
 = Set, replace, remove: Options =
 
@@ -53,7 +58,8 @@ Based on your selected action you can toggle on and off some options:
 
 1. **overwrite existing featured images** or **keeping them unchanged**. The latter setting is the default.
 2. **consider only posts without a featured image**. This will hide posts with featured images in the results list and will speed up the process.
-3. **take first gallery image** if no content image was found.
+
+If you want to **take the first gallery image** if no content image was found then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
 = Set, replace, remove: Filters =
 
@@ -62,16 +68,19 @@ If there would be no filters Quick Featured Images would affect all posts and pa
 The implemented filters allow you to narrow down the action to only the posts and pages you want to modify. The built-in filters are:
 
 1. Filter by **post type**: Search by post types. By **default all** posts, pages and custom post types will be affected
-2. Filter by **multimedia type**: Search for audio and video files
-3. Filter by **status**: Search by several statuses (published, draft, private etc.). By **default all** statuses will be affected
-4. Filter by **search**: Search by search term
-5. Filter by **time**: Search by time specifications
-6. Filter by **author**: Search by author
-7. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
-8. Filter by **featured image size**: Search for small featured images below a given size
-9. Filter by **category**: Search posts by category
-10. Filter by **tag**: Search posts by tag
-11. Filter by **parent page**: Search child pages by parent page
+2. Filter by **category**: Search posts by category
+3. Filter by **tag**: Search posts by tag
+
+If you want to use **much more filters** take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/). The Pro version offers you:
+
+1. Filter by **author**: Search by author
+2. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
+3. Filter by **featured image size**: Search for small featured images below a given size
+4. Filter by **multimedia type**: Search for audio and video files
+5. Filter by **search**: Search by search term
+6. Filter by **status**: Search by several statuses (published, draft, private etc.). By **default all** statuses will be affected
+7. Filter by **time**: Search by time specifications
+8. Filter by **parent page**: Search child pages by parent page
 
 = Automatic Default Featured Images: Rules =
 
@@ -193,6 +202,10 @@ For these users the menu item 'Featured Images' with its sub pages appears in th
 
 Yes. It works either activated for all sites (network wide) or activated in each single site. It changes only the posts of the site where you use it.
 
+= Will I lose all the featured images if I will delete the plugin? =
+
+No. The featured images you have already set will remain set if you deactivate or delete the plugin.
+
 = Why does the plugin say "No matches found" after confirmation? =
 
 This could be the case if the images were not uploaded via WordPress' own media uploader. If you have uploaded images via FTP or other ways the plugin can not find images.
@@ -227,6 +240,12 @@ If you want to contribute a translation of the plugin in your language it would 
 7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 10.0 =
+* Introducing **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/)
+* Deleted in 'Set, replace, remove': some filters and options in favor of the premium version
+* Corrected CSS height for images in image column to keep the aspect ratio
+* Updated *.pot file and german translation
 
 = 9.1 =
 * Added in 'Set, replace, remove': Option to find first image in WP galleries
@@ -425,6 +444,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 10.0 =
+Introducing premium version Quick Featured Images Pro, corrected CSS
 
 = 9.1 =
 Added option in 'Set, replace, remove' to find first image in galleries, fixed bug and warning, some improvements

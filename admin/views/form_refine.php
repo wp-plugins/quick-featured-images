@@ -5,12 +5,19 @@ if ( $this->selected_filters ) {
 ?>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=confirm', $this->page_slug ) ) ); ?>">
 	<fieldset>
-		<legend><span><?php print _e( 'Refine filters', $this->plugin_slug ); ?></span></legend>
+		<legend><span><?php _e( 'Refine filters', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'Now you can find posts and pages by matching parameters. Refine them here.', $this->plugin_slug ); ?></p>
 		<p><?php _e( 'Whatever you do: You can confirm your choice on the next page.', $this->plugin_slug ); ?></p>
 <?php
 	foreach ( $this->selected_filters as $filter ) {
-		include_once( $filter . '.php' );
+		$filename = $filter . '.php';
+		if ( file_exists( dirname( __FILE__ ) . '/' . $filename ) ) {
+			include_once( $filename );
+		} else {
+?>
+		<p><?php printf( __( 'File %s is not available.', $this->plugin_slug ), $filename ); ?></p>
+<?php
+		}
 ?>
 	<input type="hidden" name="filters[]" value="<?php echo $filter; ?>" />
 <?php
