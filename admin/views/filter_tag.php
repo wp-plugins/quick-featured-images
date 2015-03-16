@@ -4,8 +4,8 @@
 $tags = get_tags();
 if ( $tags ) {
 ?>
-	<label for="th_tags"><?php _e( 'Select a tag', $this->plugin_slug ); ?></label><br />
-	<select id="th_tags" name="tag_id">
+	<label for="qfi_tags"><?php _e( 'Select a tag', $this->plugin_slug ); ?></label><br />
+	<select id="qfi_tags" name="tag_id">
 <?php 
 	print $this->get_html_empty_option();
 	foreach ( $tags as $tag ) {

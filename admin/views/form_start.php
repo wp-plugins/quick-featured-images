@@ -2,7 +2,7 @@
 if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 ?>
 <h3><?php _e( 'Notice', $this->plugin_slug ); ?></h3>
-<div class="th_content_inside">
+<div class="qfi_content_inside">
 	<p class="failure"><?php _e( 'The current theme does not support featured images. Anyway you can use this plugin. The effects are stored and will be visible in a theme which supports featured images.', $this->plugin_slug ); ?></p>
 </div>
 <?php 
@@ -28,8 +28,8 @@ foreach ( $this->valid_actions as $name => $label ) {
 <?php
 } // foeach( valid_actions )
 ?>
-		<div class="th_wrapper">
-			<div class="th_w50percent">
+		<div class="qfi_wrapper">
+			<div class="qfi_w50percent">
 				<p><?php _e( 'Select the image you want to add to, replace or delete from posts and pages by clicking on the following button.', $this->plugin_slug ); ?></p>
 				<p>
 <?php
@@ -51,10 +51,10 @@ if ( $this->selected_image_id ) {
 ?>
 					<input type="hidden" id="image_id" name="image_id" value="<?php echo $this->selected_image_id; ?>">
 					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php $text = 'Featured Image'; _e( $text ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
-					<input type="button" id="upload_image_button" class="button th_select_image" value="<?php _e( 'Choose Image', $this->plugin_slug ); ?>" />
+					<input type="button" id="upload_image_button" class="button" value="<?php _e( 'Choose Image', $this->plugin_slug ); ?>" />
 				</p>
 			</div>
-			<div class="th_w50percent">
+			<div class="qfi_w50percent">
 				<p><strong><?php _e( 'If the button does not work, read this:', $this->plugin_slug ); ?></strong></p>
 				<p><?php _e( 'Some users reported that this button would not work in some WordPress installations. If this should be the case you can take another way:', $this->plugin_slug ); ?></p>
 				<p><?php _e( '1. Go to the media library. 2. Move the mouse over the desired image. Further links are appearing, among them the link &quot;Bulk set as featured image&quot;. 3. After a click on it you can move on in this plugin.', $this->plugin_slug ); ?></p>
@@ -104,6 +104,7 @@ foreach ( $this->valid_actions_without_image as $name => $label ) {
 <?php
 }
 ?>
+		<p class="qfi_ad_for_pro"><?php _e( 'Do you want to assign the first image of each post?', $this->plugin_slug ); ?> <?php _e( 'Get the premium version', $this->plugin_slug ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', $this->plugin_slug ); ?>">Quick Featured Images Pro</a>.</p>
 	</fieldset>
 <?php 
 wp_nonce_field( 'quickfi_start', $this->plugin_slug . '_nonce' );

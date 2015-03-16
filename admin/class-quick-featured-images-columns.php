@@ -291,7 +291,7 @@ class Quick_Featured_Images_Columns {
 		print '/* Fit thumbnails in posts list column */';
 		printf( '.column-%s img {', $this->column_name );
 		print '	width: 100%;';
-		print '	height: 100%;';
+		print '	height: auto;';
 		printf( '	max-width: %dpx;', 80 );
 		printf( '	max-height: %dpx;', 80 );
 		print '}';

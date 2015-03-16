@@ -1,5 +1,5 @@
 <h3><?php _e( 'Error', $this->page_slug );?></h3>
-<div class="th_content_inside">
+<div class="qfi_content_inside">
 	<h4><?php _e( 'Reason', $this->plugin_slug );?></h4>
 	<p class="failure"><?php print $msg; ?></p>
 	<h4><?php _e( 'Solution', $this->plugin_slug );?></h4>
