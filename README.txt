@@ -20,11 +20,11 @@ The plugin 'Quick Featured Images' helps you bulk managing featured images, sett
 2. It displays assigned features images in an **additional sortable image column in lists of posts, pages and custom post types** if they support thumbnails. So you get a quick overview about used thumbnails of all posts and pages.
 3. It enables you to **define presets for automatic default featured images** for future posts as many as you need. You can set **accurate rules based on post properties**.
 
-You get the free version here. If you want to include audios, videos and custom post types and get more options then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
+You get the free version here. If you want to include **audios, videos and custom post types** and get more options then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
 = What users said =
 * **Number 3** in [Top 18 Best Free WordPress Images Plugins In 3/2015](http://lytheme.com/top-18-best-free-wordpress-images-plugins-in-32015/) by admin on unknown March 20, 2015
-* **"brilliantly conceived time-saving plugin" ** by Christopher Greenhough on February 3, 2015
+* **"Brilliantly conceived time-saving plugin"** by Christopher Greenhough on February 3, 2015
 * **Number 3** in [8 Must have Image Plugins for WordPress](http://www.bestwordpresshosting.org/8-must-image-plugins-wordpress/) by Sadia KOmal on unknown date
 * **"You can tell that a lot of hard work went into this high quality plugin."** by dfitek on December 8, 2014
 * **"The Best Plugin I ever saw - I would like to rate it 10/5"** by MovieMagia on November 25, 2014
