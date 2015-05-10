@@ -51,7 +51,7 @@ if ( $this->selected_image_id ) {
 ?>
 					<input type="hidden" id="image_id" name="image_id" value="<?php echo $this->selected_image_id; ?>">
 					<img id="selected_image" src="<?php echo $img_url; ?>" alt="<?php $text = 'Featured Image'; _e( $text ); ?>" class="<?php echo $img_class; ?>" style="<?php echo $img_style; ?>" /><br />
-					<input type="button" id="upload_image_button" class="button" value="<?php _e( 'Choose Image', $this->plugin_slug ); ?>" />
+					<input type="button" id="upload_image_button" class="button qfi_select_image" value="<?php _e( 'Choose Image', $this->plugin_slug ); ?>" />
 				</p>
 			</div>
 			<div class="qfi_w50percent">
@@ -92,7 +92,7 @@ if ( $this->selected_multiple_image_ids ) {
 <?php
 } // if ( $this->selected_multiple_image_ids )
 ?>
-		<h4><?php _e( 'Actions without any image', $this->plugin_slug ); ?></h4>
+		<h4><?php _e( 'Actions without any selected image', $this->plugin_slug ); ?></h4>
 		<p><?php _e( 'These actions do not require a selected image.', $this->plugin_slug ); ?></p>
 <?php
 foreach ( $this->valid_actions_without_image as $name => $label ) {
