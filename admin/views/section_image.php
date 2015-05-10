@@ -38,7 +38,8 @@ if ( in_array( $this->selected_action, array_keys( $this->valid_actions ) ) && $
 	<div class="qfi_w50percent">
 <?php
 }
-?>		<h4><?php _e( 'Your selected action', $this->plugin_slug ); ?></h4>
+?>
+		<h4><?php _e( 'Your selected action', $this->plugin_slug ); ?></h4>
 <?php
 if ( isset( $this->valid_actions[ $this->selected_action ] ) ) {
 	$selected_action = $this->valid_actions[ $this->selected_action ];

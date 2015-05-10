@@ -199,26 +199,6 @@ class Quick_Featured_Images_Columns {
  	}
 
 	/**
-	 * Register and enqueue admin-specific JavaScript.
-	 *
-	 * @since     7.0
-	 *
-	 * @return    null
-	 */
-	public function enqueue_admin_scripts() {
-
-		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
-			return;
-		}
-
-		/* collect js for the color picker */
-		$screen = get_current_screen();
-		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
-		}
-	}
-
-	/**
 	 * Add a column with the title 'Featured Image' in the post lists
 	 *
 	 * @since     7.0

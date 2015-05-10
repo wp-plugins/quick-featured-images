@@ -53,6 +53,7 @@ if ( 'replace' == $this->selected_action ) {
 // else display filter selection
 ?>
 <h3><?php _e( 'Refine your selections', $this->plugin_slug ); ?></h3>
+<p><?php _e( 'You can control the process with the following options.', $this->plugin_slug ); ?></p>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=refine', $this->page_slug ) ) ); ?>">
 <?php
 	switch ( $this->selected_action ) {
@@ -64,6 +65,7 @@ if ( 'replace' == $this->selected_action ) {
 		<legend><span><?php _e( 'Process Options', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'You can control the process with the following options.', $this->plugin_slug ); ?></p>
 <?php 
+			// option for overwriting existing featured images
 			$key = 'overwrite';
 			$label = $this->valid_options[ $key ];
 			$desc = __( 'Overwrite existing featured images with new ones', $this->plugin_slug );
@@ -73,6 +75,7 @@ if ( 'replace' == $this->selected_action ) {
 			<label for="<?php printf( 'qfi_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
 		</p>
 <?php 
+			// option for posts without featured image
 			$key = 'orphans_only';
 			$label = $this->valid_options[ $key ];
 			$desc = __( 'Posts with featured images will be ignored, even if the Overwrite option is checked ', $this->plugin_slug );
@@ -81,12 +84,24 @@ if ( 'replace' == $this->selected_action ) {
 			<input type="checkbox" id="<?php printf( 'qfi_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
 			<label for="<?php printf( 'qfi_%s', $key ); ?>"><strong><?php echo $label; ?>:</strong> <?php echo $desc; ?></label>
 		</p>
+<?php
+			if ( 'assign_randomly' == $this->selected_action ) {
+?>
+		<p><?php _e( 'There are two more options in the premium version for random images:', $this->plugin_slug ); ?></p>
+		<ol>
+			<li><?php _e( 'Use each selected image only once', $this->plugin_slug ); ?></li>
+			<li><?php _e( 'Remove excess featured images after all selected images are used', $this->plugin_slug ); ?></li>
+		</ol>
+		<p class="qfi_ad_for_pro"><?php _e( 'Get the premium version', $this->plugin_slug ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', $this->plugin_slug ); ?>">Quick Featured Images Pro</a>.</p>
+<?php
+			} // if(assign_randomly)
+?>
 	</fieldset>
 <?php
 			break;
 	} // switch( selected_action )
 ?>
-<h4><?php _e( 'Optional: Add a filter', $this->plugin_slug ); ?></h4>
+	<h4><?php _e( 'Optional: Add a filter', $this->plugin_slug ); ?></h4>
 	<fieldset>
 		<legend><span><?php _e( 'Select filters', $this->plugin_slug ); ?></span></legend>
 		<p><?php _e( 'If you want select one of the following filters to narrow down the set of concerned posts and pages.', $this->plugin_slug ); ?></p>

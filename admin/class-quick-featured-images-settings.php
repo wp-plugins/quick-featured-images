@@ -149,7 +149,6 @@ class Quick_Featured_Images_Settings {
 
 		// Load admin style sheet and JavaScript.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
-		#add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 		// Add the options page and menu item.
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ) );
@@ -213,7 +212,7 @@ class Quick_Featured_Images_Settings {
 	 *@return    page description variable.
 	 */
 	public function get_page_description() {
-		return __( 'Helpful options for managing featured images', $this->plugin_slug );
+		return __( 'Set the visibility of columns of featured images in posts lists', $this->plugin_slug );
 	}
 
 	/**
@@ -260,26 +259,6 @@ class Quick_Featured_Images_Settings {
  	}
 
 	/**
-	 * Register and enqueue admin-specific JavaScript.
-	 *
-	 * @since     7.0
-	 *
-	 * @return    null    Return early if no settings page is registered.
-	 */
-	public function enqueue_admin_scripts() {
-
-		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
-			return;
-		}
-
-		/* collect js for the color picker */
-		$screen = get_current_screen();
-		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin-settings.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
-		}
-	}
-
-	/**
 	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
 	 *
 	 * @since    7.0
@@ -307,7 +286,7 @@ class Quick_Featured_Images_Settings {
 	 * @since    7.0
 	 */
 	public function add_action_links( $links ) {
-		$url = sprintf( 'admin.php?page=%s-settings', $this->plugin_slug );
+		$url = sprintf( 'admin.php?page=%s', $this->page_slug );
 		return array_merge(
 			$links,
 			array(

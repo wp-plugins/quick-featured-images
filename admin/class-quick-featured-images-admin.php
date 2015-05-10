@@ -19,7 +19,7 @@
 	 *
 	 * @var     string
 	 */
-	protected $plugin_version = '10.0';
+	protected $plugin_version = '11.0';
 
 	/**
 	 * Instance of this class.
@@ -111,7 +111,6 @@
 		
 		// Load admin style sheet and JavaScript.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
-		#add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 		// style for top level menu item 
 		//add_action( 'admin_head', array( $this, 'display_menu_icon' ) );
@@ -430,15 +429,6 @@
 		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
 			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), $this->plugin_version );
 		}
-	}
-
-	/**
-	 * Register and enqueues public-facing JavaScript files.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_admin_scripts() {
-		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
 	}
 
 	/**

@@ -141,6 +141,10 @@ body[class*=_page_quick-featured-images-settings] #qfi_main .qfi_content table.f
 	margin-bottom: 0;
 	font-size: 1em;
 }
+#qfi_main .qfi_content fieldset {
+	margin-bottom: 1em;
+}
+
 #qfi_main .qfi_content legend {
 	margin-bottom: .5em;
 	font-weight: bold;

@@ -209,13 +209,13 @@ printf( '<label for="%s"><input type="checkbox" %s value="1" id="%s" name="%s">%
 					<?php printf( '<img src="%s" alt="%s" width="80" height="80" />', plugins_url( 'assets/images/first-content-image.gif' , dirname( __FILE__ ) ), __( 'Text with images in WordPress editor', $this->plugin_slug ) ); ?><br />
 				</td>
 				<td>
-					<p class="description"><?php _e( 'If activated the rule is used automatically while saving a post to set the first content image as the featured image of the post. If the post has no content images the next rules will be applied.', $this->plugin_slug ); ?></p>
+					<p class="description"><?php _e( 'If activated the rule is used automatically while saving a post to set the first content image - if available in the media library - as the featured image of the post. If the post has no content images the next rules will be applied.', $this->plugin_slug ); ?></p>
 				</td>
 				<td>
 <?php
 $key = 'use_first_image_as_default';
 $attr_checked = checked( isset( $this->selected_rules[ $key ] ), '1', false );
-printf( '<label for="%s"><input type="checkbox" %s value="1" id="%s" name="%s">%s</label>', $key, $attr_checked, $key, $key, __( 'Activate to automatically use the first content image as featured image while saving a post', $this->plugin_slug ) );
+printf( '<label for="%s"><input type="checkbox" %s value="1" id="%s" name="%s">%s</label>', $key, $attr_checked, $key, $key, __( 'Activate to automatically use the first content image if available in the media library as featured image while saving a post', $this->plugin_slug ) );
 ?>
 				</td>
 			</tr>

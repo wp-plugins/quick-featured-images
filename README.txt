@@ -3,8 +3,8 @@ Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
 Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
 Requires at least: 3.8
-Tested up to: 4.2.1
-Stable tag: 10.0
+Tested up to: 4.2.2
+Stable tag: 11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,13 +62,19 @@ Based on your selected action you can toggle on and off some options:
 
 If you want to use the option to **remove the first image in the content** then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
-The premium version offers you several approaches for **setting the first image as featured**:
+The **premium version** offers you several approaches for **setting the first image as featured**:
 
 1. **the first post image** if available in the media library
 2. **the first external post image**, download it and add it to the media library
 3. **the first attached image of a post**
 4. **the first image of a WordPress standard gallery**
 5. **the first image of a NextGen Gallery**.
+
+The **premium version** offers you two more options if you selected multiple images to set them as featured images in random order:
+
+1. **Use each selected image only once**. If there are more posts than selected images the remaining posts will not be changed.
+2. **Remove excess featured images** after all selected images are used.
+
 
 If you want to use these options then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
@@ -82,7 +88,7 @@ The implemented filters allow you to narrow down the action to only the posts an
 2. Filter by **category**: Search posts by category
 3. Filter by **tag**: Search posts by tag
 
-The premium version offers you:
+The **premium version** offers you:
 
 1. Filter by **author**: Search by author
 2. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
@@ -253,6 +259,18 @@ If you want to contribute a translation of the plugin in your language it would 
 7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 11.0 =
+* Improved performance of confirmation step by using cached results of preview step
+* Improved security by changing $_REQUEST to $_POST and $_GET
+* Premium version: Added option in 'Set, replace, remove' for selection of multiple images: Use each selected only once
+* Premium version: Added option in 'Set, replace, remove' for selection of multiple images: Remove excess featured images after all selected images are used
+* Premium version: Added option in 'Set, replace, remove': Remove first image in content
+* Premium version: Added option in 'Set, replace, remove': Take first image of NextGen galleries
+* Premium version: Added option in 'Set, replace, remove': Take first external image
+* Premium version: Added option in 'Set, replace, remove': Take first attached image
+* Tested successfully with WordPress 4.2.2
+* Updated *.pot file and german translation
 
 = 10.0 =
 * Introducing **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/)
@@ -457,6 +475,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 11.0 =
+Improved performance of confirmation step and better security, tested with WP 4.2.2
 
 = 10.0 =
 Introducing premium version Quick Featured Images Pro, corrected CSS

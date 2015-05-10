@@ -661,7 +661,7 @@ class Quick_Featured_Images_Defaults {
 	}
 /*
 	function add_qfi_param( $loc ) {
-		return add_query_arg( 'qfi_notice', 1, $loc );
+		return esc_url( add_query_arg( 'qfi_notice', 1, $loc ) );
 	}
 
 	function display_qfi_notice() {
