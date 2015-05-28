@@ -934,7 +934,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									get_edit_post_link(), 
 									get_the_title(),
 									$current_featured_images[ $thumb_id ],
-									$success 
+									$success
 								);
 							} // while(have_posts)
 							break;
@@ -975,7 +975,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									get_edit_post_link(), 
 									get_the_title(),
 									$current_featured_images[ $thumb_id ],
-									$success 
+									$success
 								);
 							} // while(have_posts)
 							break;
@@ -1002,7 +1002,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									get_edit_post_link(), 
 									get_the_title(),
 									$current_featured_images[ $thumb_id ],
-									$success 
+									$success
 								);
 							} // while(have_posts)
 							break;
@@ -1044,17 +1044,14 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 				// do task dependent on selected action
 				switch ( $this->selected_action ) {
 					case 'assign':
-						foreach ( $query_results as $post_id => $thumb_id ) {
+						foreach ( $query_results as $post_id => $post_data ) {
+							$thumb_id = $post_data[ 0 ];
 							// cast "false" value to boolean false
 							if ( $thumb_id == $false_id ) {
 								$thumb_id = false;
 							}
 							// check if there is an existing featured image
 							$current_thumb_id = get_post_thumbnail_id( $post_id );
-							// if post with featured images should be ignored, jump to next loop
-							if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
-								continue;
-							}
 							$success = false;
 							// if no existing featured image or if permission to overwrite it
 							if ( ! $current_thumb_id or $is_option[ 'overwrite' ] ) {
@@ -1075,22 +1072,19 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
+								$post_data[ 1 ], // get_edit_post_link()
+								$post_data[ 2 ], // get_the_title()
 								$current_featured_images[ $thumb_id ],
-								$success 
+								$success
 							);
 						} // foreach()
 						break;
 					case 'assign_randomly':
-						foreach ( $query_results as $post_id => $thumb_id ) {
+						foreach ( $query_results as $post_id => $post_data ) {
+							$thumb_id = $post_data[ 0 ];
 							// cast "false" value to boolean false
 							if ( $thumb_id == $false_id ) {
 								$thumb_id = false;
-							}
-							// if post with featured images should be ignored, jump to next loop
-							if ( $thumb_id and $is_option[ 'orphans_only' ] ) {
-								continue;
 							}
 							$success = false;
 							// check if there is an existing featured image
@@ -1131,15 +1125,16 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
+								$post_data[ 1 ], // get_edit_post_link()
+								$post_data[ 2 ], // get_the_title()
 								$current_featured_images[ $thumb_id ],
-								$success 
+								$success
 							);
 						} // foreach()
 						break;
 					case 'replace':
-						foreach ( $query_results as $post_id => $thumb_id ) {
+						foreach ( $query_results as $post_id => $post_data ) {
+							$thumb_id = $post_data[ 0 ];
 							// do the task
 							$success = set_post_thumbnail( $post_id, $thumb_id );
 							// get html for featured image for check
@@ -1155,16 +1150,17 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
+								$post_data[ 1 ], // get_edit_post_link()
+								$post_data[ 2 ], // get_the_title()
 								$current_featured_images[ $thumb_id ],
-								$success 
+								$success
 							);
 						} // foreach()
 						break;
 					case 'remove':
 					case 'remove_any_img':
-						foreach ( $query_results as $post_id => $thumb_id ) {
+						foreach ( $query_results as $post_id => $post_data ) {
+							$thumb_id = $post_data[ 0 ];
 							// do the task
 							$success = delete_post_thumbnail( $post_id );
 							// get html for featured image for check
@@ -1180,8 +1176,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							}
 							// store edit link, post title, image html, success of action (true or false)
 							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
+								$post_data[ 1 ], // get_edit_post_link()
+								$post_data[ 2 ], // get_the_title()
 								$current_featured_images[ $thumb_id ],
 								$success
 							);
@@ -1239,9 +1235,11 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								}
 							}
 							// store edit link, post title, post date, post author, current image html, future image html
+							$post_link = get_edit_post_link();
+							$post_title = get_the_title();
 							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
+								$post_link, 
+								$post_title,
 								get_the_date(),
 								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
@@ -1250,103 +1248,107 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								get_post_type(),
 							);
 							// notice result for cache
-							$query_results[ $post_id ] = $future_thumb_id;
+							$query_results[ $post_id ] = array( $future_thumb_id, $post_link, $post_title );
 						} // while(have_posts)
 						break;
 					case 'assign_randomly':
 						$last_index = count( $this->selected_multiple_image_ids ) - 1;
-							/*
-							 * 1. use selected images multiple times randomly and
-							 * 2. overwrite existing featured images
-							 */
-							if ( $is_option[ 'overwrite' ] ) {
-								while ( $the_query->have_posts() ) {
-									$the_query->the_post();
-									// get the post id once
-									$post_id = get_the_ID();
-									// check if there is an existing featured image
-									$current_thumb_id = get_post_thumbnail_id( $post_id );
-									// if post with featured images should be ignored, jump to next loop
-									if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
-										continue;
+						/*
+						 * 1. use selected images multiple times randomly and
+						 * 2. overwrite existing featured images
+						 */
+						if ( $is_option[ 'overwrite' ] ) {
+							while ( $the_query->have_posts() ) {
+								$the_query->the_post();
+								// get the post id once
+								$post_id = get_the_ID();
+								// check if there is an existing featured image
+								$current_thumb_id = get_post_thumbnail_id( $post_id );
+								// if post with featured images should be ignored, jump to next loop
+								if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
+									continue;
+								}
+								// if existing featured image
+								if ( $current_thumb_id ) {
+									// get thumbnail html if not yet got
+									if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
+										$current_featured_images[ $current_thumb_id ] = wp_get_attachment_image( $current_thumb_id, $size, false, $attr );
 									}
-									// if existing featured image
-									if ( $current_thumb_id ) {
-										// get thumbnail html if not yet got
-										if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
-											$current_featured_images[ $current_thumb_id ] = wp_get_attachment_image( $current_thumb_id, $size, false, $attr );
-										}
-									} else {
-										$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+								} else {
+									$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
+								}
+								// set image randomly : future image = new image
+								$future_thumb_id = $this->selected_multiple_image_ids[ rand( 0, $last_index ) ]; // get thumb id randomly
+								// get thumbnail html if not yet got
+								if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
+									$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
+								}
+								// store edit link, post title, post date, post author, current image html, future image html
+								$post_link = get_edit_post_link();
+								$post_title = get_the_title();
+								$results[] = array( 
+									$post_link, 
+									$post_title,
+									get_the_date(),
+									get_the_author(),
+									$current_featured_images[ $current_thumb_id ],
+									$future_featured_images[ $future_thumb_id ],
+									get_post_status(),
+									get_post_type(),
+								);
+								// notice result for cache
+								$query_results[ $post_id ] = array( $future_thumb_id, $post_link, $post_title );
+							} // while(have_posts)
+						/* else 
+						 * 1. use selected images multiple times randomly and
+						 * 2. do not overwrite existing featured images
+						 */
+						} else {
+							while ( $the_query->have_posts() ) {
+								$the_query->the_post();
+								// get the post id once
+								$post_id = get_the_ID();
+								// check if there is an existing featured image
+								$current_thumb_id = get_post_thumbnail_id( $post_id );
+								// if post with featured images should be ignored, jump to next loop
+								if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
+									continue;
+								}
+								// if existing featured image
+								if ( $current_thumb_id ) {
+									// get thumbnail html if not yet got
+									if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
+										$current_featured_images[ $current_thumb_id ] = wp_get_attachment_image( $current_thumb_id, $size, false, $attr );
 									}
+									// do nothing : future image = current image
+									$future_thumb_id = $current_thumb_id;
+									$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
+								} else {
+									$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 									// set image randomly : future image = new image
 									$future_thumb_id = $this->selected_multiple_image_ids[ rand( 0, $last_index ) ]; // get thumb id randomly
 									// get thumbnail html if not yet got
 									if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
 										$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 									}
-									// store edit link, post title, post date, post author, current image html, future image html
-									$results[] = array( 
-										get_edit_post_link(), 
-										get_the_title(),
-										get_the_date(),
-										get_the_author(),
-										$current_featured_images[ $current_thumb_id ],
-										$future_featured_images[ $future_thumb_id ],
-										get_post_status(),
-										get_post_type(),
-									);
-									// notice result for cache
-									$query_results[ $post_id ] = $future_thumb_id;
-								} // while(have_posts)
-							/* else 
-							 * 1. use selected images multiple times randomly and
-							 * 2. do not overwrite existing featured images
-							 */
-							} else {
-								while ( $the_query->have_posts() ) {
-									$the_query->the_post();
-									// get the post id once
-									$post_id = get_the_ID();
-									// check if there is an existing featured image
-									$current_thumb_id = get_post_thumbnail_id( $post_id );
-									// if post with featured images should be ignored, jump to next loop
-									if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
-										continue;
-									}
-									// if existing featured image
-									if ( $current_thumb_id ) {
-										// get thumbnail html if not yet got
-										if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
-											$current_featured_images[ $current_thumb_id ] = wp_get_attachment_image( $current_thumb_id, $size, false, $attr );
-										}
-										// do nothing : future image = current image
-										$future_thumb_id = $current_thumb_id;
-										$future_featured_images[ $future_thumb_id ] = $current_featured_images[ $current_thumb_id ];
-									} else {
-										$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
-										// set image randomly : future image = new image
-										$future_thumb_id = $this->selected_multiple_image_ids[ rand( 0, $last_index ) ]; // get thumb id randomly
-										// get thumbnail html if not yet got
-										if ( ! isset( $future_featured_images[ $future_thumb_id ] ) ) {
-											$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
-										}
-									}
-									// store edit link, post title, post date, post author, current image html, future image html
-									$results[] = array( 
-										get_edit_post_link(), 
-										get_the_title(),
-										get_the_date(),
-										get_the_author(),
-										$current_featured_images[ $current_thumb_id ],
-										$future_featured_images[ $future_thumb_id ],
-										get_post_status(),
-										get_post_type(),
-									);
-									// notice result for cache
-									$query_results[ $post_id ] = $future_thumb_id;
-								} // while(have_posts)
-							} // if ( overwrite )
+								}
+								// store edit link, post title, post date, post author, current image html, future image html
+								$post_link = get_edit_post_link();
+								$post_title = get_the_title();
+								$results[] = array( 
+									$post_link, 
+									$post_title,
+									get_the_date(),
+									get_the_author(),
+									$current_featured_images[ $current_thumb_id ],
+									$future_featured_images[ $future_thumb_id ],
+									get_post_status(),
+									get_post_type(),
+								);
+								// notice result for cache
+								$query_results[ $post_id ] = array( $future_thumb_id, $post_link, $post_title );
+							} // while(have_posts)
+						} // if ( overwrite )
 						break;
 					case 'replace':
 						while ( $the_query->have_posts() ) {
@@ -1370,9 +1372,11 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								$future_featured_images[ $future_thumb_id ] = wp_get_attachment_image( $future_thumb_id, $size, false, $attr );
 							}
 							// store edit link, post title, post date, post author, current image html, future image html
+							$post_link = get_edit_post_link();
+							$post_title = get_the_title();
 							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
+								$post_link, 
+								$post_title,
 								get_the_date(),
 								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
@@ -1381,7 +1385,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								get_post_type(),
 							);
 							// notice result for cache
-							$query_results[ $post_id ] = $future_thumb_id;
+							$query_results[ $post_id ] = array( $future_thumb_id, $post_link, $post_title );
 						} // while(have_posts)
 						break;
 					case 'remove':
@@ -1402,9 +1406,11 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								$current_thumb_id = $false_id; // cast from '' or 'false' to a value to use as an array key
 							}
 							// store edit link, post title, post date, post author, current image html, future image html
+							$post_link = get_edit_post_link();
+							$post_title = get_the_title();
 							$results[] = array( 
-								get_edit_post_link(), 
-								get_the_title(),
+								$post_link, 
+								$post_title,
 								get_the_date(),
 								get_the_author(),
 								$current_featured_images[ $current_thumb_id ],
@@ -1413,7 +1419,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								get_post_type(),
 							);
 							// notice result for cache
-							$query_results[ $post_id ] = $future_thumb_id;
+							$query_results[ $post_id ] = array( $future_thumb_id, $post_link, $post_title );
 						} // while(have_posts)
 				} // switch(selected_action)
 			} // if( have_posts )
