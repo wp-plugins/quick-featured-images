@@ -128,27 +128,10 @@ if ( $this->selected_filters ) {
 <?php
 	}
 }
-foreach ( $this->selected_statuses as $v ) {
-?>
-		<input type="hidden" name="statuses[]" value="<?php echo $v; ?>" />
-<?php 
-}
 foreach ( $this->selected_post_types as $v ) {
 ?>
 		<input type="hidden" name="post_types[]" value="<?php echo $v; ?>" />
 <?php 
-}
-foreach ( $this->selected_mime_types as $v ) {
-?>
-		<input type="hidden" name="mime_types[]" value="<?php echo $v; ?>" />
-<?php 
-}
-if ( $this->selected_custom_post_types ) {
-	foreach ( $this->selected_custom_post_types as $v ) {
-?>
-		<input type="hidden" name="custom_post_types[]" value="<?php echo $v; ?>" />
-<?php
-	}
 }
 if ( $this->selected_options ) {
 	foreach ( $this->selected_options as $v ) {
@@ -167,54 +150,15 @@ if ( $this->selected_category_id ) {
 		<input type="hidden" name="category_id" value="<?php echo $this->selected_category_id; ?>" />
 <?php 
 }
-if ( $this->selected_parent_page_id ) {
-?>
-		<input type="hidden" name="page_id" value="<?php echo $this->selected_parent_page_id; ?>" />
-<?php 
-}
-if ( $this->selected_author_id ) {
-?>
-		<input type="hidden" name="author_id" value="<?php echo $this->selected_author_id; ?>" />
-<?php 
-}
 if ( $this->selected_tag_id ) {
 ?>
 		<input type="hidden" name="tag_id" value="<?php echo $this->selected_tag_id; ?>" />
 <?php 
 }
-/*if ( $this->selected_custom_field ) {
-	foreach ( $this->selected_custom_field as $k => $v ) {
-? >
-		<input type="hidden" name="custom_field[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
-< ? php
-	}
-}*/
 if ( $this->selected_old_image_ids ) {
 	foreach ( $this->selected_old_image_ids as $k => $v ) {
 ?>
 		<input type="hidden" name="replacement_image_ids[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
-<?php
-	}
-}
-if ( in_array( 'filter_image_size', $this->selected_filters ) ) {
-	// $this->selected_image_dimensions is never empty because of default values, so loop without check
-	foreach ( $this->selected_image_dimensions as $k => $v ) {
-?>
-		<input type="hidden" name="image_dimensions[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
-<?php
-	}
-}
-if ( $this->selected_custom_taxonomies ) {
-	foreach ( $this->selected_custom_taxonomies as $k => $v ) {
-?>
-		<input type="hidden" name="custom_taxonomies[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
-<?php
-	}
-}
-if ( $this->selected_date_queries ) {
-	foreach ( $this->selected_date_queries as $k => $v ) {
-?>
-		<input type="hidden" name="date_queries[<?php echo $k; ?>]" value="<?php echo $v; ?>" />
 <?php
 	}
 }

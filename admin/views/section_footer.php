@@ -19,8 +19,8 @@ if ( isset($this->plugin_slug ) ) {
 // source: https://developer.paypal.com/docs/classic/archive/buttons/
 // source: http://wpcentral.io/internationalization/
 $paypal_locale = get_locale();
+// if locale is not in registered locale code try to find the nearest match
 if ( ! in_array( $paypal_locale, array( 'en_US', 'en_AU', 'es_ES', 'fr_FR', 'de_DE', 'ja_JP', 'it_IT', 'pt_PT', 'pt_BR', 'pl_PL', 'ru_RU', 'sv_SE', 'tr_TR', 'nl_NL', 'zh_CN', 'zh_HK', 'he_IL' ) ) ) {
-	// try to find the nearest match
 	if ( 'ja' == $paypal_locale ) { // japanese language
 		$paypal_locale = 'ja_JP';
 	} else {

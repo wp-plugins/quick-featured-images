@@ -4,18 +4,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2015-05-10 12:37+0100\n"
-"PO-Revision-Date: 2015-05-10 12:37+0100\n"
+"POT-Creation-Date: 2015-06-29 00:46+0200\n"
+"PO-Revision-Date: 2015-06-29 00:47+0200\n"
 "Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
-"Language-Team:  <m.stehle@gmx.de>\n"
+"Language-Team: m.stehle@gmx.de\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.6\n"
+"X-Generator: Poedit 1.8.2\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
 "esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
-"X-Poedit-Basepath: ../\n"
+"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -98,175 +98,139 @@ msgstr ""
 "verwendeten Beitragsbilder eines jeden Beitrags. Die Spalte der "
 "Beitragsbilder ist sortierbar."
 
-#: admin/class-quick-featured-images-tools.php:544
+#: admin/class-quick-featured-images-tools.php:419
 #, php-format
 msgid "Wrong image ID %d"
 msgstr "Falsche Bild-ID %d"
 
-#: admin/class-quick-featured-images-tools.php:642
+#: admin/class-quick-featured-images-tools.php:518
 msgid "Select"
 msgstr "Auswählen"
 
-#: admin/class-quick-featured-images-tools.php:643
+#: admin/class-quick-featured-images-tools.php:519
 msgid "Add filter"
 msgstr "Filter hinzufügen"
 
-#: admin/class-quick-featured-images-tools.php:644
+#: admin/class-quick-featured-images-tools.php:520
 msgid "Refine"
 msgstr "Verfeinern"
 
-#: admin/class-quick-featured-images-tools.php:645
+#: admin/class-quick-featured-images-tools.php:521
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: admin/class-quick-featured-images-tools.php:646
+#: admin/class-quick-featured-images-tools.php:522
 msgid "Perform"
 msgstr "Umsetzen"
 
-#: admin/class-quick-featured-images-tools.php:650
+#: admin/class-quick-featured-images-tools.php:526
 msgid "Set the selected image as new featured image"
 msgstr "Füge das ausgewählte Bild als neues Beitragsbild hinzu"
 
-#: admin/class-quick-featured-images-tools.php:651
+#: admin/class-quick-featured-images-tools.php:527
 msgid "Replace featured images by the selected image"
 msgstr "Ersetze mindestens ein Beitragsbild durch das ausgewählte Bild"
 
-#: admin/class-quick-featured-images-tools.php:652
+#: admin/class-quick-featured-images-tools.php:528
 msgid "Remove the selected image as featured image"
 msgstr "Entferne das ausgewählte Bild als Beitragsbild"
 
-#: admin/class-quick-featured-images-tools.php:655
+#: admin/class-quick-featured-images-tools.php:531
 msgid "Remove any image as featured image"
 msgstr "Entferne jedes Bild als Beitragsbild"
 
-#: admin/class-quick-featured-images-tools.php:658
+#: admin/class-quick-featured-images-tools.php:534
 msgid "Set multiple images randomly as featured images"
 msgstr ""
 "Füge mehrere Bilder in zufälliger Ordnung als neue Beitragsbilder hinzu"
 
-#: admin/class-quick-featured-images-tools.php:662
+#: admin/class-quick-featured-images-tools.php:538
 msgid "Overwrite featured images"
 msgstr "Überschreibe Beitragsbilder"
 
-#: admin/class-quick-featured-images-tools.php:663
+#: admin/class-quick-featured-images-tools.php:539
 msgid "Consider only posts without any featured image"
 msgstr "Berücksichtige nur Beiträge ohne Beitragsbild"
 
-#: admin/class-quick-featured-images-tools.php:667
+#: admin/class-quick-featured-images-tools.php:543
 msgid "Post Type Filter"
 msgstr "Inhaltstypfilter"
 
-#: admin/class-quick-featured-images-tools.php:668
+#: admin/class-quick-featured-images-tools.php:544
 msgid "Category Filter"
 msgstr "Kategorienfilter"
 
-#: admin/class-quick-featured-images-tools.php:669
+#: admin/class-quick-featured-images-tools.php:545
 msgid "Tag Filter"
 msgstr "Schlagwortfilter"
 
-#: admin/class-quick-featured-images-tools.php:681
-msgid "Audio files"
-msgstr "Audio-Dateien"
-
-#: admin/class-quick-featured-images-tools.php:682
-msgid "Video files"
-msgstr "Video-Dateien"
-
-#: admin/class-quick-featured-images-tools.php:704
-msgid "Start Date"
-msgstr "Startdatum"
-
-#: admin/class-quick-featured-images-tools.php:705
-msgid "End Date"
-msgstr "Enddatum"
-
-#: admin/class-quick-featured-images-tools.php:706
-msgid "Include the posts of the selected dates"
-msgstr "Schließe die Beiträge der ausgewählten Zeitpunkte mit ein"
-
-#: admin/class-quick-featured-images-tools.php:710
-msgid "Custom field name"
-msgstr "Benutzerdefinierter Feldname"
-
-#: admin/class-quick-featured-images-tools.php:711
-msgid "Operator to test with the value in the custom field"
-msgstr "Operator, um auf den Wert im benutzerdefiniertem Feld zu testen"
-
-#: admin/class-quick-featured-images-tools.php:712
-msgid "Custom field value to compare with"
-msgstr "Benutzerdefinierter Wert, mit dem verglichen werden soll"
-
-#: admin/class-quick-featured-images-tools.php:713
-msgid "Custom field type"
-msgstr "Benutzerdefinierter Feld-Typ"
-
-#: admin/class-quick-featured-images-tools.php:719
+#: admin/class-quick-featured-images-tools.php:574
 msgid "Image width in pixels lower than"
 msgstr "Bildbreite in Pixeln kleiner als"
 
-#: admin/class-quick-featured-images-tools.php:720
+#: admin/class-quick-featured-images-tools.php:575
 msgid "Image height in pixels lower than"
 msgstr "Bildhöhe in Pixeln kleiner als"
 
-#: admin/class-quick-featured-images-tools.php:811
+#: admin/class-quick-featured-images-tools.php:650
 #, php-format
 msgid "The input field %s is empty."
 msgstr "Das Eingabefeld %s ist leer."
 
-#: admin/class-quick-featured-images-tools.php:812
+#: admin/class-quick-featured-images-tools.php:651
 msgid "Type in a value into the input field."
 msgstr "Gebe in das Eingabefeld einen Wert ein."
 
-#: admin/class-quick-featured-images-tools.php:815
+#: admin/class-quick-featured-images-tools.php:654
 #, php-format
 msgid "%s is not defined."
 msgstr "%s ist nicht definiert."
 
-#: admin/class-quick-featured-images-tools.php:816
+#: admin/class-quick-featured-images-tools.php:655
 msgid "Check how to define the value."
 msgstr "Prüfe nach, wie der Wert gesetzt wird."
 
-#: admin/class-quick-featured-images-tools.php:819
+#: admin/class-quick-featured-images-tools.php:658
 msgid "There is no selected image."
 msgstr "Es gibt kein ausgewähltes Bild."
 
-#: admin/class-quick-featured-images-tools.php:820
+#: admin/class-quick-featured-images-tools.php:659
 msgid "Select an image from the media library."
 msgstr "Wähle ein Bild aus der Mediathek aus."
 
-#: admin/class-quick-featured-images-tools.php:823
+#: admin/class-quick-featured-images-tools.php:662
 #: admin/views/section_image.php:51
 msgid "You have not selected an action."
 msgstr "Du hast keine Aktion ausgewählt"
 
-#: admin/class-quick-featured-images-tools.php:824
+#: admin/class-quick-featured-images-tools.php:663
 msgid "Start again and select which action you want to apply."
 msgstr "Fange neu an und wähle aus, welche Aktion du anwenden willst."
 
-#: admin/class-quick-featured-images-tools.php:827
+#: admin/class-quick-featured-images-tools.php:666
 #, php-format
 msgid "The input field %s has an invalid value."
 msgstr "Das Eingabefeld %s hat einen ungültigen Wert."
 
-#: admin/class-quick-featured-images-tools.php:828
+#: admin/class-quick-featured-images-tools.php:667
 msgid "Type in valid values in the input field."
 msgstr "Gebe einen gültigen Wert in das Eingabefeld ein."
 
-#: admin/class-quick-featured-images-tools.php:832
+#: admin/class-quick-featured-images-tools.php:671
 msgid "Type in values stored by WordPress."
 msgstr "Gebe von WordPress gespeicherte Werte ein."
 
-#: admin/class-quick-featured-images-tools.php:2000
+#: admin/class-quick-featured-images-tools.php:1777
 msgid "Set, replace, remove"
 msgstr "Setzen, tauschen, löschen"
 
-#: admin/class-quick-featured-images-tools.php:2011
+#: admin/class-quick-featured-images-tools.php:1788
 msgid "Bulk set, replace and remove featured images for existing posts"
 msgstr ""
 "Massenweises Hinzufügen, Ersetzen und Entfernen von Beitragsbildern für "
 "bestehende Inhalte"
 
-#: admin/class-quick-featured-images-tools.php:2123
+#: admin/class-quick-featured-images-tools.php:1900
 msgid "Bulk set as featured image"
 msgstr "Als Beitragsbild setzen"
 
@@ -279,10 +243,8 @@ msgid "Select post types"
 msgstr "Wähle die Inhaltstypen (Post Types) aus"
 
 #: admin/views/filter_post_types.php:2
-msgid "You can select posts, pages and available custom posts types."
-msgstr ""
-"Du kannst Beiträge, Seiten und vorhandene andere Inhaltstypen (sog. Custom "
-"Post Types) auswählen."
+msgid "You can select posts and pages."
+msgstr "Du kannst Beiträge und Seiten auswählen."
 
 #: admin/views/filter_tag.php:7
 msgid "Select a tag"
@@ -394,12 +356,12 @@ msgstr "Änderung bestätigen"
 msgid "You can not undo the operation!"
 msgstr "Du kannst die Aktion nicht rückgängig machen!"
 
-#: admin/views/form_confirm.php:229 admin/views/form_select.php:47
+#: admin/views/form_confirm.php:173 admin/views/form_select.php:47
 #: admin/views/section_errormsg.php:8 admin/views/section_results.php:71
 msgid "Start again"
 msgstr "Beginne neu"
 
-#: admin/views/form_confirm.php:229
+#: admin/views/form_confirm.php:173
 msgid "or refine your selection with the following form fields."
 msgstr "oder verfeinere deine Auswahl mit dem folgenden Feldern."
 
@@ -551,12 +513,10 @@ msgstr ""
 "Ergebnisse zurück."
 
 #: admin/views/form_select.php:113
-msgid ""
-"Search by post type. By default all posts, pages and custom post types will "
-"be affected."
+msgid "Search by post type. By default all posts and pages will be affected."
 msgstr ""
-"Suchen nach Inhaltstyp. Standardmäßig werden alle Beiträge, Seiten und "
-"eigene Inhaltstyp (Custom Post Types) berücksichtigt."
+"Suchen nach Inhaltstyp. Standardmäßig werden Beiträge und Seiten "
+"berücksichtigt."
 
 #: admin/views/form_select.php:116
 msgid "Search posts by category"

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
 Requires at least: 3.8
 Tested up to: 4.2.2
-Stable tag: 11.1
+Stable tag: 11.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,13 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 11.2 =
+* Fixed in 'Set, replace, remove': invalid thumbnail IDs will be ignored
+* Fixed in 'Set, replace, remove': Added missing 'break' in switch()
+* Fixed in 'Set, replace, remove': Post Type Filter founded always posts and pages
+* Fixed broken bulk assign link at each image in the media library
+* Premium version: Added option in 'Set, replace, remove': Take the first post image from current site domain
+
 = 11.1 =
 * Fixed bug which yielded the error message "No matches found" at the Confirmation step
 * Fixed wrong links in the Confirmation list if cache was used
@@ -477,6 +484,12 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 11.2 =
+Fixed bugs
+
+= 11.1 =
+Fixed bug and wong links in the Confirmation step
 
 = 11.0 =
 Improved performance of confirmation step and better security, tested with WP 4.2.2
