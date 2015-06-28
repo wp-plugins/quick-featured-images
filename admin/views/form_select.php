@@ -110,7 +110,7 @@ if ( 'replace' == $this->selected_action ) {
 	foreach ( $this->valid_filters as $key => $label ) {
 		switch ( $key ) {
 			case 'filter_post_types':
-				$desc = __( 'Search by post type. By default all posts, pages and custom post types will be affected.', $this->plugin_slug );
+				$desc = __( 'Search by post type. By default all posts and pages will be affected.', $this->plugin_slug );
 				break;
 			case 'filter_category':
 				$desc = __( 'Search posts by category', $this->plugin_slug );

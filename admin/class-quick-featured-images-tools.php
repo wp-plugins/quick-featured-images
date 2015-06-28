@@ -7,7 +7,8 @@
  * @copyright 2014 Martin Stehle
  */
 
-class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Featured_Images_Base {
+class Quick_Featured_Images_Tools extends Quick_Featured_Images_Base { // only for debugging
+#class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Featured_Images_Base {
 
 	/**
 	 * Instance of this class.
@@ -256,15 +257,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	protected $valid_options = null;
 
 	/**
-	 * User selected statuses the plugin should perform
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      array
-	 */
-	protected $selected_statuses = null;
-
-	/**
 	 * Valid names and descriptions of the post statuses
 	 *
 	 * @since    1.0.0
@@ -292,24 +284,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	protected $selected_category_id = null;
 
 	/**
-	 * User selected parent page
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      integer
-	 */
-	protected $selected_parent_page_id = null;
-	
-	/**
-	 * User selected author
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      integer
-	 */
-	protected $selected_author_id = null;
-	
-	/**
 	 * User selected tag
 	 *
 	 * @since    1.0.0
@@ -336,105 +310,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 */
 	protected $valid_post_types = null;
 	
-	/**
-	 * User selected names and descriptions of custom post types
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      array
-	 */
-	protected $selected_custom_post_types = null;
-	
-	/**
-	 * User selected names and descriptions of mime types supporting featured images by default
-	 *
-	 * @since    9.0
-	 *
-	 * @var      array
-	 */
-	protected $selected_mime_types = null;
-	
-	/**
-	 * Valid names and descriptions of the mime types supporting featured images by default
-	 *
-	 * @since    9.0
-	 *
-	 * @var      array
-	 */
-	protected $valid_mime_types = null;
-	
-	/**
-	 * Valid names and descriptions of the custom post types
-	 *
-	 * @since    3.0
-	 *
-	 * @var      array
-	 */
-	protected $valid_custom_post_types = null;
-	
-	/**
-	 * User selected names and descriptions of custom taxonomies
-	 *
-	 * @since    3.0
-	 *
-	 * @var      array
-	 */
-	protected $selected_custom_taxonomies = null;
-	
-	/**
-	 * Valid names and descriptions of the custom taxonomies
-	 *
-	 * @since    3.0
-	 *
-	 * @var      array
-	 */
-	protected $valid_custom_taxonomies = null;
-	
-	/**
-	 * User selected date queries the plugin should perform
-	 *
-	 * @since    4.0
-	 *
-	 * @var      array
-	 */
-	protected $selected_date_queries = null;
-
-	/**
-	 * Post dates as stored in the db
-	 *
-	 * @since    4.0
-	 *
-	 * @var      array
-	 */
-	protected $valid_post_dates = null;
-
-	/**
-	 * Valid names and descriptions of the date queries
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      array
-	 */
-	protected $valid_date_queries = null;
-	
-	/**
-	 * User selected custom fields the plugin should perform
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      array
-	 */
-	protected $selected_custom_field = null;
-
-	/**
-	 * Valid names and descriptions of the custom fields
-	 *
-	 * @since    1.0.0
-	 *
-	 * @var      array
-	 */
-	protected $valid_custom_field = null;
-
 	/**
 	 * User selected post ids
 	 *
@@ -556,7 +431,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 						$this->selected_step = 'select';
 						$this->is_error_no_old_image = true;
 					// check if user comes from direct link in media page
-					} elseif ( 'assign' == $this->selected_action && 'select' == $this->selected_step && $this->selected_image_id && isset( $_POST[ '_wpnonce' ] ) ) {
+					} elseif ( 'assign' == $this->selected_action && 'select' == $this->selected_step && $this->selected_image_id && isset( $_REQUEST[ '_wpnonce' ] ) ) {
 						// go to the filter selection page directly
 						$this->is_direct_access = true;
 					// check if user comes from the selection page and has not select any filter
@@ -618,6 +493,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							$results = $this->perform_action();
 							// print results
 							include_once( 'views/section_results.php' );	
+							break;
 					} // switch( selected step )
 				} // if( image available )
 			} // if( action available )
@@ -668,18 +544,12 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 			'filter_category' 			=> __( 'Category Filter', $this->plugin_slug ),
 			'filter_tag' 				=> __( 'Tag Filter', $this->plugin_slug ),
 		);
-		// post types (generic and custom)
+		// post types (generic)
 		$label_posts = 'Posts';
 		$label_pages = 'Pages';
 		$this->valid_post_types = array(
 			'post' => _x( $label_posts, 'post type general name' ),
 			'page' => _x( $label_pages, 'post type general name' ),
-		);
-		$this->valid_custom_post_types = $this->get_registered_custom_post_types();
-		// mime types (supporting feat. images by default)
-		$this->valid_mime_types = array(
-			'audio' => __( 'Audio files', $this->plugin_slug ),
-			'video' => __( 'Video files', $this->plugin_slug ),
 		);
 		// statuses
 		$text             = 'Private';
@@ -699,21 +569,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 			'future'  => $label_future,
 			'private' => $label_private
 		);
-		// time and dates
-		$this->valid_date_queries = array(
-			'after' 	=> __( 'Start Date', $this->plugin_slug ),
-			'before' 	=> __( 'End Date', $this->plugin_slug ),
-			'inclusive'	=> __( 'Include the posts of the selected dates', $this->plugin_slug )
-		);
-		// custom fields
-		$this->valid_custom_field = array(
-			'key' 		=> __( 'Custom field name', $this->plugin_slug ),
-			'compare' 	=> __( 'Operator to test with the value in the custom field', $this->plugin_slug ),
-			'value' 	=> __( 'Custom field value to compare with', $this->plugin_slug ),
-			'type' 		=> __( 'Custom field type', $this->plugin_slug )
-		);
-		// custom taxonomies
-		$this->valid_custom_taxonomies = $this->get_registered_custom_taxonomies();
 		// image dimensions
 		$this->valid_image_dimensions = array(
 			'max_width' 	=> __( 'Image width in pixels lower than', $this->plugin_slug ),
@@ -732,26 +587,10 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		$this->is_skip_refine = false;
 		// default: no category
 		$this->selected_category_id = 0;
-		// default: no parent page
-		$this->selected_parent_page_id = 0;
-		// default: no author
-		$this->selected_author_id = 0;
 		// default: no tag
 		$this->selected_tag_id = 0;
-		// default: no date query
-		$this->selected_date_queries = array( 'inclusive' => "1" ); // default: include posts matching selected time specifications
-		// default: all post statuses
-		$this->selected_statuses = array_keys( $this->valid_statuses ); // default: all statuses
 		// default: all post types
-		$this->selected_post_types = array_keys( $this->valid_post_types ); // default: all posts, pages and custom post types. old: posts only. No pages, no custom post types. old string: array_keys( $this->valid_post_types );
-		// default: all custom post types
-		$this->selected_custom_post_types = $this->valid_custom_post_types;
-		// default: no mime types
-		$this->selected_mime_types = array();
-		// default: no custom taxonomies
-		$this->selected_custom_taxonomies = array();
-		// default: no custom field
-		$this->selected_custom_field = array();
+		$this->selected_post_types = array_keys( $this->valid_post_types ); // default: posts and pages
 		// default: no selected posts
 		$this->selected_post_ids = array();
 		// get user defined dimensions for thumbnails, else take 150 px and set maximum value if necessary
@@ -904,7 +743,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// get the post id once
 								$post_id = get_the_ID();
 								// check if there is an existing featured image
-								$thumb_id = get_post_thumbnail_id( $post_id );
+								$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								// if post with featured images should be ignored, jump to next loop
 								if ( $thumb_id and $is_option[ 'orphans_only' ] ) {
 									continue;
@@ -918,7 +757,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									$success = set_post_thumbnail( $post_id, $thumb_id );
 								}
 								// get html for featured image for check
-								$thumb_id = get_post_thumbnail_id( $post_id );
+								$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								// if existing featured image
 								if ( $thumb_id ) {
 									// get thumbnail html if not yet got
@@ -945,7 +784,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// get the post id once
 								$post_id = get_the_ID();
 								// check if there is an existing featured image
-								$thumb_id = get_post_thumbnail_id( $post_id );
+								$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								// if post with featured images should be ignored, jump to next loop
 								if ( $thumb_id and $is_option[ 'orphans_only' ] ) {
 									continue;
@@ -959,7 +798,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 									$success = set_post_thumbnail( $post_id, $thumb_id );
 								}
 								// get html for featured image for check
-								$thumb_id = get_post_thumbnail_id( $post_id );
+								$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								// if existing featured image
 								if ( $thumb_id ) {
 									// get thumbnail html if not yet got
@@ -987,7 +826,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// do the task
 								$success = set_post_thumbnail( $post_id, $this->selected_image_id );
 								// get html for featured image for check
-								$thumb_id = get_post_thumbnail_id( $post_id );
+								$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								if ( $thumb_id ) {
 									// get thumbnail html if not yet got
 									if ( ! isset( $current_featured_images[ $thumb_id ] ) ) {
@@ -1015,7 +854,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// do the task
 								$success = delete_post_thumbnail( $post_id );
 								// get html for featured image for check
-								$thumb_id = get_post_thumbnail_id( $post_id );
+								$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								// if existing featured image
 								if ( $thumb_id ) {
 									// get thumbnail html if not yet got
@@ -1051,7 +890,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								$thumb_id = false;
 							}
 							// check if there is an existing featured image
-							$current_thumb_id = get_post_thumbnail_id( $post_id );
+							$current_thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							$success = false;
 							// if no existing featured image or if permission to overwrite it
 							if ( ! $current_thumb_id or $is_option[ 'overwrite' ] ) {
@@ -1059,7 +898,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								$success = set_post_thumbnail( $post_id, $thumb_id );
 							}
 							// get html for featured image for check
-							$thumb_id = get_post_thumbnail_id( $post_id );
+							$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							// if existing featured image
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
@@ -1088,7 +927,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							}
 							$success = false;
 							// check if there is an existing featured image
-							$current_thumb_id = get_post_thumbnail_id( $post_id );
+							$current_thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							// if existing featured image
 							if ( $current_thumb_id ) {
 								// if new image
@@ -1112,7 +951,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								} // if ( new image )
 							} // if ( existing image )
 							// get html for featured image for check
-							$thumb_id = get_post_thumbnail_id( $post_id );
+							$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							// if existing featured image
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
@@ -1138,7 +977,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							// do the task
 							$success = set_post_thumbnail( $post_id, $thumb_id );
 							// get html for featured image for check
-							$thumb_id = get_post_thumbnail_id( $post_id );
+							$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
 								if ( ! isset( $current_featured_images[ $thumb_id ] ) ) {
@@ -1164,7 +1003,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							// do the task
 							$success = delete_post_thumbnail( $post_id );
 							// get html for featured image for check
-							$thumb_id = get_post_thumbnail_id( $post_id );
+							$thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							if ( $thumb_id ) {
 								// get thumbnail html if not yet got
 								if ( ! isset( $current_featured_images[ $thumb_id ] ) ) {
@@ -1201,7 +1040,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							// get the post id once
 							$post_id = get_the_ID();
 							// check if there is an existing featured image
-							$current_thumb_id = get_post_thumbnail_id( $post_id );
+							$current_thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							// if post with featured images should be ignored, jump to next loop
 							if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
 								continue;
@@ -1263,7 +1102,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// get the post id once
 								$post_id = get_the_ID();
 								// check if there is an existing featured image
-								$current_thumb_id = get_post_thumbnail_id( $post_id );
+								$current_thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								// if post with featured images should be ignored, jump to next loop
 								if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
 									continue;
@@ -1309,7 +1148,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 								// get the post id once
 								$post_id = get_the_ID();
 								// check if there is an existing featured image
-								$current_thumb_id = get_post_thumbnail_id( $post_id );
+								$current_thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 								// if post with featured images should be ignored, jump to next loop
 								if ( $current_thumb_id and $is_option[ 'orphans_only' ] ) {
 									continue;
@@ -1356,7 +1195,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							// get the post id once
 							$post_id = get_the_ID();
 							// check if there is an existing featured image
-							$current_thumb_id = get_post_thumbnail_id( $post_id );
+							$current_thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							if ( $current_thumb_id ) {
 								// get thumbnail html if not yet got
 								if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
@@ -1396,7 +1235,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							// get the post id once
 							$post_id = get_the_ID();
 							// get html for featured image
-							$current_thumb_id = get_post_thumbnail_id( $post_id );
+							$current_thumb_id = $this->get_sanitized_post_thumbnail_id( $post_id );
 							if ( $current_thumb_id ) {
 								// get thumbnail html if not yet got
 								if ( ! isset( $current_featured_images[ $current_thumb_id ] ) ) {
@@ -1421,6 +1260,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							// notice result for cache
 							$query_results[ $post_id ] = array( $future_thumb_id, $post_link, $post_title );
 						} // while(have_posts)
+						break;
 				} // switch(selected_action)
 			} // if( have_posts )
 			// Restore original post data after the query
@@ -1448,7 +1288,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		$args[ 'orderby' ] = 'title';
 		$args[ 'order' ] = 'ASC';
 		$args[ 'ignore_sticky_posts' ] = true;
-		$args[ 'post_type' ] = array_merge ( $this->selected_post_types, $this->selected_custom_post_types );
+		$args[ 'post_type' ] = $this->selected_post_types;
 		switch ( $this->selected_action ) {
 			case 'replace':
 				$this->selected_post_ids = $this->get_post_ids_of_old_thumbnails();
@@ -1457,20 +1297,21 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 			case 'remove':
 				$this->selected_post_ids = $this->get_post_ids_of_thumbnail();
 				$args[ 'post__in' ] = $this->get_id_array_for_query( $this->selected_post_ids );
+				break;
 		} // switch(selected_action)
 
 		if ( $this->selected_filters ) {
-			// set desired post types and statusses
-			if ( in_array( 'filter_post_types', $this->selected_filters ) ) {
-				$this->selected_post_types = $this->get_sanitized_post_types();
-				if ( ! $this->selected_post_types ) {
-					// add a fictitious post type to get no result (and not to get a list of all posts)
-					$args[ 'post_type' ] = 'abcdefghi'; // assume there is not and will be never a post type with this name
-				}
-			}
-			// add other user inputs
 			foreach ( $this->selected_filters as $filter ) {
 				switch ( $filter ) {
+					case 'filter_post_types':
+						$this->selected_post_types = $this->get_sanitized_post_types();
+						if ( $this->selected_post_types ) {
+							$args[ 'post_type' ] = $this->selected_post_types;
+						} else {
+							// add a fictitious post type to get no result (and not to get a list of all posts)
+							$args[ 'post_type' ] = 'abcdefghi'; // assume there is not and will be never a post type with this name
+						}
+						break;
 					case 'filter_category':
 						$this->selected_category_id = $this->get_sanitized_category_id();
 						// if there is a selected category assign it to the query
@@ -1486,8 +1327,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 						}
 						break;
 				} // switch(filter)
-			} // foreach(filter)
-		} // if(filters)
+			} // foreach(selected_filters)
+		} // if(selected_filters)
 		#$this->dambedei($args);
 		return $args;
 	}
@@ -1745,94 +1586,6 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	}
 
 	/**
-	 * Define parameters and return registered custom post types
-	 *
-	 * @access   private
-	 * @since     1.0.0
-	 *
-	 * @return    array    the names of the registered and thumbnail supporting custom post types
-	 */
-	private function get_registered_custom_post_types() {
-		$args = array(
-			   '_builtin' => false # only custom post types
-		);
-        $thumbnail_supporting_custom_post_types = array();
-		// get the registered custom post types as objects
-        $cpts = get_post_types( $args, 'names' );
-		// consider only thumbnail supporting types
-        foreach ( $cpts as $name => $cpt ) {
-            if ( post_type_supports( $name, 'thumbnail' ) ) {
-                $thumbnail_supporting_custom_post_types[] = $name;
-            }
-        }
-		// return the result
-		return $thumbnail_supporting_custom_post_types;
-	}
-
-	/**
-	 * Define parameters and return thumbnail supporting custom post types
-	 *
-	 * @access   private
-	 * @since     3.1
-	 *
-	 * @return    array    the names and labels of the registered and thumbnail supporting custom post types
-	 */
-	private function get_custom_post_types_labels() {
-		$args = array(
-			   '_builtin' => false # only custom post types
-		);
-        $name_labels = array();
-		// get the registered custom post types as objects
-        $objects = get_post_types( $args, 'objects' );
-		// store their names and labels
-        foreach ( $objects as $name => $object ) {
-            if ( post_type_supports( $name, 'thumbnail' ) ) {
-                $name_labels[ $name ] = $object->label;
-            }
-        }
-		// return the result
-		return $name_labels;
-	}
-
-	/**
-	 * Return registered custom taxonomies
-	 *
-	 * @access   private
-	 * @since    3.0
-	 *
-	 * @return    array    the names of the registered custom taxonomies
-	 */
-	private function get_registered_custom_taxonomies() {
-		$args = array(
-			   '_builtin' => false # only custon post types
-		);
-		return get_taxonomies( $args, 'names' );
-	}
-
-	/**
-	 * Return registered custom taxonomies with their labels
-	 *
-	 * @access   private
-	 * @since    3.0
-	 *
-	 * @return    array    the names of the registered custom taxonomies
-	 */
-	private function get_custom_taxonomies_labels() {
-		$args = array(
-			   '_builtin' => false # only custon post types
-		);
-        $name_labels = array();
-		// get the registered custom post types as objects
-        $objects = get_taxonomies( $args, 'objects' );
-		// store their names and labels
-        foreach ( $objects as $name => $object ) {
-            $name_labels[ $name ] = $object->label;
-        }
-		// return the result
-		return $name_labels;
-	}
-
-	/**
 	 * Return the intersection of two given arrays
 	 * Runs 5 times faster than PHP's array_intersect()
 	 *
@@ -1874,8 +1627,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 * @return    integer    the id or 0
 	 */
 	private function get_sanitized_id( $key, $default = 0 ) {
-		$given_id = absint( sanitize_text_field( $_POST[ $key ]  ) );
-		if ( ( ! isset( $_POST[ $key ] ) ) or empty( $_POST[ $key ] ) or 0 > $given_id ) {
+		$given_id = absint( sanitize_text_field( $_REQUEST[ $key ]  ) );
+		if ( ( ! isset( $_REQUEST[ $key ] ) ) or empty( $_REQUEST[ $key ] ) or 0 > $given_id ) {
 			return $default;
 		} else {
 			return $given_id;
@@ -1935,6 +1688,24 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		return $this->get_sanitized_id( 'category_id' );
 	}
 	
+	/**
+	 * Get the ID of a post's featured image, else 0
+	 *
+	 * @access   private
+	 * @since     11.2
+	 *
+	 * @return    integer    the id or 0
+	 */
+	private function get_sanitized_post_thumbnail_id( $post_id ) {
+		// check if an image with the given ID exists in the media library, else set id to 0
+		$current_thumb_id = get_post_thumbnail_id( $post_id );
+		if ( $current_thumb_id and wp_attachment_is_image( $current_thumb_id ) ) {
+			return $current_thumb_id;
+		} else {
+			return 0;
+		}
+	}
+
 	/**
 	 * If results in array, return them, else say query something like "no results in array"
 	 *
