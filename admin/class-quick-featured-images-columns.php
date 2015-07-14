@@ -228,7 +228,6 @@ class Quick_Featured_Images_Columns {
 	 * Print the featured image in the column
 	 *
 	 * @since     7.0
-	 * @updated 9.1: revised label text for WP 4.1
 	 *
 	 * @return    array	extended list of columns    
 	 */
@@ -249,12 +248,31 @@ class Quick_Featured_Images_Columns {
 			$thumbnail_id = get_post_thumbnail_id( $post_id );
 			// image from gallery
 			if ( $thumbnail_id ) {
-				echo wp_get_attachment_image( $thumbnail_id, array( $width, $height ) );
+				if ( $thumb = wp_get_attachment_image( $thumbnail_id, array( $width, $height ) ) ) {
+					if ( current_user_can( 'edit_post', $thumbnail_id ) ) {
+						$label_title = 'Edit &#8220;%s&#8221;';
+						$label_link = 'Edit Image';
+						printf(
+							'<a href="%s" title="%s">%s<br />%s</a>',
+							get_edit_post_link( $thumbnail_id ),
+							esc_attr(
+								sprintf(
+									__( $label_title ),
+									_draft_or_post_title( $thumbnail_id )
+								)
+							),
+							$thumb,
+							__( $label_link )
+						);
+					} else {
+						echo $thumb;
+					} // if user can edit
+				} // if thumb
 			} else {
 				$text = 'No image set';
 				echo __( $text );
-			}
-		}
+			} // if thumbnail_id
+		} // if this column name == column_name
     }
 	
 	/**
