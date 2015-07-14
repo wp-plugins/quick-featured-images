@@ -7,8 +7,7 @@
  * @copyright 2014 Martin Stehle
  */
 
-class Quick_Featured_Images_Tools extends Quick_Featured_Images_Base { // only for debugging
-#class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Featured_Images_Base {
+class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Featured_Images_Base {
 
 	/**
 	 * Instance of this class.

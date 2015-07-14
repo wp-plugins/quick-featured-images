@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
 Requires at least: 3.8
 Tested up to: 4.2.2
-Stable tag: 11.2
+Stable tag: 11.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,10 +63,11 @@ If you want to use the option to **remove the first image in the content** then 
 The **premium version** offers you several approaches for **setting the first image as featured**:
 
 1. **the first post image** if available in the media library
-2. **the first external post image**, download it and add it to the media library
-3. **the first attached image of a post**
-4. **the first image of a WordPress standard gallery**
-5. **the first image of a NextGen Gallery**.
+2. **the first post image from the current site domain**, copy and add it to the media library if not available there
+3. **the first external post image**, download it and add it to the media library
+4. **the first attached image of a post**
+5. **the first image of a WordPress standard gallery**
+6. **the first image of a NextGen Gallery**.
 
 The **premium version** offers you two more options if you selected multiple images to set them as featured images in random order:
 
@@ -258,12 +259,17 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 11.3 =
+* Added in image column: Link to the edit page of the displayed image
+* Updated screenshot
+
 = 11.2 =
 * Fixed in 'Set, replace, remove': invalid thumbnail IDs will be ignored
 * Fixed in 'Set, replace, remove': Added missing 'break' in switch()
 * Fixed in 'Set, replace, remove': Post Type Filter founded always posts and pages
 * Fixed broken bulk assign link at each image in the media library
 * Premium version: Added option in 'Set, replace, remove': Take the first post image from current site domain
+* Updated *.pot file and german translation
 
 = 11.1 =
 * Fixed bug which yielded the error message "No matches found" at the Confirmation step
@@ -484,6 +490,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 11.3 =
+Added image edit link
 
 = 11.2 =
 Fixed bugs
