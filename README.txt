@@ -1,16 +1,18 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
-Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos
+Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos, spanish, español, deutsch, german
 Requires at least: 3.8
-Tested up to: 4.2.2
-Stable tag: 11.3
+Tested up to: 4.2.3
+Stable tag: 11.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Your time-saving Swiss Army Knife for featured images: Set, replace and delete them in bulk, set default images, get overview lists.
 
 == Description ==
+
+Avaiable in english, spanish (español) and german (deutsch).
 
 = Manage featured images quickly =
 
@@ -129,7 +131,9 @@ The latter setting is the default. The option is used every time a post is saved
 
 = Additional sortable image column in posts lists =
 
-Quick Featured Images adds a new column in posts lists. The additional column shows the currently assigned featured image of each post. The new column called 'Featured Image' is sortable by the image ID.
+Quick Featured Images adds a new column called 'Featured Image' in posts lists. The additional column shows the currently assigned featured image of each post and is sortable by the image ID.
+
+If the current user is allowed to edit images each displayed image in the column is linked to the edit page of the image.
 
 With that column you can get a **quick overview about all used images**. You can also see posts with no featured image at a glance.
 
@@ -239,7 +243,8 @@ The search for custom taxonomy terms could lead to surprising results. The reaso
 Actually these languages are supported:
 
 * English
-* German
+* Spanish (Español)
+* German (Deutsch)
 
 Further translations are welcome. If you want to give in your translation please leave a notice in the [plugin's support forum](http://wordpress.org/support/plugin/quick-featured-images).
 
@@ -258,6 +263,9 @@ If you want to contribute a translation of the plugin in your language it would 
 7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 11.4 =
+Added spanish translation for the main texts of the plugin
 
 = 11.3 =
 * Added in image column: Link to the edit page of the displayed image
@@ -490,6 +498,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 11.4 =
+Added spanish translation
 
 = 11.3 =
 Added image edit link
