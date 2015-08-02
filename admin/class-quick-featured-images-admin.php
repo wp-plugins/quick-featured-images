@@ -19,7 +19,7 @@
 	 *
 	 * @var     string
 	 */
-	protected $plugin_version = '11.3';
+	protected $plugin_version = '11.4';
 
 	/**
 	 * Instance of this class.
