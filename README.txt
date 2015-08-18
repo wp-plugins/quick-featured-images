@@ -3,8 +3,8 @@ Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
 Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos, spanish, español, deutsch, german
 Requires at least: 3.8
-Tested up to: 4.2.3
-Stable tag: 11.4
+Tested up to: 4.3
+Stable tag: 11.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Your time-saving Swiss Army Knife for featured images: Set, replace and delete t
 
 == Description ==
 
-Avaiable in english, spanish (español) and german (deutsch).
+The plugin is available in English, Spanish (Español) and German (Deutsch).
 
 = Manage featured images quickly =
 
@@ -76,7 +76,6 @@ The **premium version** offers you two more options if you selected multiple ima
 1. **Use each selected image only once**. If there are more posts than selected images the remaining posts will not be changed.
 2. **Remove excess featured images** after all selected images are used.
 
-
 If you want to use these options then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
 = Set, replace, remove: Filters =
@@ -113,8 +112,10 @@ You can define the rules based on
 3. post **tags**
 4. post **authors**
 5. **standard post types** 'Post' and 'Page'
-6. all other **custom post types** supporting featured images
-7. all other **custom taxonomies** supporting featured images
+6. all other **custom post types** which support featured images
+7. all other **custom taxonomies** which support featured images
+8. in the Premium version: **search string in post title**
+
 
 The rules are easy to set: choose an image, a taxonomy, a value and save the settings. That's it. **You do not need to code.**
 
@@ -138,6 +139,16 @@ If the current user is allowed to edit images each displayed image in the column
 With that column you can get a **quick overview about all used images**. You can also see posts with no featured image at a glance.
 
 Under **'Featured Images'** &gt; **'Image Columns'** you can switch on and off the additional image column for every single post type, even custom post types if they support thumbnails.
+
+= Languages =
+
+The user interface is available in
+
+* English
+* Spanish (Español), kindly drawn up by Andrew Kurtis from [www.webhostinghub.com](http://www.webhostinghub.com/)
+* German (Deutsch)
+
+Further translations are welcome. If you want to give in your translation please leave a notice in the [plugin's support forum](https://wordpress.org/support/plugin/quick-featured-images).
 
 = Your idea to improve the plugin is welcome =
 
@@ -238,16 +249,6 @@ It does not matter where the images are stored on your server. They can be in an
 
 The search for custom taxonomy terms could lead to surprising results. The reason is custom taxonomies can be used in many different ways. It is not possible to catch them all in one single code expression. If you should be unsatisfied with the result try other filters to get the result you want.
 
-= Which languages does the plugin support? =
-
-Actually these languages are supported:
-
-* English
-* Spanish (Español)
-* German (Deutsch)
-
-Further translations are welcome. If you want to give in your translation please leave a notice in the [plugin's support forum](http://wordpress.org/support/plugin/quick-featured-images).
-
 = Where is the *.pot file for translating the plugin in any language? =
 
 If you want to contribute a translation of the plugin in your language it would be great! You would find the *.pot file in the 'languages' directory of this plugin. If you would send the *.po file to me I would include it in the next release of the plugin.
@@ -263,6 +264,11 @@ If you want to contribute a translation of the plugin in your language it would 
 7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 11.4.1 =
+* Revised styles for image column in small displays, since WP 4.3
+* Premium version: Added search in post title in 'Presets': set default featured image for posts with a specific search string in the title
+* Tested successfully with WordPress 4.3
 
 = 11.4 =
 Added spanish translation for the main texts of the plugin
@@ -498,6 +504,9 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 11.4.1 =
+Revised styles for image column since WP 4.3, tested in WP 4.3
 
 = 11.4 =
 Added spanish translation
