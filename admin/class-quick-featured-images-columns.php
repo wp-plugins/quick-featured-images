@@ -284,23 +284,21 @@ class Quick_Featured_Images_Columns {
 	 */
 	public function display_thumbnail_column_style(){
 		print '<style type="text/css">';
-		print '/* Quick Featured Images plugin styles */';
 		print "\n";
-		print '/* Fit thumbnails in posts list column */';
+		print "/* Quick Featured Images plugin styles */\n";
+		print "/* Fit thumbnails in posts list column */\n";
 		printf( '.column-%s img {', $this->column_name );
-		print '	width: 100%;';
-		print '	height: auto;';
-		printf( '	max-width: %dpx;', 80 );
-		printf( '	max-height: %dpx;', 80 );
-		print '}';
-		print "\n";
-		print '/* Auto-hiding of the thumbnail column in posts lists */';
-		print '@media screen and ( max-width: 782px ) {';
-		printf( '	.column-%s {', $this->column_name );
-		print '		display: none;';
-		print '	}';
-		print '}';
-		print "\n";
+		print 'width:100%;height:auto;';
+		printf( 'max-width:%dpx;', 80 );
+		printf( 'max-height:%dpx;', 80 );
+		print "}\n";
+		/* hide image column in small displays in WP version smaller than 4.3 */
+		if ( version_compare( get_bloginfo( 'version' ), '4.3', '<' ) ) {
+			print "/* Auto-hiding of the thumbnail column in posts lists */\n";
+			print '@media screen and (max-width:782px) {';
+			printf( '.column-%s {', $this->column_name );
+			print "display:none;}}\n";
+		} // if WP < 4.3
 		print '</style>';
 	}
 
