@@ -1,19 +1,19 @@
-<h3><?php _e( 'Results of the action', $this->plugin_slug ); ?></h3>
+<h3><?php _e( 'Results of the action', 'quick-featured-images' ); ?></h3>
 <?php
 if ( $results ) {
 	// translate once for multiple usage and improve performance
-	$label_details 	  = __( 'Details', $this->plugin_slug );
-	$label_current_fi = __( 'Current Featured Image', $this->plugin_slug );
-	$label_number 	  = __( 'No.', $this->plugin_slug );
-	$label_changed 	  = __( 'Changed successfully', $this->plugin_slug );
-	$label_unchanged  = sprintf( '<span class="failure">%s</span>', __( 'Unchanged', $this->plugin_slug ) );
+	$label_details 	  = __( 'Details', 'quick-featured-images' );
+	$label_current_fi = __( 'Current Featured Image', 'quick-featured-images' );
+	$label_number 	  = __( 'No.', 'quick-featured-images' );
+	$label_changed 	  = __( 'Changed successfully', 'quick-featured-images' );
+	$label_unchanged  = sprintf( '<span class="failure">%s</span>', __( 'Unchanged', 'quick-featured-images' ) );
 	// WP core labels
 	$text 			  = 'No image set';
 	$label_no_image   = __( $text );
 	$text             = '(no title)';
 	$default_title    = __( $text );
 ?> 
-<p><?php _e( 'The list is in alphabetical order according to post title. You can edit a post in a new window by clicking on its link in the list.', $this->plugin_slug ); ?></p>
+<p><?php _e( 'The list is in alphabetical order according to post title. You can edit a post in a new window by clicking on its link in the list.', 'quick-featured-images' ); ?></p>
 <table class="widefat">
 	<thead>
 		<tr>
@@ -33,12 +33,15 @@ if ( $results ) {
 		// get the result message per post
 		$msg = $result[ 3 ] ? $label_changed : $label_unchanged;
 		// alternating row colors with error class if error
-		$classname = $result[ 3 ] ? '' : 'form-invalid';
-		if ( 0 == $c % 2 ) { // if $c is divisible by 2 (so the modulo is 0)
-			$classname .= $result[ 3 ] ? 'alt' : ' alt';
+		$row_classes = $result[ 3 ] ? '' : 'qfi-failure';
+		if ( 0 != $c % 2 ) { // if $c is divisible by 2 (so the modulo is 0)
+			$row_classes .= $row_classes ? ' alternate' : 'alternate';
+		}
+		if ( $row_classes ) {
+			$row_classes = ' class="' . $row_classes . '"';
 		}
 		// print the table row
-		printf( '<tr%s>', ' class="' . $classname . '"' );
+		printf( '<tr%s>', $row_classes );
 		printf( '<td class="num">%d</td>', $c );
 		printf( 
 			'<td><a href="%s" target="_blank">%s</a><br>%s</td>', 
@@ -64,10 +67,10 @@ if ( $results ) {
 <?php 
 } else { 
 ?>
-<p><?php _e( 'No matches found.', $this->plugin_slug ); ?></p>
+<p><?php _e( 'No matches found.', 'quick-featured-images' ); ?></p>
 <?php 
 }
 ?>
-<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
-<h3><?php _e( 'Do you like the plugin?', $this->plugin_slug ); ?></h3>
-<p><a href="http://wordpress.org/support/view/plugin-reviews/quick-featured-images"><?php _e( 'Please rate it at wordpress.org!', $this->plugin_slug ); ?></a></p>
+<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>"><?php _e( 'Start again', 'quick-featured-images' );?></a></p>
+<h3><?php _e( 'Do you like the plugin?', 'quick-featured-images' ); ?></h3>
+<p><a href="http://wordpress.org/support/view/plugin-reviews/quick-featured-images"><?php _e( 'Please rate it at wordpress.org!', 'quick-featured-images' ); ?></a></p>

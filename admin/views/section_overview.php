@@ -14,8 +14,10 @@ $qfi_defaults_instance = Quick_Featured_Images_Defaults::get_instance();
 $qfi_settings_instance = Quick_Featured_Images_Settings::get_instance();
 ?>
 
-<h3><?php _e( 'Manage featured images in a quick way', $this->plugin_slug ); ?></h3>
-<p><?php echo $this->get_page_description(); ?></p>
+<h3><?php _e( 'Manage featured images in a quick way', 'quick-featured-images' ); ?></h3>
+<div id="qfi_page_description">
+	<p><?php echo $this->get_page_description(); ?></p>
+</div>
 <ul>
 <?php
 	/** 
@@ -84,9 +86,9 @@ if ( current_user_can( $qfi_settings_instance->get_required_user_cap() ) ) {
 ?>
 	</li>
 	<li>
-		<h4><?php _e( 'The premium version', $this->plugin_slug ); ?></h4>
-		<p><a href="http://www.quickfeaturedimages.com<?php _e( '/', $this->plugin_slug ); ?>"><img alt="Quick Featured Images Pro" src="<?php echo plugin_dir_url( dirname( dirname( __FILE__ ) ) ); ?>admin/assets/images/logo_qfi_pro.gif" style="width:100%;height:auto;"></a></p>
-		<p><?php _e( 'Are you looking for more options and more filters?', $this->plugin_slug ); ?> <?php _e( 'Get the premium version', $this->plugin_slug ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', $this->plugin_slug ); ?>">Quick Featured Images Pro</a>.</p>
+		<h4><?php _e( 'The premium version', 'quick-featured-images' ); ?></h4>
+		<p><a href="http://www.quickfeaturedimages.com<?php _e( '/', 'quick-featured-images' ); ?>"><img alt="Quick Featured Images Pro" src="<?php echo plugin_dir_url( dirname( dirname( __FILE__ ) ) ); ?>admin/assets/images/logo_qfi_pro.gif" style="width:100%;height:auto;"></a></p>
+		<p><?php _e( 'Are you looking for more options and more filters?', 'quick-featured-images' ); ?> <?php _e( 'Get the premium version', 'quick-featured-images' ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', 'quick-featured-images' ); ?>">Quick Featured Images Pro</a>.</p>
 	</li>
 </ul>
 

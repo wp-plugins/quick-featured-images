@@ -8,15 +8,15 @@ if ( 'replace' == $this->selected_action ) {
 <?php 
 		if ( $this->is_error_no_old_image ) {
 ?>
-	<h3><?php _e( 'Notice', $this->plugin_slug ); ?></h3>
+	<h3><?php _e( 'Notice', 'quick-featured-images' ); ?></h3>
 	<div class="qfi_content_inside">
-		<p class="failure"><?php _e( 'You did not have selected an image from the list below. To go on select at least one image you want to replace by the selected image.', $this->plugin_slug ); ?></p>
+		<p class="failure"><?php _e( 'You did not have selected an image from the list below. To go on select at least one image you want to replace by the selected image.', 'quick-featured-images' ); ?></p>
 	</div>
 <?php 
 		} // if( is_error_no_old_image )
 ?>
-	<h3><?php _e( 'Select the featured images you want to replace by the selected image.', $this->plugin_slug ); ?></h3>
-	<p><?php _e( 'You can select multiple images. Select at least one image.', $this->plugin_slug ); ?></p>
+	<h3><?php _e( 'Select the featured images you want to replace by the selected image.', 'quick-featured-images' ); ?></h3>
+	<p><?php _e( 'You can select multiple images. Select at least one image.', 'quick-featured-images' ); ?></p>
 	<p id="qfi_replace">
 <?php
 		$this->selected_old_image_ids = $this->get_sanitized_array( 'replacement_image_ids', $thumb_ids_in_use ); #array();
@@ -37,14 +37,14 @@ if ( 'replace' == $this->selected_action ) {
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 		<?php wp_nonce_field( 'quickfi_refine', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php _e( 'Preview filtering', $this->plugin_slug ); ?>" />
+		<input type="submit" class="button" value="<?php _e( 'Preview filtering', 'quick-featured-images' ); ?>" />
 	</p>
 </form>
 <?php 
 	} else {
 ?>
-<p><?php _e( 'There are no featured images in use.', $this->plugin_slug ); ?></p>
-<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>"><?php _e( 'Start again', $this->plugin_slug );?></a></p>
+<p><?php _e( 'There are no featured images in use.', 'quick-featured-images' ); ?></p>
+<p><a class="button" href="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>"><?php _e( 'Start again', 'quick-featured-images' );?></a></p>
 <?php 
 	} // if( thumb_ids_in_use )
 ?>
@@ -52,23 +52,23 @@ if ( 'replace' == $this->selected_action ) {
 } else {
 // else display filter selection
 ?>
-<h3><?php _e( 'Refine your selections', $this->plugin_slug ); ?></h3>
-<p><?php _e( 'You can control the process with the following options.', $this->plugin_slug ); ?></p>
+<h3><?php _e( 'Refine your selections', 'quick-featured-images' ); ?></h3>
+<p><?php _e( 'You can control the process with the following options.', 'quick-featured-images' ); ?></p>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=refine', $this->page_slug ) ) ); ?>">
 <?php
 	switch ( $this->selected_action ) {
 		case 'assign':
 		case 'assign_randomly':
 ?>
-<h4><?php _e( 'Optional: Select options', $this->plugin_slug ); ?></h4>
+<h4><?php _e( 'Optional: Select options', 'quick-featured-images' ); ?></h4>
 	<fieldset>
-		<legend><span><?php _e( 'Process Options', $this->plugin_slug ); ?></span></legend>
-		<p><?php _e( 'You can control the process with the following options.', $this->plugin_slug ); ?></p>
+		<legend><span><?php _e( 'Process Options', 'quick-featured-images' ); ?></span></legend>
+		<p><?php _e( 'You can control the process with the following options.', 'quick-featured-images' ); ?></p>
 <?php 
 			// option for overwriting existing featured images
 			$key = 'overwrite';
 			$label = $this->valid_options[ $key ];
-			$desc = __( 'Overwrite existing featured images with new ones', $this->plugin_slug );
+			$desc = __( 'Overwrite existing featured images with new ones', 'quick-featured-images' );
 ?>
 		<p>
 			<input type="checkbox" id="<?php printf( 'qfi_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
@@ -78,7 +78,7 @@ if ( 'replace' == $this->selected_action ) {
 			// option for posts without featured image
 			$key = 'orphans_only';
 			$label = $this->valid_options[ $key ];
-			$desc = __( 'Posts with featured images will be ignored, even if the Overwrite option is checked ', $this->plugin_slug );
+			$desc = __( 'Posts with featured images will be ignored, even if the Overwrite option is checked ', 'quick-featured-images' );
 ?>
 		<p>
 			<input type="checkbox" id="<?php printf( 'qfi_%s', $key ); ?>" name="options[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $this->selected_options ) ); ?>>
@@ -87,12 +87,12 @@ if ( 'replace' == $this->selected_action ) {
 <?php
 			if ( 'assign_randomly' == $this->selected_action ) {
 ?>
-		<p><?php _e( 'There are two more options in the premium version for random images:', $this->plugin_slug ); ?></p>
+		<p><?php _e( 'There are two more options in the premium version for random images:', 'quick-featured-images' ); ?></p>
 		<ol>
-			<li><?php _e( 'Use each selected image only once', $this->plugin_slug ); ?></li>
-			<li><?php _e( 'Remove excess featured images after all selected images are used', $this->plugin_slug ); ?></li>
+			<li><?php _e( 'Use each selected image only once', 'quick-featured-images' ); ?></li>
+			<li><?php _e( 'Remove excess featured images after all selected images are used', 'quick-featured-images' ); ?></li>
 		</ol>
-		<p class="qfi_ad_for_pro"><?php _e( 'Get the premium version', $this->plugin_slug ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', $this->plugin_slug ); ?>">Quick Featured Images Pro</a>.</p>
+		<p class="qfi_ad_for_pro"><?php _e( 'Get the premium version', 'quick-featured-images' ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', 'quick-featured-images' ); ?>">Quick Featured Images Pro</a>.</p>
 <?php
 			} // if(assign_randomly)
 ?>
@@ -101,22 +101,22 @@ if ( 'replace' == $this->selected_action ) {
 			break;
 	} // switch( selected_action )
 ?>
-	<h4><?php _e( 'Optional: Add a filter', $this->plugin_slug ); ?></h4>
+	<h4><?php _e( 'Optional: Add a filter', 'quick-featured-images' ); ?></h4>
 	<fieldset>
-		<legend><span><?php _e( 'Select filters', $this->plugin_slug ); ?></span></legend>
-		<p><?php _e( 'If you want select one of the following filters to narrow down the set of concerned posts and pages.', $this->plugin_slug ); ?></p>
-		<p><?php _e( 'You can select multiple filters. They will return an intersection of their results.', $this->plugin_slug ); ?></p>
+		<legend><span><?php _e( 'Select filters', 'quick-featured-images' ); ?></span></legend>
+		<p><?php _e( 'If you want select one of the following filters to narrow down the set of concerned posts and pages.', 'quick-featured-images' ); ?></p>
+		<p><?php _e( 'You can select multiple filters. They will return an intersection of their results.', 'quick-featured-images' ); ?></p>
 <?php 
 	foreach ( $this->valid_filters as $key => $label ) {
 		switch ( $key ) {
 			case 'filter_post_types':
-				$desc = __( 'Search by post type. By default all posts and pages will be affected.', $this->plugin_slug );
+				$desc = __( 'Search by post type. By default all posts and pages will be affected.', 'quick-featured-images' );
 				break;
 			case 'filter_category':
-				$desc = __( 'Search posts by category', $this->plugin_slug );
+				$desc = __( 'Search posts by category', 'quick-featured-images' );
 				break;
 			case 'filter_tag':
-				$desc = __( 'Search posts by tag', $this->plugin_slug );
+				$desc = __( 'Search posts by tag', 'quick-featured-images' );
 				break;
 			default:
 				$desc = '';
@@ -130,8 +130,8 @@ if ( 'replace' == $this->selected_action ) {
 	} // foreach()
 ?>
 	</fieldset>
-	<p class="qfi_ad_for_pro"><?php _e( 'Are you looking for more options and more filters?', $this->plugin_slug );?> <?php _e( 'Get the premium version', $this->plugin_slug ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', $this->plugin_slug ); ?>">Quick Featured Images Pro</a>.</p>
-	<p><?php _e( 'On the next page you can refine the filters. If you did not select any filter you will go to the preview list directly.', $this->plugin_slug ); ?></p>
+	<p class="qfi_ad_for_pro"><?php _e( 'Are you looking for more options and more filters?', 'quick-featured-images' );?> <?php _e( 'Get the premium version', 'quick-featured-images' ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', 'quick-featured-images' ); ?>">Quick Featured Images Pro</a>.</p>
+	<p><?php _e( 'On the next page you can refine the filters. If you did not select any filter you will go to the preview list directly.', 'quick-featured-images' ); ?></p>
 	<p>
 <?php
 // remember selected multiple images if there are some
@@ -149,15 +149,15 @@ if ( $this->selected_multiple_image_ids ) {
 		<input type="submit" class="button" value="<?php _e( $text ); ?>" />
 	</p>
 </form>
-<h4><?php _e( 'If you encounter a white, blank page, read this', $this->plugin_slug ); ?></h4>
-<p><?php _e( 'Facing a white blank page while trying to treat thousands of posts is the effect of limited memory capacities on the website server. Instead of treating a huge amount of posts in one single go try to treat small amounts of posts multiple times successively. To achieve that do:', $this->plugin_slug ); ?></p>
+<h4><?php _e( 'If you encounter a white, blank page, read this', 'quick-featured-images' ); ?></h4>
+<p><?php _e( 'Facing a white blank page while trying to treat thousands of posts is the effect of limited memory capacities on the website server. Instead of treating a huge amount of posts in one single go try to treat small amounts of posts multiple times successively. To achieve that do:', 'quick-featured-images' ); ?></p>
 <ol>
-<li class="qfi_ad_for_pro"><?php _e( 'Get the premium version', $this->plugin_slug ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', $this->plugin_slug ); ?>">Quick Featured Images Pro</a>.</li>
-<li><?php _e( 'add the time filter,', $this->plugin_slug ); ?></li>
-<li><?php _e( 'set a small time range,', $this->plugin_slug ); ?></li>
-<li><?php _e( 'do the process', $this->plugin_slug ); ?></li>
-<li><?php _e( 'and repeat it with the next time range as often as needed.', $this->plugin_slug ); ?></li>
+<li class="qfi_ad_for_pro"><?php _e( 'Get the premium version', 'quick-featured-images' ); ?> <a href="http://www.quickfeaturedimages.com<?php _e( '/', 'quick-featured-images' ); ?>">Quick Featured Images Pro</a>.</li>
+<li><?php _e( 'add the time filter,', 'quick-featured-images' ); ?></li>
+<li><?php _e( 'set a small time range,', 'quick-featured-images' ); ?></li>
+<li><?php _e( 'do the process', 'quick-featured-images' ); ?></li>
+<li><?php _e( 'and repeat it with the next time range as often as needed.', 'quick-featured-images' ); ?></li>
 </ol>
-<p><?php _e( 'This way is not as fast as one single run, but still much faster than setting the images for each post manually.', $this->plugin_slug ); ?></p>
+<p><?php _e( 'This way is not as fast as one single run, but still much faster than setting the images for each post manually.', 'quick-featured-images' ); ?></p>
 <?php
 } // if( 'replace' == action )

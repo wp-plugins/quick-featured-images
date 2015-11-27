@@ -4,7 +4,7 @@
 $tags = get_tags();
 if ( $tags ) {
 ?>
-	<label for="qfi_tags"><?php _e( 'Select a tag', $this->plugin_slug ); ?></label><br />
+	<label for="qfi_tags"><?php _e( 'Select a tag', 'quick-featured-images' ); ?></label><br />
 	<select id="qfi_tags" name="tag_id">
 <?php 
 	print $this->get_html_empty_option();
@@ -17,7 +17,7 @@ if ( $tags ) {
 	</select>
 <?php 
 } else {
-	_e( 'There are no tags in use.', $this->plugin_slug );
+	_e( 'There are no tags in use.', 'quick-featured-images' );
 }
 ?>
 </p>

@@ -12,9 +12,9 @@
 
 <div class="wrap">
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-	<h3><?php _e( 'Progress bar', $this->plugin_slug ); ?></h3>
+	<h3><?php _e( 'Progress bar', 'quick-featured-images' ); ?></h3>
 	<p id="progress">
-		<em class="screen-reader-text"><?php _e( 'You are here', $this->plugin_slug ); ?>:</em>
+		<em class="screen-reader-text"><?php _e( 'You are here', 'quick-featured-images' ); ?>:</em>
 		<span id="bar" class="wp-ui-primary">
 <?php 
 $count = 1;

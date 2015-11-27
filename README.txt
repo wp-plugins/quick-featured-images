@@ -1,10 +1,10 @@
 === Quick Featured Images ===
 Contributors: Hinjiriyo
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2KUW27NECWVWJ
-Tags: add, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos, spanish, español, deutsch, german
+Tags: add, arabic, assign, associate, attach, attachment, attachments, audio, audios, author, auto, automatic, batch, bulk, categories, category, change, column, control, custom post type, custom post types, custom taxonomies, custom taxonomy, date, dates, default, define, delete, detach, exchange, featured, featured image, featured images, filter, gallery, galleries, image, image size, images, mass, media, mime, multimedia, nextgen, pages, parent page, period, post type, post types, posts, quick, random, rapid, remove, replace, rules, search, set, standard, tag, taxonomies, taxonomy, thumb, thumbnail, thumbnails, thumbs, time, unset, update, user, video, videos, spanish, español, deutsch, german
 Requires at least: 3.8
-Tested up to: 4.3
-Stable tag: 11.4.1
+Tested up to: 4.3.1
+Stable tag: 11.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Your time-saving Swiss Army Knife for featured images: Set, replace and delete t
 
 == Description ==
 
-The plugin is available in English, Spanish (Español) and German (Deutsch).
+The plugin is available in English, Spanish (Español), Arabic (العربية) and German (Deutsch).
 
 = Manage featured images quickly =
 
@@ -62,7 +62,7 @@ Based on your selected action you can toggle on and off some options:
 
 If you want to use the option to **remove the first image in the content** then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/).
 
-The **premium version** offers you several approaches for **setting the first image as featured**:
+The **premium version** offers you several approaches for **setting the first image as featured** additionally:
 
 1. **the first post image** if available in the media library
 2. **the first post image from the current site domain**, copy and add it to the media library if not available there
@@ -88,16 +88,17 @@ The implemented filters allow you to narrow down the action to only the posts an
 2. Filter by **category**: Search posts by category
 3. Filter by **tag**: Search posts by tag
 
-The **premium version** offers you:
+The **premium version** offers you additionally:
 
-1. Filter by **author**: Search by author
-2. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
-3. Filter by **featured image size**: Search for small featured images below a given size
-4. Filter by **multimedia type**: Search for audio and video files
-5. Filter by **search**: Search by search term
-6. Filter by **status**: Search by several statuses (published, draft, private etc.). By **default all** statuses will be affected
-7. Filter by **time**: Search by time specifications
-8. Filter by **parent page**: Search child pages by parent page
+1. Filter by **format**: Search by post format
+2. Filter by **author**: Search by author
+3. Filter by **custom taxonomy**: Search by terms of registered taxonomies of a plugin or a theme
+4. Filter by **featured image size**: Search for small featured images below a given size
+5. Filter by **multimedia type**: Search for audio and video files
+6. Filter by **search**: Search by search term: Search in post title and post content or in post title only
+7. Filter by **status**: Search by several statuses (published, draft, private etc.). By **default all** statuses will be affected
+8. Filter by **time**: Search by time specifications
+9. Filter by **parent page**: Search child pages by parent page
 
 If you want to use these filters then take a look the **premium version** [Quick Featured Images Pro](http://www.quickfeaturedimages.com/). 
 
@@ -107,19 +108,24 @@ If you want to use these filters then take a look the **premium version** [Quick
 
 You can define the rules based on
 
-1. always the **first content image**
-2. post **categories**
-3. post **tags**
-4. post **authors**
-5. **standard post types** 'Post' and 'Page'
-6. all other **custom post types** which support featured images
-7. all other **custom taxonomies** which support featured images
-8. in the Premium version: **search string in post title**
+1. **first content image** if available in the media library
+2. **custom taxonomy** supporting featured images
+3. **post tag**
+4. **post category**
+5. **post author**
+6. **post types**: 'Post', 'Page' and **custom post types** supporting featured images
 
+The **premium version** offers you additionally:
+
+1. **first content image** if available on an external server
+2. **post format**
+3. **search string in post title**
 
 The rules are easy to set: choose an image, a taxonomy, a value and save the settings. That's it. **You do not need to code.**
 
 You can add, change and delete every rule whenever you want. So you get an **unlimited and precise set of rules** for automatic default featured images in your website.
+
+After an image is removed from the library all preset rules assigned with that image will be removed automatically.
 
 = Automatic Default Featured Images: Options =
 
@@ -146,13 +152,14 @@ The user interface is available in
 
 * English
 * Spanish (Español), kindly drawn up by Andrew Kurtis from [www.webhostinghub.com](http://www.webhostinghub.com/)
+* Arabic (العربية), kindly drawn up by [Shadi AlZard](https://wordpress.org/support/profile/salzard)
 * German (Deutsch)
 
 Further translations are welcome. If you want to give in your translation please leave a notice in the [plugin's support forum](https://wordpress.org/support/plugin/quick-featured-images).
 
 = Your idea to improve the plugin is welcome =
 
-If you have any new idea for Quick Featured Images post your questions and ideas in the [support forum at wordpress.org](http://wordpress.org/support/plugin/quick-featured-images). I will try to take a look and answer as soon as possible.
+If you have any new idea for this plugin post your questions and ideas in the [support forum at wordpress.org](http://wordpress.org/support/plugin/quick-featured-images). I will try to take a look and answer as soon as possible.
 
 = Support =
 
@@ -264,6 +271,23 @@ If you want to contribute a translation of the plugin in your language it would 
 7. The seventh and last screen: take an overview of your rules for future default featured images.
 
 == Changelog ==
+
+= 11.6 =
+* Added in 'Preset Images': After an image is removed from the library all preset rules assigned with that image will be removed automatically
+* Fixed in 'Preset Images': Wrong background color for third table row
+* Fixed in 'Preset Images': Missing translations for changed texts
+* Refactoring in 'Preset Images'
+* Updated *.pot file and translations
+
+= 11.5 =
+* Added arabic translation. Thank you, [Shadi AlZard](https://wordpress.org/support/profile/salzard)!
+* Added in 'Set, replace, remove': Back button on result page. So you can start a further run faster
+* Premium version; Added in 'Preset Featured Images': post format as taxonomy
+* Fixed table row colors due to changes in WP 4.3
+* Redesigned in 'Preset Images': Moved checkboxes to middle column
+* Revised styles for page descriptions
+* Changed text domain for translate.wordpress.org
+* Updated *.pot file and translations
 
 = 11.4.1 =
 * Revised styles for image column in small displays, since WP 4.3
@@ -504,6 +528,12 @@ Fixed an insufficient security check which prevented to set a featured image
 * The plugin was released.
 
 == Upgrade Notice ==
+
+= 11.6 =
+Added automatic deletion of rules assigned with a deleted image in the library, some fixes
+
+= 11.5 =
+Added arabic translation, added in 'Set, replace, remove': Back button on result page, some design improvements, changed text domain
 
 = 11.4.1 =
 Revised styles for image column since WP 4.3, tested in WP 4.3

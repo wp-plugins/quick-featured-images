@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images Pro\n"
 "Report-Msgid-Bugs-To: http://quickfeaturedimages.com\n"
-"POT-Creation-Date: 2015-07-31 15:01+0200\n"
-"PO-Revision-Date: 2015-08-02 19:48+0200\n"
+"POT-Creation-Date: 2015-11-26 15:22+0100\n"
+"PO-Revision-Date: 2015-11-26 15:28+0100\n"
 "Last-Translator: Martin Stehle <m.stehle@gmx.de>\n"
 "Language-Team: m.stehle@gmx.de\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.3\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
 "esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
 "X-Poedit-Basepath: ..\n"
@@ -44,19 +44,19 @@ msgstr ""
 msgid "Welcome to %s! You can find the plugin at %s."
 msgstr "Bienvenido a %s! Puedes encontrar el plugin en %s."
 
-#: admin/class-quick-featured-images-defaults.php:191
+#: admin/class-quick-featured-images-defaults.php:188
 msgid "Changes saved."
 msgstr "Los cambios están guardados."
 
-#: admin/class-quick-featured-images-defaults.php:194
+#: admin/class-quick-featured-images-defaults.php:191
 msgid "No changes were saved."
 msgstr "No hay ningún cambio guardado."
 
-#: admin/class-quick-featured-images-defaults.php:231
+#: admin/class-quick-featured-images-defaults.php:228
 msgid "Preset Featured Images"
 msgstr "Restablece las imágenes destacadas"
 
-#: admin/class-quick-featured-images-defaults.php:242
+#: admin/class-quick-featured-images-defaults.php:239
 msgid "Set default featured images for future posts"
 msgstr ""
 "Establece las imágenes destacadas predeterminadas para los futuros posts"
@@ -109,133 +109,133 @@ msgstr ""
 msgid "Wrong image ID %d"
 msgstr "La identificación de la imagen incorrecta ID %d"
 
-#: admin/class-quick-featured-images-tools.php:517
+#: admin/class-quick-featured-images-tools.php:519
 msgid "Select"
 msgstr "Selecciona"
 
-#: admin/class-quick-featured-images-tools.php:518
+#: admin/class-quick-featured-images-tools.php:520
 msgid "Add filter"
 msgstr "Añade el filtro"
 
-#: admin/class-quick-featured-images-tools.php:519
+#: admin/class-quick-featured-images-tools.php:521
 msgid "Refine"
 msgstr "Refine (refinar)"
 
-#: admin/class-quick-featured-images-tools.php:520
+#: admin/class-quick-featured-images-tools.php:522
 msgid "Confirm"
 msgstr "Confirma (confirmar)"
 
-#: admin/class-quick-featured-images-tools.php:521
+#: admin/class-quick-featured-images-tools.php:523
 msgid "Perform"
 msgstr "Realiza (realizar)"
 
-#: admin/class-quick-featured-images-tools.php:525
+#: admin/class-quick-featured-images-tools.php:527
 msgid "Set the selected image as new featured image"
 msgstr "Establece la imagen seleccionada como la imagen destacada nueva"
 
-#: admin/class-quick-featured-images-tools.php:526
+#: admin/class-quick-featured-images-tools.php:528
 msgid "Replace featured images by the selected image"
 msgstr "Reemplaza las imágenes destacadas por la imagen seleccionada"
 
-#: admin/class-quick-featured-images-tools.php:527
+#: admin/class-quick-featured-images-tools.php:529
 msgid "Remove the selected image as featured image"
 msgstr "Elimina la imagen seleccionada como la imagen destacada"
 
-#: admin/class-quick-featured-images-tools.php:530
+#: admin/class-quick-featured-images-tools.php:532
 msgid "Remove any image as featured image"
 msgstr "Elimina cualquiera imagen como la imagen destacada"
 
-#: admin/class-quick-featured-images-tools.php:533
+#: admin/class-quick-featured-images-tools.php:535
 msgid "Set multiple images randomly as featured images"
 msgstr "Establece las imágenes múltiples al azar como la imagen destacada"
 
-#: admin/class-quick-featured-images-tools.php:537
+#: admin/class-quick-featured-images-tools.php:539
 msgid "Overwrite featured images"
 msgstr "Sobrescribe las imágenes destacadas"
 
-#: admin/class-quick-featured-images-tools.php:538
+#: admin/class-quick-featured-images-tools.php:540
 msgid "Consider only posts without any featured image"
 msgstr "Considera solamente posts sin cualquier imagen destacada"
 
-#: admin/class-quick-featured-images-tools.php:542
+#: admin/class-quick-featured-images-tools.php:544
 msgid "Post Type Filter"
 msgstr "El filtro de tipo de post"
 
-#: admin/class-quick-featured-images-tools.php:543
+#: admin/class-quick-featured-images-tools.php:545
 msgid "Category Filter"
 msgstr "El filtro de la categoría"
 
-#: admin/class-quick-featured-images-tools.php:544
+#: admin/class-quick-featured-images-tools.php:546
 msgid "Tag Filter"
 msgstr "El filtro de las etiquetas"
 
-#: admin/class-quick-featured-images-tools.php:573
+#: admin/class-quick-featured-images-tools.php:575
 msgid "Image width in pixels lower than"
 msgstr "El tipo del campo personalizado"
 
-#: admin/class-quick-featured-images-tools.php:574
+#: admin/class-quick-featured-images-tools.php:576
 msgid "Image height in pixels lower than"
 msgstr "La altura de la imagen en píxeles es inferior al"
 
-#: admin/class-quick-featured-images-tools.php:649
+#: admin/class-quick-featured-images-tools.php:651
 #, php-format
 msgid "The input field %s is empty."
 msgstr "La altura de la imagen %s en píxeles es inferior al"
 
-#: admin/class-quick-featured-images-tools.php:650
+#: admin/class-quick-featured-images-tools.php:652
 msgid "Type in a value into the input field."
 msgstr "Escribe el valor en el campo de la entrada"
 
-#: admin/class-quick-featured-images-tools.php:653
+#: admin/class-quick-featured-images-tools.php:655
 #, php-format
 msgid "%s is not defined."
 msgstr "%s Escribe el valor en el campo de la entrada"
 
-#: admin/class-quick-featured-images-tools.php:654
+#: admin/class-quick-featured-images-tools.php:656
 msgid "Check how to define the value."
 msgstr "Comprueba cómo definir el valor"
 
-#: admin/class-quick-featured-images-tools.php:657
+#: admin/class-quick-featured-images-tools.php:659
 msgid "There is no selected image."
 msgstr "No hay ninguna imagen seleccionada"
 
-#: admin/class-quick-featured-images-tools.php:658
+#: admin/class-quick-featured-images-tools.php:660
 msgid "Select an image from the media library."
 msgstr "Selecciona la imagen de Media library (la biblioteca multimedia)."
 
-#: admin/class-quick-featured-images-tools.php:661
+#: admin/class-quick-featured-images-tools.php:663
 #: admin/views/section_image.php:51
 msgid "You have not selected an action."
 msgstr "No has seleccionado ninguna acción"
 
-#: admin/class-quick-featured-images-tools.php:662
+#: admin/class-quick-featured-images-tools.php:664
 msgid "Start again and select which action you want to apply."
 msgstr "Empieza de nuevo y selecciona la acción que quieres aplicar"
 
-#: admin/class-quick-featured-images-tools.php:665
+#: admin/class-quick-featured-images-tools.php:667
 #, php-format
 msgid "The input field %s has an invalid value."
 msgstr "El valor del campo %s de la entrada es inválido"
 
-#: admin/class-quick-featured-images-tools.php:666
+#: admin/class-quick-featured-images-tools.php:668
 msgid "Type in valid values in the input field."
 msgstr "El valor del campo de la entrada es inválido"
 
-#: admin/class-quick-featured-images-tools.php:670
+#: admin/class-quick-featured-images-tools.php:672
 msgid "Type in values stored by WordPress."
 msgstr "Escribe los valores válidos en el campo de la entrada"
 
-#: admin/class-quick-featured-images-tools.php:1776
+#: admin/class-quick-featured-images-tools.php:1778
 msgid "Set, replace, remove"
 msgstr "Establece, reemplaza, elimina"
 
-#: admin/class-quick-featured-images-tools.php:1787
+#: admin/class-quick-featured-images-tools.php:1789
 msgid "Bulk set, replace and remove featured images for existing posts"
 msgstr ""
 "Configura el bulk, reemplaza y elimina las imágenes destacadas por posts "
 "existentes"
 
-#: admin/class-quick-featured-images-tools.php:1899
+#: admin/class-quick-featured-images-tools.php:1901
 msgid "Bulk set as featured image"
 msgstr "El bulk configurado como la imagen destacada"
 
@@ -365,7 +365,7 @@ msgid "You can not undo the operation!"
 msgstr "¡No puedes deshacer la operación!"
 
 #: admin/views/form_confirm.php:173 admin/views/form_select.php:47
-#: admin/views/section_errormsg.php:8 admin/views/section_results.php:71
+#: admin/views/section_errormsg.php:8 admin/views/section_results.php:74
 msgid "Start again"
 msgstr "Empieza de nuevo"
 
@@ -410,7 +410,7 @@ msgstr ""
 "simplemente continúa haciendo clic en el botón siguiente."
 
 #: admin/views/form_select.php:11 admin/views/form_start.php:4
-#: admin/views/section_defaults.php:167
+#: admin/views/section_defaults.php:193
 msgid "Notice"
 msgstr "Un aviso"
 
@@ -470,6 +470,7 @@ msgstr ""
 #: admin/views/form_select.php:90
 msgid "There are two more options in the premium version for random images:"
 msgstr ""
+"Hay dos opciones más en la versión de pago para las imágenes destacadas:"
 
 #: admin/views/form_select.php:92
 msgid "Use each selected image only once"
@@ -480,17 +481,18 @@ msgid "Remove excess featured images after all selected images are used"
 msgstr "Reemplaza las imágenes destacadas por la imagen seleccionada"
 
 #: admin/views/form_select.php:95 admin/views/form_select.php:133
-#: admin/views/form_select.php:155 admin/views/form_start.php:107
-#: admin/views/section_footer.php:59 admin/views/section_overview.php:89
+#: admin/views/form_select.php:155 admin/views/form_start.php:109
+#: admin/views/section_defaults.php:447 admin/views/section_footer.php:59
+#: admin/views/section_overview.php:91
 msgid "Get the premium version"
-msgstr ""
+msgstr "Obtener la Pro versión"
 
 #: admin/views/form_select.php:95 admin/views/form_select.php:133
-#: admin/views/form_select.php:155 admin/views/form_start.php:107
-#: admin/views/section_footer.php:59 admin/views/section_overview.php:88
-#: admin/views/section_overview.php:89
+#: admin/views/form_select.php:155 admin/views/form_start.php:109
+#: admin/views/section_defaults.php:447 admin/views/section_footer.php:59
+#: admin/views/section_overview.php:90 admin/views/section_overview.php:91
 msgid "/"
-msgstr ""
+msgstr "/es"
 
 #: admin/views/form_select.php:104
 msgid "Optional: Add a filter"
@@ -530,7 +532,7 @@ msgstr "Busca los post por la categoría"
 msgid "Search posts by tag"
 msgstr "Busca los post por la etiqueta"
 
-#: admin/views/form_select.php:133 admin/views/section_overview.php:89
+#: admin/views/form_select.php:133 admin/views/section_overview.php:91
 msgid "Are you looking for more options and more filters?"
 msgstr "¿Buscas más opciones y más filtros de búsqueda?"
 
@@ -586,7 +588,7 @@ msgstr ""
 "mucho más rápido que el establecimiento de las imágenes para cada post de "
 "forma manual."
 
-#: admin/views/form_start.php:6 admin/views/section_defaults.php:169
+#: admin/views/form_start.php:6 admin/views/section_defaults.php:195
 msgid ""
 "The current theme does not support featured images. Anyway you can use this "
 "plugin. The effects are stored and will be visible in a theme which supports "
@@ -600,7 +602,7 @@ msgstr ""
 msgid "What do you want to do?"
 msgstr "¿Qué quieres hacer?"
 
-#: admin/views/form_start.php:13
+#: admin/views/form_start.php:14
 msgid ""
 "Here you can add, replace and delete featured images to your posts. Select "
 "one of the following actions and, if necessary, one or more images."
@@ -609,17 +611,17 @@ msgstr ""
 "Selecciona una de las acciones siguientes, y si es necesario, una o más "
 "imágenes."
 
-#: admin/views/form_start.php:14
+#: admin/views/form_start.php:15
 msgid "Whatever you select: You can refine your choice on the next page."
 msgstr ""
 "Cualquier cosa que selecciones: puedes refinar su selección en la página "
 "siguiente."
 
-#: admin/views/form_start.php:15
+#: admin/views/form_start.php:17
 msgid "Important advice"
 msgstr "Un consejo importante"
 
-#: admin/views/form_start.php:16
+#: admin/views/form_start.php:18
 msgid ""
 "There is no undo function! It is strongly recommended that you make a backup "
 "of the WordPress database before you perform mass changes."
@@ -628,20 +630,20 @@ msgstr ""
 "copia de seguridad de la base de datos de WordPress antes de que realices "
 "modificaciones en masa."
 
-#: admin/views/form_start.php:18
+#: admin/views/form_start.php:20
 msgid "Select action"
 msgstr "Selecciona la acción"
 
-#: admin/views/form_start.php:19
+#: admin/views/form_start.php:21
 msgid "Actions with a single image"
 msgstr "Las acciones con una sola imagen."
 
-#: admin/views/form_start.php:20
+#: admin/views/form_start.php:22
 msgid "These actions require to select an image with the following button."
 msgstr ""
 "Estas acciones requieren que se seleccione una imagen con el siguiente botón."
 
-#: admin/views/form_start.php:33
+#: admin/views/form_start.php:35
 msgid ""
 "Select the image you want to add to, replace or delete from posts and pages "
 "by clicking on the following button."
@@ -649,15 +651,15 @@ msgstr ""
 "Selecciona la imagen que quieres añadir, reemplazar o borrar de post o "
 "páginas, haciendo clic en siguiente botón."
 
-#: admin/views/form_start.php:54 admin/views/section_defaults.php:20
+#: admin/views/form_start.php:56
 msgid "Choose Image"
 msgstr "Selecciona la imagen"
 
-#: admin/views/form_start.php:58
+#: admin/views/form_start.php:60
 msgid "If the button does not work, read this:"
 msgstr "Si el botón no funciona, lee lo siguiente:"
 
-#: admin/views/form_start.php:59
+#: admin/views/form_start.php:61
 msgid ""
 "Some users reported that this button would not work in some WordPress "
 "installations. If this should be the case you can take another way:"
@@ -665,7 +667,7 @@ msgstr ""
 "Algunos usuarios han reportado que ese botón no funciona en algunas "
 "instalaciones de WordPress. Si es así, puedes tomar otro camino:"
 
-#: admin/views/form_start.php:60
+#: admin/views/form_start.php:62
 msgid ""
 "1. Go to the media library. 2. Move the mouse over the desired image. "
 "Further links are appearing, among them the link &quot;Bulk set as featured "
@@ -676,18 +678,18 @@ msgstr ""
 "enlace &quot;Bulk establecido como la imagen destacada image&quot;. 3. Al "
 "hacer el clic en el enlace, puedes seguir adelante en este plugin."
 
-#: admin/views/form_start.php:64
+#: admin/views/form_start.php:66
 msgid "Actions with multiple images"
 msgstr "Las acciones con imágenes múltiples."
 
-#: admin/views/form_start.php:65
+#: admin/views/form_start.php:67
 msgid ""
 "These actions require at least one selected image with the following button."
 msgstr ""
 "Estas acciones requieren por lo menos una imagen seleccionada por el "
 "siguiente botón."
 
-#: admin/views/form_start.php:77
+#: admin/views/form_start.php:79
 msgid ""
 "To select multiple images click on the button and use the CTRL key while "
 "clicking on the images."
@@ -695,19 +697,19 @@ msgstr ""
 "Para seleccionar las imágenes múltiples, haz el clic en el botón y usa la "
 "tecla CTRL mientras estás haciendo clic en las imágenes."
 
-#: admin/views/form_start.php:79
+#: admin/views/form_start.php:81
 msgid "Choose Images"
 msgstr "Selecciona las imágenes"
 
-#: admin/views/form_start.php:95
+#: admin/views/form_start.php:97
 msgid "Actions without any selected image"
 msgstr "Las acciones sin imagen seleccionada"
 
-#: admin/views/form_start.php:96
+#: admin/views/form_start.php:98
 msgid "These actions do not require a selected image."
 msgstr "Estas acciones no requieren la imagen seleccionada."
 
-#: admin/views/form_start.php:107
+#: admin/views/form_start.php:109
 msgid "Do you want to assign the first image of each post?"
 msgstr "¿Toma la primera imagen adjunta de post?"
 
@@ -715,19 +717,11 @@ msgstr "¿Toma la primera imagen adjunta de post?"
 msgid "matches"
 msgstr "Las coincidencias"
 
-#: admin/views/section_defaults.php:18
-msgid "Post type"
-msgstr "El tipo de post"
-
-#: admin/views/section_defaults.php:19
-msgid "Taxonomy"
-msgstr "Taxonomy"
-
-#: admin/views/section_defaults.php:174
+#: admin/views/section_defaults.php:184
 msgid "Default featured images for future posts"
 msgstr "Las imágenes destacadas predeterminadas para los post futuros"
 
-#: admin/views/section_defaults.php:175
+#: admin/views/section_defaults.php:186
 msgid ""
 "Define the rules to use images as default featured images automatically "
 "every time a post is saved."
@@ -735,7 +729,7 @@ msgstr ""
 "Define las reglas de usar imágenes como las imágenes destacadas "
 "predeterminadas automáticamente cada vez que se guarda un post."
 
-#: admin/views/section_defaults.php:176
+#: admin/views/section_defaults.php:187
 msgid ""
 "To use a rule choose the image and set both the taxonomy and the value. A "
 "rule which is defined only partially will be ignored."
@@ -743,15 +737,19 @@ msgstr ""
 "Para usar la regla, elige la imagen y establece la taxonomía y el valor. La "
 "regla que es sólo parcialmente definida, será ignorada."
 
-#: admin/views/section_defaults.php:179
-msgid "Are you sure to remove this rule?"
-msgstr "¿Estás seguro de que deseas eliminar esta regla?"
-
-#: admin/views/section_defaults.php:193
+#: admin/views/section_defaults.php:215
 msgid "An image overwrites an existing image"
 msgstr "La imagen sobrescribe la imagen existente."
 
-#: admin/views/section_defaults.php:196
+#: admin/views/section_defaults.php:222
+msgid ""
+"Activate to automatically overwrite an existing featured image while saving "
+"a post"
+msgstr ""
+"Actívalo para sobrescribir la imagen destacada existente mientras se está "
+"guardando el post."
+
+#: admin/views/section_defaults.php:225
 msgid ""
 "If activated the rule is used automatically while saving a post to overwrite "
 "an existing featured image with the new one based on the following rules. Do "
@@ -762,19 +760,20 @@ msgstr ""
 "reglas siguientes. No uses esta función si quieres mantener el "
 "establecimiento de las imágenes destacadas de forma manual."
 
-#: admin/views/section_defaults.php:202
-msgid ""
-"Activate to automatically overwrite an existing featured image while saving "
-"a post"
-msgstr ""
-"Actívalo para sobrescribir la imagen destacada existente mientras se está "
-"guardando el post."
-
-#: admin/views/section_defaults.php:209
+#: admin/views/section_defaults.php:233
 msgid "Text with images in WordPress editor"
 msgstr "Los textos con imágenes en el editor de WordPress."
 
-#: admin/views/section_defaults.php:212
+#: admin/views/section_defaults.php:240
+msgid ""
+"Activate to automatically use the first content image if available in the "
+"media library as featured image while saving a post"
+msgstr ""
+"Actívalo para usar automáticamente la primera imagen del contenido si está "
+"disponible en Media Library como la imagen destacada mientras se está "
+"guardando el post."
+
+#: admin/views/section_defaults.php:241
 msgid ""
 "If activated the rule is used automatically while saving a post to set the "
 "first content image - if available in the media library - as the featured "
@@ -787,24 +786,43 @@ msgstr ""
 "el post no tiene las imágenes del contenido se aplicarán las reglas "
 "siguientes."
 
-#: admin/views/section_defaults.php:218
-msgid ""
-"Activate to automatically use the first content image if available in the "
-"media library as featured image while saving a post"
-msgstr ""
-"Actívalo para usar automáticamente la primera imagen del contenido si está "
-"disponible en Media Library como la imagen destacada mientras se está "
-"guardando el post."
-
-#: admin/views/section_defaults.php:409
+#: admin/views/section_defaults.php:432
 msgid "Add rule"
 msgstr "Añade la regla"
 
-#: admin/views/section_defaults.php:414
+#: admin/views/section_defaults.php:437
+msgid "Are you sure to remove this rule?"
+msgstr "¿Estás seguro de que deseas eliminar esta regla?"
+
+#: admin/views/section_defaults.php:440
+msgid "Additional rules in the premium version"
+msgstr "Reglas adicionales en la Pro versión"
+
+#: admin/views/section_defaults.php:442
+msgid ""
+"The first content image can be also an image from an external server to set "
+"it as automated featured image"
+msgstr ""
+"La primera imagen de contenido puede ser también una imagen desde un "
+"servidor externo para configurarlo como automatizado imágen destacada"
+
+#: admin/views/section_defaults.php:443
+msgid "Match with a search string in post title"
+msgstr "El término de búsqueda en el título de la entrada"
+
+#: admin/views/section_defaults.php:444
+msgid "Match with a selected post format"
+msgstr "Coincide con un formato de entrada seleccionado"
+
+#: admin/views/section_defaults.php:445
+msgid "User defined order of rules"
+msgstr "La orden de encargo de las reglas"
+
+#: admin/views/section_defaults.php:449
 msgid "How the rules work"
 msgstr "Cómo funcionan las reglas"
 
-#: admin/views/section_defaults.php:415
+#: admin/views/section_defaults.php:450
 msgid ""
 "Every time you save a post the post get the featured image if one of the "
 "following rules match a property of the post. You can also set rules for "
@@ -815,7 +833,7 @@ msgstr ""
 "establecer las reglas para las páginas y todos otros post actuales que "
 "soportan imágenes destacadas."
 
-#: admin/views/section_defaults.php:416
+#: admin/views/section_defaults.php:451
 msgid ""
 "Regardless of the order in the list the rules are applied in the following "
 "order until a rule and a property of the post fit together:"
@@ -823,35 +841,35 @@ msgstr ""
 "Independientemente del orden de la lista, las reglas se aplican en el orden "
 "siguiente hasta que la regla y la propiedad encajen bien."
 
-#: admin/views/section_defaults.php:418
+#: admin/views/section_defaults.php:453
 msgid "found first content image. If not then..."
 msgstr "La primera imagen del contenido encontrada. Si no es así, entonces…."
 
-#: admin/views/section_defaults.php:419
+#: admin/views/section_defaults.php:454
 msgid "matched custom taxonomy. If not then..."
 msgstr "La taxonomía correspondiente personalizada. Si no es así entonces….,"
 
-#: admin/views/section_defaults.php:420
+#: admin/views/section_defaults.php:455
 msgid "matched tag. If not then..."
 msgstr "La etiqueta correspondiente. Si no es así, entonces…."
 
-#: admin/views/section_defaults.php:421
+#: admin/views/section_defaults.php:456
 msgid "matched category. If not then..."
 msgstr "La categoría correspondiente. Si no es así, entonces…."
 
-#: admin/views/section_defaults.php:422
+#: admin/views/section_defaults.php:457
 msgid "matched author. If not then..."
 msgstr "El autor correspondiente. Si no es así, entonces….."
 
-#: admin/views/section_defaults.php:423
+#: admin/views/section_defaults.php:458
 msgid "matched post type. If not then..."
 msgstr "El autor correspondiente. Si no es así, entonces….."
 
-#: admin/views/section_defaults.php:424
+#: admin/views/section_defaults.php:459
 msgid "no featured image."
 msgstr "No hay ninguna imagen destacada"
 
-#: admin/views/section_defaults.php:426
+#: admin/views/section_defaults.php:461
 msgid ""
 "Bear in mind that if two or more rules with the same taxonomy would fit to "
 "the post it is unforeseeable which image will become the featured image."
@@ -875,11 +893,11 @@ msgstr "La solución"
 msgid "Credits and informations"
 msgstr "Los créditos y las informaciones"
 
-#: admin/views/section_footer.php:54 admin/views/section_results.php:72
+#: admin/views/section_footer.php:54 admin/views/section_results.php:75
 msgid "Do you like the plugin?"
 msgstr "¿Te gusta el plugin?"
 
-#: admin/views/section_footer.php:54 admin/views/section_results.php:73
+#: admin/views/section_footer.php:54 admin/views/section_results.php:76
 msgid "Please rate it at wordpress.org!"
 msgstr "¡Por favor califícalo en at wordpress.org!"
 
@@ -888,14 +906,16 @@ msgid ""
 "The plugin is for free. But the plugin author would be delighted to your "
 "small contribution."
 msgstr ""
+"El plugin es gratis. Pero el autor del plugin estaría encantado de su "
+"pequeña contribución."
 
 #: admin/views/section_footer.php:55
 msgid "Donation Button"
-msgstr ""
+msgstr "Botón de donación"
 
 #: admin/views/section_footer.php:55
-msgid "Donate by PayPal"
-msgstr ""
+msgid "Donate with PayPal"
+msgstr "Donar con PayPal"
 
 #: admin/views/section_footer.php:56
 msgid "Do you need support or have an idea for the plugin?"
@@ -919,11 +939,13 @@ msgid ""
 "Let the thumbnails appear in the widget of the most recent posts with this "
 "fast plugin"
 msgstr ""
+"Deje que las imágenes en miniatura aparecen en el widget de los mensajes más "
+"recientes con este plugin rápida"
 
 #: admin/views/section_footer.php:58
 #, php-format
 msgid "Download plugin %s at %s!"
-msgstr ""
+msgstr "Descargar plugin %s en %s!"
 
 #: admin/views/section_header_progress.php:15
 msgid "Progress bar"
@@ -981,9 +1003,9 @@ msgstr "No hay filtros seleccionados"
 msgid "Manage featured images in a quick way"
 msgstr "Gestiona las imágenes destacadas de manera rápida"
 
-#: admin/views/section_overview.php:87
+#: admin/views/section_overview.php:89
 msgid "The premium version"
-msgstr ""
+msgstr "La Pro versión"
 
 #: admin/views/section_results.php:1
 msgid "Results of the action"
@@ -997,9 +1019,15 @@ msgstr "Cambiado con éxito"
 msgid "Unchanged"
 msgstr "Inalterado (sin cambios)"
 
-#: admin/views/section_results.php:67
+#: admin/views/section_results.php:70
 msgid "No matches found."
 msgstr "No se han encontrado coincidencias "
+
+#~ msgid "Post type"
+#~ msgstr "El tipo de post"
+
+#~ msgid "Taxonomy"
+#~ msgstr "Taxonomy"
 
 #~ msgid ""
 #~ "There is a new version of %1$s available. <a target=\"_blank\" class="

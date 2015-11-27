@@ -1,13 +1,13 @@
-<h3><?php _e( 'Refine your selection', $this->plugin_slug ); ?></h3>
+<h3><?php _e( 'Refine your selection', 'quick-featured-images' ); ?></h3>
 <?php
 // display selected filters
 if ( $this->selected_filters ) {
 ?>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=confirm', $this->page_slug ) ) ); ?>">
 	<fieldset>
-		<legend><span><?php _e( 'Refine filters', $this->plugin_slug ); ?></span></legend>
-		<p><?php _e( 'Now you can find posts and pages by matching parameters. Refine them here.', $this->plugin_slug ); ?></p>
-		<p><?php _e( 'Whatever you do: You can confirm your choice on the next page.', $this->plugin_slug ); ?></p>
+		<legend><span><?php _e( 'Refine filters', 'quick-featured-images' ); ?></span></legend>
+		<p><?php _e( 'Now you can find posts and pages by matching parameters. Refine them here.', 'quick-featured-images' ); ?></p>
+		<p><?php _e( 'Whatever you do: You can confirm your choice on the next page.', 'quick-featured-images' ); ?></p>
 <?php
 	foreach ( $this->selected_filters as $filter ) {
 		$filename = $filter . '.php';
@@ -15,7 +15,7 @@ if ( $this->selected_filters ) {
 			include_once( $filename );
 		} else {
 ?>
-		<p><?php printf( __( 'File %s is not available.', $this->plugin_slug ), $filename ); ?></p>
+		<p><?php printf( __( 'File %s is not available.', 'quick-featured-images' ), $filename ); ?></p>
 <?php
 		}
 ?>
@@ -45,13 +45,13 @@ if ( $this->selected_multiple_image_ids ) {
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
 		<input type="hidden" name="action" value="<?php echo $this->selected_action; ?>" />
 		<?php wp_nonce_field( 'quickfi_refine', $this->plugin_slug . '_nonce' ); ?>
-		<input type="submit" class="button" value="<?php _e( 'Preview filtering', $this->plugin_slug ); ?>" />
+		<input type="submit" class="button" value="<?php _e( 'Preview filtering', 'quick-featured-images' ); ?>" />
 	</p>
 </form>
 <?php
 } else {
 ?>
-	<p><?php _e( 'There are no selected filters. Modify your filter selection or just go on by clicking on the next button.', $this->plugin_slug ); ?></p>
+	<p><?php _e( 'There are no selected filters. Modify your filter selection or just go on by clicking on the next button.', 'quick-featured-images' ); ?></p>
 <?php
 }// if() 
 ?>

@@ -1,37 +1,37 @@
 <?php 
 	switch ( $this->selected_action ) {
 		case 'assign':
-			$question = __( 'Should the selected image be set as featured image to all listed posts?', $this->plugin_slug );
+			$question = __( 'Should the selected image be set as featured image to all listed posts?', 'quick-featured-images' );
 			break;
 		case 'assign_randomly':
-			$question = __( 'Should the selected images be set randomly as featured images to all listed posts?', $this->plugin_slug );
+			$question = __( 'Should the selected images be set randomly as featured images to all listed posts?', 'quick-featured-images' );
 			break;
 		case 'replace':
-			$question = __( 'Should the current set featured image be replaced by the selected image at all listed posts?', $this->plugin_slug );
+			$question = __( 'Should the current set featured image be replaced by the selected image at all listed posts?', 'quick-featured-images' );
 			break;
 		case 'remove':
-			$question = __( 'Should the selected image be removed from all listed posts?', $this->plugin_slug );
+			$question = __( 'Should the selected image be removed from all listed posts?', 'quick-featured-images' );
 			break;
 		case 'assign_first_img':
-			$question = __( 'Should the future images be set as featured images at all listed posts?', $this->plugin_slug );
+			$question = __( 'Should the future images be set as featured images at all listed posts?', 'quick-featured-images' );
 			break;
 		case 'remove_any_img':
-			$question = __( 'Should the added featured images be removed from all listed posts?', $this->plugin_slug );
+			$question = __( 'Should the added featured images be removed from all listed posts?', 'quick-featured-images' );
 			break;
 	} // switch()
 	
 ?>
-<h3><?php _e( 'Preview of your selection', $this->plugin_slug ); ?></h3>
-<h4><?php printf( __( '%d matches found', $this->plugin_slug ), sizeof( $results ) ); ?></h4>
+<h3><?php _e( 'Preview of your selection', 'quick-featured-images' ); ?></h3>
+<h4><?php printf( __( '%d matches found', 'quick-featured-images' ), sizeof( $results ) ); ?></h4>
 <?php 
 if ( $results ) { 
 	// translate once for multiple usage and improve performance
-	$label_details 	  = __( 'Details', $this->plugin_slug );
-	$label_number 	  = __( 'No.', $this->plugin_slug );
-	$label_current_fi = __( 'Current Featured Image', $this->plugin_slug );
-	$label_future_fi  = __( 'Future Featured Image', $this->plugin_slug );
-	$label_written_on = __( 'written on', $this->plugin_slug );
-	$label_by         = __( 'by', $this->plugin_slug );
+	$label_details 	  = __( 'Details', 'quick-featured-images' );
+	$label_number 	  = __( 'No.', 'quick-featured-images' );
+	$label_current_fi = __( 'Current Featured Image', 'quick-featured-images' );
+	$label_future_fi  = __( 'Future Featured Image', 'quick-featured-images' );
+	$label_written_on = __( 'written on', 'quick-featured-images' );
+	$label_by         = __( 'by', 'quick-featured-images' );
 	// WP core labels
 	$text 			  = 'No image set';
 	$label_no_image   = __( $text );
@@ -45,7 +45,7 @@ if ( $results ) {
 	$default_title    = __( $text );
 
 ?>
-<p><?php _e( 'The list is in alphabetical order according to post title. You can edit a post in a new window by clicking on its link in the list.', $this->plugin_slug ); ?></p>
+<p><?php _e( 'The list is in alphabetical order according to post title. You can edit a post in a new window by clicking on its link in the list.', 'quick-featured-images' ); ?></p>
 <table class="widefat">
 	<thead>
 		<tr>
@@ -60,7 +60,7 @@ if ( $results ) {
 	$c = 1;
 	foreach ( $results as $result ) {
 		// alternating row colors: if $c is divisible by 2 (so the modulo is 0) then set 'alt'-class
-		$class_attrib = 0 == $c % 2 ? ' class="alt"' : '';
+		$row_classes = ( 0 != $c % 2 ) ? ' class="alternate"' : '';
 		// post title, else default title
 		$post_title = $result[ 1 ] ? $result[ 1 ] : $default_title;
 		// post date
@@ -79,7 +79,7 @@ if ( $results ) {
 		$current_img = $result[ 4 ] ? $result[ 4 ] : $label_no_image;
 		$future_img = $result[ 5 ] ? $result[ 5 ] : $label_no_image;
 		// print the table row
-		printf( '<tr%s>', $class_attrib );
+		printf( '<tr%s>', $row_classes );
 		printf( '<td class="num">%d</td>', $c );
 		printf( 
 			'<td><a href="%s" target="_blank">%s</a><br>%s<br>%s<br>%s, %s %s</td>',
@@ -108,8 +108,8 @@ if ( $results ) {
 		</tr>
 	</tfoot>
 </table>
-<h3><?php _e( 'Confirm the change', $this->plugin_slug ); ?></h3>
-<p><?php echo $question; ?> <?php _e( 'You can not undo the operation!', $this->plugin_slug ); ?></p>
+<h3><?php _e( 'Confirm the change', 'quick-featured-images' ); ?></h3>
+<p><?php echo $question; ?> <?php _e( 'You can not undo the operation!', 'quick-featured-images' ); ?></p>
 <form method="post" action="<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s&amp;step=perform', $this->page_slug ) ) ); ?>">
 	<p>
 		<input type="hidden" name="image_id" value="<?php echo $this->selected_image_id; ?>" />
@@ -170,6 +170,6 @@ if ( $this->selected_old_image_ids ) {
 <?php
 } else { 
 ?>
-<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>'><?php _e( 'Start again', $this->plugin_slug );?></a> <?php _e( 'or refine your selection with the following form fields.', $this->plugin_slug );?></p>
+<p><a class="button" href='<?php echo esc_url( admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) ) );?>'><?php _e( 'Start again', 'quick-featured-images' );?></a> <?php _e( 'or refine your selection with the following form fields.', 'quick-featured-images' );?></p>
 <?php
 }

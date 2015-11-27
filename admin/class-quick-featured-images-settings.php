@@ -201,7 +201,7 @@ class Quick_Featured_Images_Settings {
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( 'Image Columns', $this->plugin_slug );
+		return __( 'Image Columns', 'quick-featured-images' );
 	}
 
 	/**
@@ -212,7 +212,7 @@ class Quick_Featured_Images_Settings {
 	 *@return    page description variable.
 	 */
 	public function get_page_description() {
-		return __( 'Set the visibility of columns of featured images in posts lists', $this->plugin_slug );
+		return __( 'Set the visibility of columns of featured images in posts lists', 'quick-featured-images' );
 	}
 
 	/**
@@ -361,7 +361,7 @@ class Quick_Featured_Images_Settings {
 			// 'id' attribute of tags
 			$section_key, 
 			// title of the section.
-			__( 'Columns for featured images in posts lists', $this->plugin_slug ),
+			__( 'Columns for featured images in posts lists', 'quick-featured-images' ),
 			// callback function that fills the section with the desired content
 			array( $this, 'print_section_' . $section_key ),
 			// menu page on which to display this section
@@ -369,12 +369,12 @@ class Quick_Featured_Images_Settings {
 		); // end add_settings_section()
 
 		// register the options for the section
-		$title = __( 'Show additional column for featured images in lists of', $this->plugin_slug );
+		$title = __( 'Show additional column for featured images in lists of', 'quick-featured-images' );
 		add_settings_field(
 			// form field name for use in the 'id' attribute of tags
 			'column_toggles',
 			// title of the form field
-			$title . sprintf( '<br />&nbsp;<br /><img src="%s" alt="%s" width="200" height="104" />', plugins_url( 'assets/images/posts_list_w_image_column.gif' , __FILE__ ), __( 'Posts list with image column', $this->plugin_slug ) ),
+			$title . sprintf( '<br />&nbsp;<br /><img src="%s" alt="%s" width="200" height="104" />', plugins_url( 'assets/images/posts_list_w_image_column.gif' , __FILE__ ), __( 'Posts list with image column', 'quick-featured-images' ) ),
 			// callback function to print the form field
 			array( $this, 'print_columns_options' ),
 			// menu page on which to display this field for do_settings_section()
@@ -488,7 +488,7 @@ class Quick_Featured_Images_Settings {
 			);
 		} // foreach()
 		$html .= '</fieldset>';
-		$html .= sprintf( '<p class="description">%s</p>', __( 'Activate the checkboxes at each post type to show the extra columns in the post lists.', $this->plugin_slug ) );
+		$html .= sprintf( '<p class="description">%s</p>', __( 'Activate the checkboxes at each post type to show the extra columns in the post lists.', 'quick-featured-images' ) );
 		print $html;
 	}
 
@@ -498,7 +498,7 @@ class Quick_Featured_Images_Settings {
 	* @since   7.0
 	*/
 	public function print_section_1st_section () {
-		printf( "<p>%s</p>\n", __( 'The additional columns give you a quick overview about all used featured images for every post. The Featured Image column is sortable.', $this->plugin_slug ) );
+		printf( "<div id=\"qfi_page_description\"><p>%s</p></div>\n", __( 'The additional columns give you a quick overview about all used featured images for every post. The Featured Image column is sortable.', 'quick-featured-images' ) );
 	}
 
 }
