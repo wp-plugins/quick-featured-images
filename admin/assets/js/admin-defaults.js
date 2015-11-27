@@ -123,8 +123,8 @@ jQuery( document ).ready( function( $ ){
 		template_row.find( '#remove_rule_XX' ).attr( 'name', 'remove_rule_' + row_number );
 		template_row.find( '#remove_rule_XX' ).attr( 'id', 'remove_rule_' + row_number );
 		// add row color alternation if row number is odd
-		if ( row_number % 2 == 0 ) {
-			template_row.attr( 'class', 'alt' );
+		if ( 0 != row_number % 2 ) {
+			template_row.attr( 'class', 'alternate' );
 		}
 
 		// display new row

@@ -133,6 +133,15 @@ body[class*=_page_quick-featured-images-settings] #qfi_main .qfi_content table.f
 	margin-left: 8px;
     margin-right: 8px;
 }
+#qfi_main .qfi_content p.qfi_valid {
+	color: green;
+	font-weight: bold;
+}
+#qfi_main .qfi_content p.qfi_invalid {
+	color: red;
+	font-weight: bold;
+}
+
 #qfi_main .qfi_content h4 {
 	font-size: 1.12em;
 	line-height: 1.44;
@@ -165,6 +174,18 @@ body[class*=_page_quick-featured-images-settings] #qfi_main .qfi_content table.f
 	margin-left: 3em;
 	margin-right: 8px;
 }
+#qfi_main .qfi_content .failure {
+	font-weight: bold;
+}
+#qfi_main div.qfi-failure,
+#qfi_main .widefat tr.qfi-failure {
+	background-color: #ffebe8;
+}
+#qfi_main div.qfi-failure {
+	margin: 0 0 1.5em;
+	padding: 8px 0;
+	font-weight: bold;
+}
 #qfi_year {
     width: 4em;
 }
@@ -177,11 +198,11 @@ body[class*=_page_quick-featured-images-settings] #qfi_main .qfi_content table.f
     margin-bottom: 0;
 }
 .qfi_content_inside .failure {
-	color: #000;
+	/*color: #000;*/
 	font-size: 1.5em;
-	font-weight: bold;
-	margin-top: 0.5em;
-    padding: 0 15px;
+	/*font-weight: bold;*/
+	/*margin-top: 0.5em;*/
+    /*padding: 0 15px;*/
 }
 .qfi_content_inside .success {
 	color: #555;
@@ -220,8 +241,21 @@ body[class*=_page_quick-featured-images-settings] #qfi_main .qfi_content table.f
 .toplevel_page_quick-featured-images-overview #qfi_main .qfi_content ul li:nth-of-type(3) a:hover span {
 	color: #B3D9D9; /*#d94128;*/
 }
-#qfi_main .qfi_content .failure {
+.toplevel_page_quick-featured-images-pro-overview #qfi_main .qfi_content ul li:nth-of-type(4) a span {
+	color: #CC9900;
+}
+.toplevel_page_quick-featured-images-pro-overview #qfi_main .qfi_content ul li:nth-of-type(4) a:focus span,
+.toplevel_page_quick-featured-images-pro-overview #qfi_main .qfi_content ul li:nth-of-type(4) a:hover span {
+	color: #D9B340;
+}
+
+#qfi_main .qfi_content #qfi_page_description {
+	background-color: #d0d0d0;
 	font-weight: bold;
+	padding: 8px 0;
+}
+#qfi_main .qfi_content h3:first-of-type {
+	margin-bottom: 0;
 }
 #template_row {
 	display: none;

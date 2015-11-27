@@ -1,6 +1,6 @@
 <h4><?php echo $this->valid_filters[ 'filter_category' ]; ?></h4>
 <p>
-	<label for="category_id"><?php _e( 'Select a category', $this->plugin_slug ); ?></label><br />
+	<label for="category_id"><?php _e( 'Select a category', 'quick-featured-images' ); ?></label><br />
 <?php 
 $text = '&mdash; Select &mdash;';
 $args = array(

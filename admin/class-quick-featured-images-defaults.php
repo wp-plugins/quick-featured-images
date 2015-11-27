@@ -165,12 +165,9 @@ class Quick_Featured_Images_Defaults {
 		// Auto set featured image on saving a post
 		add_action('save_post', array( $this, 'add_featured_image' ), 10 , 3 );
 		
-		/*
-		// check whether the query parameter 'qfi_notice' is in the URL; if yes, show admin notice
-		if ( isset( $_REQUEST[ 'qfi_notice' ] ) ) {
-			add_action( 'admin_notices', array( $this, 'display_qfi_notice' ) );
-		}
-		*/
+		// Auto delete rule if an image is deleted in the media library
+		add_action( 'delete_attachment', array( $this, 'delete_rules_by_thumb_id' ) );
+		
 	}
 
 	/**
@@ -188,14 +185,14 @@ class Quick_Featured_Images_Defaults {
 			$settings = $this->sanitize_options( $_POST );
 			// store in db
 			if ( update_option( $this->settings_db_slug, $settings ) ) {
-				$msg = __( 'Changes saved.', $this->plugin_slug );
+				$msg = __( 'Changes saved.', 'quick-featured-images' );
 				$class = 'updated';
 			} else {
-				$msg = __( 'No changes were saved.', $this->plugin_slug );
+				$msg = __( 'No changes were saved.', 'quick-featured-images' );
 				$class = 'error';
 			}
 			printf ( '<div class="%s"><p><strong>%s</strong></p></div>', $class, $msg );
-		}
+		} // if $_POST
 		// get rules
 		$this->selected_rules = $this->get_stored_settings();
 		// print rest of page
@@ -228,7 +225,7 @@ class Quick_Featured_Images_Defaults {
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( 'Preset Featured Images', $this->plugin_slug );
+		return __( 'Preset Featured Images', 'quick-featured-images' );
 	}
 
 	/**
@@ -239,7 +236,7 @@ class Quick_Featured_Images_Defaults {
 	 *@return    page description variable.
 	 */
 	public function get_page_description() {
-		return __( 'Set default featured images for future posts', $this->plugin_slug );
+		return __( 'Set default featured images for future posts', 'quick-featured-images' );
 	}
 
 	/**
@@ -264,74 +261,6 @@ class Quick_Featured_Images_Defaults {
 		return $this->required_user_cap;
 	}
 
-	/**
-	 * Define parameters and return thumbnail supporting custom post types
-	 *
-	 * @access   private
-	 * @since     7.0
-	 *
-	 * @return    array    the names and labels of the registered and thumbnail supporting custom post types
-	 */
-	private function get_custom_post_types_labels() {
-		$args = array(
-			   '_builtin' => false # only custom post types
-		);
-        $name_labels = array();
-		// get the registered custom post types as objects
-        $objects = get_post_types( $args, 'objects' );
-		// store their names and labels
-        foreach ( $objects as $name => $object ) {
-            if ( post_type_supports( $name, 'thumbnail' ) ) {
-                $name_labels[ $name ] = $object->label;
-            }
-        }
-		// return the result
-		return $name_labels;
-	}
-
-	/**
-	 * Return registered custom taxonomies with their labels
-	 *
-	 * @access   private
-	 * @since    8.0
-	 *
-	 * @return    array    the names of the registered custom taxonomies
-	 */
-	private function get_custom_taxonomies_labels() {
-		$args = array(
-			   '_builtin' => false # only custon post types
-		);
-        $name_labels = array();
-		// get the registered custom post types as objects
-        $objects = get_taxonomies( $args, 'objects' );
-		// store their names and labels
-        foreach ( $objects as $name => $object ) {
-            $name_labels[ $name ] = $object->label;
-        }
-		// return the result
-		return $name_labels;
-	}
-
-	/**
-	 * Get current or default settings
-	 *
-	 * @since    8.0
-	 *
-	 * @return    array    Return settings for default featured images
-	 */
-	public function get_stored_settings() {
-		// try to load current settings. If they are not in the DB return set default settings
-		$stored_settings = get_option( $this->settings_db_slug, array() );
-		// if empty array set and store default values
-		if ( 0 == sizeof( $stored_settings ) ) {
-			$this->set_default_settings();
-			// try to load current settings again. Now there should be the data
-			$stored_settings = get_option( $this->settings_db_slug, array() );
-		}
-
-		return $this->sanitize_options( $stored_settings );
-	}
-	
 	/**
 	 * Register and enqueue admin-specific style sheet.
 	 *
@@ -401,7 +330,7 @@ class Quick_Featured_Images_Defaults {
 	 * @since    8.0
 	 */
 	public function add_action_links( $links ) {
-		$url = sprintf( 'admin.php?page=%s-defaults', $this->plugin_slug );
+		$url = sprintf( 'admin.php?page=%s', $this->page_slug );
 		return array_merge(
 			$links,
 			array(
@@ -412,29 +341,9 @@ class Quick_Featured_Images_Defaults {
 	}
 
 	/**
-	 * Set default settings
-	 *
-	 * @since    8.0
-	 */
-	private static function set_default_settings() {
-
-		$db_slug = 'quick-featured-images-settings'; // todo: get the value from $settings_db_slug both in object and non-object context
-		// check if there are already stored settings under the option's database slug
-		if ( false === get_option( $db_slug, false ) ) {
-			// store default values in the db as a single and serialized entry
-			add_option( 
-				$db_slug, 
-				array()
-			);
-		} // if ( false )
-		
-	}
-
-	/**
 	* Check and return correct values for the settings
 	*
 	* @since   8.0
-	 * @updated  8.1: add first image handling
 	*
 	* @param   array    $input    Options and their values after submitting the form
 	* 
@@ -447,87 +356,55 @@ class Quick_Featured_Images_Defaults {
 			if ( ! $value ) {
 				continue;
 			}
-			// checkboxes
-			if ( 'overwrite_automatically' == $key or 'use_first_image_as_default' == $key ) {
-				$sanitized_input[ $key ] = isset( $input[ $key ] ) ? '1' : '0';
-				continue;
-			}
-			// radio buttons
-			if ( 'first_image_handling' == $key ) {
-				$sanitized_input[ $key ] = ( in_array( $input[ $key ], array( 'always', 'use_if_no_img' ) ) ? $input[ $key ] : 'always' );
-				continue;
-			}
-			// positive integers
-			if ( 'default_image_id' == $key ) {
-				$sanitized_input[ $key ] = absint( $value );
-				continue;
-			}
-			// rules
-			if ( 'rules' == $key and is_array( $value ) ) {
-				$c = 1;
-				foreach ( $value as $rules ) {
-					// ignored only partially defined rule
-					if ( ! $rules[ 'id' ] or ! $rules[ 'taxonomy' ] or ! $rules[ 'matchterm' ] ) {
-						continue;
-					}
-					// clean complete rule
-					foreach ( $rules as $name => $setting ) {
-						switch ( $name ) {
-							case 'id':
-								$sanitized_input[ $key ][ $c ][ $name ] = absint( $setting );
-								break;
-							case 'taxonomy':
-								$sanitized_input[ $key ][ $c ][ $name ] = sanitize_text_field( $setting );
-								break;
-							case 'matchterm':
-								if ( 'post_type' == $rules[ 'taxonomy' ] ) {
-									$sanitized_input[ $key ][ $c ][ $name ] = sanitize_text_field( $setting );
-								} else {
-									$sanitized_input[ $key ][ $c ][ $name ] = absint( $setting );
-								}
-								break;
-						} // switch()
-					} // foreach
-					$c = $c + 1;
-				} // foreach
-			} // if (rules)
+			switch ( $key ) {
+				// checkboxes
+				case 'overwrite_automatically':
+				case 'use_first_image_as_default':
+					$sanitized_input[ $key ] = isset( $input[ $key ] ) ? '1' : '0';
+					break;
+				// radio buttons
+				case 'first_image_handling':
+					$sanitized_input[ $key ] = ( in_array( $input[ $key ], array( 'always', 'use_if_no_img' ) ) ? $input[ $key ] : 'always' );
+					break;
+				// positive integers
+				case 'default_image_id':
+					$sanitized_input[ $key ] = absint( $value );
+					break;
+				// rules
+				case 'rules':
+					if ( is_array( $value ) ) {
+						$c = 1;
+						foreach ( $value as $rule ) {
+							// ignored only partially defined rule
+							if ( ! $rule[ 'id' ] or ! $rule[ 'taxonomy' ] or ! $rule[ 'matchterm' ] ) {
+								continue;
+							}
+							// clean complete rule
+							foreach ( $rule as $name => $setting ) {
+								switch ( $name ) {
+									case 'id':
+										$sanitized_input[ $key ][ $c ][ $name ] = absint( $setting );
+										break;
+									case 'taxonomy':
+										$sanitized_input[ $key ][ $c ][ $name ] = sanitize_text_field( $setting );
+										break;
+									case 'matchterm':
+										if ( 'post_type' == $rule[ 'taxonomy' ] ) {
+											$sanitized_input[ $key ][ $c ][ $name ] = sanitize_text_field( $setting );
+										} else {
+											$sanitized_input[ $key ][ $c ][ $name ] = absint( $setting );
+										}
+										break;
+								} // switch()
+							} // foreach
+							$c = $c + 1;
+						} // foreach
+					} // if ( is_array( $value ))
+			} // switch( $key )
 		} // foreach()
 		return $sanitized_input;
 	} // end sanitize_options()
 
-	/**
-	 *
-	 * Render the header of the admin page
-	 *
-	 * @access   private
-	 * @since    8.0
-	 */
-	private function display_header() {
-		include_once( 'views/section_header.php' );
-	}
-	
-	/**
-	 *
-	 * Render the footer of the admin page
-	 *
-	 * @access   private
-	 * @since    8.0
-	 */
-	private function display_footer() {
-		include_once( 'views/section_footer.php' );
-	}
-	
-	/**
-	 *
-	 * Render the the admin page
-	 *
-	 * @access   private
-	 * @since    8.0
-	 */
-	private function display_page_content() {
-		include_once( 'views/section_defaults.php' );
-	}
-	
 	/**
 	 *
 	 * Auto set featured image at saving a post
@@ -575,9 +452,7 @@ class Quick_Featured_Images_Defaults {
 		// 1. Image by first embedded content image
 		if ( isset( $settings[ 'use_first_image_as_default' ] ) ) {
 			// get first content image
-			#if ( in_array( $post->post_type, $settings[ 'allowed_post_types' ] ) {
-				$thumb_id = $this->get_first_content_image_id( $post->post_content );
-			#}
+			$thumb_id = $this->get_first_content_image_id( $post->post_content );
 		} // if(use_first_image_as_default)
 		// determine post's properties matched with specified rules
 		if ( ! $thumb_id and isset( $settings[ 'rules' ] ) ) {
@@ -653,25 +528,166 @@ class Quick_Featured_Images_Defaults {
 		if ( $thumb_id ) {
 			$success = set_post_thumbnail( $post_id, $thumb_id );
 		}
-		// set admin notice
-		/*if ( $success ) {
-			add_filter( 'redirect_post_location', array( $this, 'add_qfi_param' ) );
-		} else {
-		}*/
-	}
-/*
-	function add_qfi_param( $loc ) {
-		return esc_url( add_query_arg( 'qfi_notice', 1, $loc ) );
+
 	}
 
-	function display_qfi_notice() {
-		if ( 1 == $_REQUEST[ 'qfi_notice' ] ) {
-			printf( '<div class="updated"><p>%s</p></div>', __( 'Changed featured image successfully.', $this->plugin-slug ) );
-		} else {
-			#printf( '<div class="error"><p>%s</p></div>', __( 'Featured image not changed.', $this->plugin-slug ) );
-		}
+	/**
+	 *
+	 * Delete the rules assigned to an image; is called after an image was deleted in the media library
+	 *
+	 * @access   private
+	 * @since    11.6
+	 */
+	public function delete_rules_by_thumb_id( $thumb_id ) {
+		// initialise flag
+		$changed = false;
+		// load all rules
+		$settings = $this->get_stored_settings();
+
+		// if rules are available look for rules with the given thumb_id and delete them
+		if ( isset( $settings[ 'rules' ] ) ) {
+			foreach ( $settings[ 'rules' ] as $key => $rule ) {
+				if ( $thumb_id == $rule[ 'id' ] ) {
+					unset( $settings[ 'rules' ][ $key ] );
+					$changed = true;
+				}
+			} // foreach()
+			// if no rules anymore: delete 'rules' item
+			if ( empty( $settings[ 'rules' ] ) ) {
+				unset( $settings[ 'rules' ] );
+			} else {
+				// reindex array	
+				$settings[ 'rules' ] = array_values( $settings[ 'rules' ] );
+			}
+		} // if ( rules )
+		
+		// store
+		if ( $changed ) {
+			// store in db
+			update_option( $this->settings_db_slug, $settings );
+		} // if ( changed )
 	}
-*/	
+	
+	/**
+	 *
+	 * Render the header of the admin page
+	 *
+	 * @access   private
+	 * @since    8.0
+	 */
+	private function display_header() {
+		include_once( 'views/section_header.php' );
+	}
+	
+	/**
+	 *
+	 * Render the footer of the admin page
+	 *
+	 * @access   private
+	 * @since    8.0
+	 */
+	private function display_footer() {
+		include_once( 'views/section_footer.php' );
+	}
+	
+	/**
+	 *
+	 * Render the the admin page
+	 *
+	 * @access   private
+	 * @since    8.0
+	 */
+	private function display_page_content() {
+		include_once( 'views/section_defaults.php' );
+	}
+	
+	/**
+	 * Set default settings
+	 *
+	 * @since    8.0
+	 */
+	private function set_default_settings() {
+
+		$db_slug = 'quick-featured-images-settings'; // todo: get the value from $settings_db_slug both in object and non-object context
+		// check if there are already stored settings under the option's database slug
+		if ( false === get_option( $db_slug, false ) ) {
+			// store default values in the db as a single and serialized entry
+			add_option( 
+				$db_slug, 
+				array()
+			);
+		} // if ( false )
+		
+	}
+
+	/**
+	 * Define parameters and return thumbnail supporting custom post types
+	 *
+	 * @access   private
+	 * @since     7.0
+	 *
+	 * @return    array    the names and labels of the registered and thumbnail supporting custom post types
+	 */
+	private function get_custom_post_types_labels() {
+		$args = array(
+			   '_builtin' => false # only custom post types
+		);
+        $name_labels = array();
+		// get the registered custom post types as objects
+        $objects = get_post_types( $args, 'objects' );
+		// store their names and labels
+        foreach ( $objects as $name => $object ) {
+            if ( post_type_supports( $name, 'thumbnail' ) ) {
+                $name_labels[ $name ] = $object->label;
+            }
+        }
+		// return the result
+		return $name_labels;
+	}
+
+	/**
+	 * Return registered custom taxonomies with their labels
+	 *
+	 * @access   private
+	 * @since    8.0
+	 *
+	 * @return    array    the names of the registered custom taxonomies
+	 */
+	private function get_custom_taxonomies_labels() {
+		$args = array(
+			   '_builtin' => false # only custon post types
+		);
+        $name_labels = array();
+		// get the registered custom post types as objects
+        $objects = get_taxonomies( $args, 'objects' );
+		// store their names and labels
+        foreach ( $objects as $name => $object ) {
+            $name_labels[ $name ] = $object->label;
+        }
+		// return the result
+		return $name_labels;
+	}
+
+	/**
+	 * Get current or default settings
+	 *
+	 * @since    8.0
+	 *
+	 * @return    array    Return settings for default featured images
+	 */
+	private function get_stored_settings() {
+		// try to load current settings. If they are not in the DB return set default settings
+		$stored_settings = get_option( $this->settings_db_slug, array() );
+		// if empty array set and store default values
+		if ( 0 == sizeof( $stored_settings ) ) {
+			$this->set_default_settings();
+			// try to load current settings again. Now there should be the data
+			$stored_settings = get_option( $this->settings_db_slug, array() );
+		}
+
+		return $this->sanitize_options( $stored_settings );
+	}
+	
 	/**
 	 *
 	 * Test term and image id
@@ -729,7 +745,7 @@ class Quick_Featured_Images_Defaults {
 					} // if(found_id)
 				} // if(img_class)
 				
-				// else: try to catch image id by its url as stored in the database
+				// else: try to catch content image id by its url as stored in the database
 				// find src attribute and catch its value
 				preg_match( '/<img.*?src\s*=\s*[\'"]([^\'"]+)[\'"][^>]*>/i', $img_tag, $img_src );
 				if ( $img_src ) {

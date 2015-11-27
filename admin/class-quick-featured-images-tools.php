@@ -415,7 +415,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 					$this->display_error( 'no_image', false );
 				// check whether selected attachment is an image if required
 				} elseif ( $this->is_image_required && ! wp_get_attachment_image_src( $this->selected_image_id ) ) {
-					$this->display_error( 'no_result', sprintf( __( 'Wrong image ID %d', $this->plugin_slug ), $this->selected_image_id ) );
+					$this->display_error( 'no_result', sprintf( __( 'Wrong image ID %d', 'quick-featured-images' ), $this->selected_image_id ) );
 				// check whether there are selected images if required
 				} elseif ( 'assign_randomly' == $this->selected_action && ! $this->selected_multiple_image_ids ) {
 					$this->display_error( 'no_image', false );
@@ -492,6 +492,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 							$results = $this->perform_action();
 							// print results
 							include_once( 'views/section_results.php' );	
+							// print form for going back to the filter selection without loosing input data
+							include_once( 'views/form_back_to_selection.php' );	
 							break;
 					} // switch( selected step )
 				} // if( image available )
@@ -514,34 +516,34 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		 */
 		// process steps
 		$this->valid_steps = array(
-			'start'		=> __( 'Select', $this->plugin_slug ),
-			'select'	=> __( 'Add filter', $this->plugin_slug ),
-			'refine' 	=> __( 'Refine', $this->plugin_slug ),
-			'confirm'	=> __( 'Confirm', $this->plugin_slug ),
-			'perform'	=> __( 'Perform', $this->plugin_slug ),
+			'start'		=> __( 'Select', 'quick-featured-images' ),
+			'select'	=> __( 'Add filter', 'quick-featured-images' ),
+			'refine' 	=> __( 'Refine', 'quick-featured-images' ),
+			'confirm'	=> __( 'Confirm', 'quick-featured-images' ),
+			'perform'	=> __( 'Perform', 'quick-featured-images' ),
 		);
 		// actions
 		$this->valid_actions = array(
-			'assign'			=> __( 'Set the selected image as new featured image', $this->plugin_slug ),
-			'replace'			=> __( 'Replace featured images by the selected image', $this->plugin_slug ),
-			'remove'			=> __( 'Remove the selected image as featured image', $this->plugin_slug ),
+			'assign'			=> __( 'Set the selected image as new featured image', 'quick-featured-images' ),
+			'replace'			=> __( 'Replace featured images by the selected image', 'quick-featured-images' ),
+			'remove'			=> __( 'Remove the selected image as featured image', 'quick-featured-images' ),
 		);
 		$this->valid_actions_without_image = array(
-			'remove_any_img'	=> __( 'Remove any image as featured image', $this->plugin_slug ),
+			'remove_any_img'	=> __( 'Remove any image as featured image', 'quick-featured-images' ),
 		);
 		$this->valid_actions_multiple_images = array(
-			'assign_randomly'	=> __( 'Set multiple images randomly as featured images', $this->plugin_slug ),
+			'assign_randomly'	=> __( 'Set multiple images randomly as featured images', 'quick-featured-images' ),
 		);
 		// process options
 		$this->valid_options = array(
-			'overwrite'         => __( 'Overwrite featured images', $this->plugin_slug ),
-			'orphans_only'      => __( 'Consider only posts without any featured image', $this->plugin_slug ),
+			'overwrite'         => __( 'Overwrite featured images', 'quick-featured-images' ),
+			'orphans_only'      => __( 'Consider only posts without any featured image', 'quick-featured-images' ),
 		);
 		// filters
 		$this->valid_filters = array(
-			'filter_post_types' 		=> __( 'Post Type Filter', $this->plugin_slug ),
-			'filter_category' 			=> __( 'Category Filter', $this->plugin_slug ),
-			'filter_tag' 				=> __( 'Tag Filter', $this->plugin_slug ),
+			'filter_post_types' 		=> __( 'Post Type Filter', 'quick-featured-images' ),
+			'filter_category' 			=> __( 'Category Filter', 'quick-featured-images' ),
+			'filter_tag' 				=> __( 'Tag Filter', 'quick-featured-images' ),
 		);
 		// post types (generic)
 		$label_posts = 'Posts';
@@ -570,8 +572,8 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		);
 		// image dimensions
 		$this->valid_image_dimensions = array(
-			'max_width' 	=> __( 'Image width in pixels lower than', $this->plugin_slug ),
-			'max_height' 	=> __( 'Image height in pixels lower than', $this->plugin_slug ),
+			'max_width' 	=> __( 'Image width in pixels lower than', 'quick-featured-images' ),
+			'max_height' 	=> __( 'Image height in pixels lower than', 'quick-featured-images' ),
 		);
 		// default: user selected image is required
 		$this->is_image_required = true;
@@ -646,28 +648,28 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 		// print error message
 		switch ( $reason ) {
 			case 'missing_input_value':
-				$msg = sprintf( __( 'The input field %s is empty.', $this->plugin_slug ), $value_name );
-				$solution = __( 'Type in a value into the input field.', $this->plugin_slug );
+				$msg = sprintf( __( 'The input field %s is empty.', 'quick-featured-images' ), $value_name );
+				$solution = __( 'Type in a value into the input field.', 'quick-featured-images' );
 				break;
 			case 'missing_variable':
-				$msg = sprintf( __( '%s is not defined.', $this->plugin_slug ), $value_name );
-				$solution = __ ('Check how to define the value.', $this->plugin_slug );
+				$msg = sprintf( __( '%s is not defined.', 'quick-featured-images' ), $value_name );
+				$solution = __ ('Check how to define the value.', 'quick-featured-images' );
 				break;
 			case 'no_image':
-				$msg = __( 'There is no selected image.', $this->plugin_slug );
-				$solution = __( 'Select an image from the media library.', $this->plugin_slug );
+				$msg = __( 'There is no selected image.', 'quick-featured-images' );
+				$solution = __( 'Select an image from the media library.', 'quick-featured-images' );
 				break;
 			case 'wrong_action':
-				$msg = __( 'You have not selected an action.', $this->plugin_slug );
-				$solution = __( 'Start again and select which action you want to apply.', $this->plugin_slug );
+				$msg = __( 'You have not selected an action.', 'quick-featured-images' );
+				$solution = __( 'Start again and select which action you want to apply.', 'quick-featured-images' );
 				break;
 			case 'wrong_value':
-				$msg = sprintf( __( 'The input field %s has an invalid value.', $this->plugin_slug ), $value_name );
-				$solution = __( 'Type in valid values in the input field.', $this->plugin_slug );
+				$msg = sprintf( __( 'The input field %s has an invalid value.', 'quick-featured-images' ), $value_name );
+				$solution = __( 'Type in valid values in the input field.', 'quick-featured-images' );
 				break;
 			case 'no_result':
 				$msg = $value_name;
-				$solution = __( 'Type in values stored by WordPress.', $this->plugin_slug );
+				$solution = __( 'Type in values stored by WordPress.', 'quick-featured-images' );
 				break;
 		} // switch ( $reason )
 		include_once( 'views/section_errormsg.php' );
@@ -1773,7 +1775,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( 'Set, replace, remove', $this->plugin_slug );
+		return __( 'Set, replace, remove', 'quick-featured-images' );
 	}
 
 	/**
@@ -1784,7 +1786,7 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 *@return    page description variable.
 	 */
 	public function get_page_description() {
-		return __( 'Bulk set, replace and remove featured images for existing posts', $this->plugin_slug );
+		return __( 'Bulk set, replace and remove featured images for existing posts', 'quick-featured-images' );
 	}
 
 	/**

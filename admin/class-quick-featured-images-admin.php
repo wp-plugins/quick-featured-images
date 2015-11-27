@@ -19,7 +19,7 @@
 	 *
 	 * @var     string
 	 */
-	protected $plugin_version = '11.4.1';
+	protected $plugin_version = '11.6';
 
 	/**
 	 * Instance of this class.
@@ -198,7 +198,7 @@
 	 *@return    page description variable.
 	 */
 	public function get_page_description() {
-		return __( 'Your time-saving Swiss Army Knife for featured images: Set, replace and delete them in bulk, set default images, get overview lists.', $this->plugin_slug );
+		return __( 'Your time-saving Swiss Army Knife for featured images: Set, replace and delete them in bulk, set default images, get overview lists.', 'quick-featured-images' );
 	}
 
 	/**
@@ -248,21 +248,21 @@
 
 		// Lowest Wordpress version to run with this plugin
 		$required_wp_version = '3.8'; /* because of dashicons, at least 3.7 because of WP_DATE_QUERY */
-		$plugin_slug = 'quick-featured-images';
+		$domain = 'quick-featured-images';
 
 		// check minimum version
 		if ( ! version_compare( $GLOBALS['wp_version'], $required_wp_version, '>=' ) ) {
 			// deactivate plugin
 			deactivate_plugins( plugin_basename( __FILE__ ), false, is_network_admin() );
 			// load language file for a message in the language of the WP installation
-			load_plugin_textdomain( $plugin_slug, false, dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/' );
+			load_plugin_textdomain( $domain, false, dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/' );
 			// stop WP request and display the message with backlink. Is there a proper way than wp_die()?
 			wp_die( 
 				// message in browser viewport
 				sprintf( 
 					'<p>%s</p>', 
 					sprintf( 
-						__( 'The plugin requires WordPress version %s or higher. Therefore, WordPress did not activate it. If you want to use this plugin update the Wordpress files to the latest version.', $plugin_slug ), 
+						__( 'The plugin requires WordPress version %s or higher. Therefore, WordPress did not activate it. If you want to use this plugin update the Wordpress files to the latest version.', 'quick-featured-images' ), 
 						$required_wp_version 
 					)
 				),
@@ -459,7 +459,7 @@
 		$url  = admin_url( sprintf( 'admin.php?page=%s', $this->page_slug ) );
 		$text = 'Featured Images';
 		$link = sprintf( '<a href="%s">%s</a>', $url, __( $text ) );
-		$msg  = sprintf( __( 'Welcome to %s! You can find the plugin at %s.', $this->plugin_slug ), $this->plugin_name, $link );
+		$msg  = sprintf( __( 'Welcome to %s! You can find the plugin at %s.', 'quick-featured-images' ), $this->plugin_name, $link );
 		$html = sprintf( '<div class="updated"><p>%s</p></div>', $msg );
 		print $html;
 	}

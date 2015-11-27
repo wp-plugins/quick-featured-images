@@ -1,5 +1,5 @@
 <h4><?php echo $this->valid_filters[ 'filter_post_types' ]; ?></h4>
-<p><?php _e( 'Select post types', $this->plugin_slug ); ?>. <?php _e( 'You can select posts and pages.', $this->plugin_slug ); ?></p>
+<p><?php _e( 'Select post types', 'quick-featured-images' ); ?>. <?php _e( 'You can select posts and pages.', 'quick-featured-images' ); ?></p>
 <p>
 <?php
 foreach ( $this->valid_post_types as $key => $label ) {
